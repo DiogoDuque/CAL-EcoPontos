@@ -9,6 +9,8 @@
 #include <list>
 #include <limits>
 #include <cmath>
+#include <iostream>
+
 using namespace std;
 
 template <class T> class Edge;
@@ -17,7 +19,7 @@ template <class T> class Graph;
 const int NOT_VISITED = 0;
 const int BEING_VISITED = 1;
 const int DONE_VISITED = 2;
-const int INT_INFINITY = INT_MAX;
+const unsigned int INT_INFINITY = -1;
 
 /*
  * ================================================================================================
