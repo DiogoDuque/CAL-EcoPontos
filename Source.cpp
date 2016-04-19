@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "jung/graphviewer.h"
 
 using namespace std;
 
