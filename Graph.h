@@ -34,6 +34,7 @@ class Vertex {
 	int indegree;
 	double dist;
 public:
+	vector<Edge<T>  > getAdj() const {return adj;};
 
 	Vertex(T in);
 	friend class Graph<T>;
@@ -124,6 +125,7 @@ class Edge {
 	double weight;
 public:
 	Edge(Vertex<T> *d, double w);
+	Vertex<T> * getDest() const {return dest;};
 	friend class Graph<T>;
 	friend class Vertex<T>;
 };

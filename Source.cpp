@@ -19,6 +19,7 @@ int main()
 	catch(const char* msg)
 	{
 		cerr << msg << endl;
+		exit(1);
 	}
 
 	//apply algs
@@ -31,9 +32,8 @@ int main()
 	catch(const char* msg)
 	{
 		cerr << msg << endl;
+		exit(1);
 	}
 
-	//display Graph
-	getchar();//*/
 	return 0;
 }
