@@ -8,12 +8,13 @@ using namespace std;
 
 int main()
 {
-	cout << "Starting EcoPontos...\n\n";
+	cout << "Starting EcoPontos..." << endl << endl;
 	//parse txtToGraph
 	Graph<Coord> gr;
+	vector<Coord>* bounds = new vector<Coord>;
 	try
 	{
-		gr = parseTxtToGraph();
+		gr = parseTxtToGraph(bounds);
 	}
 	catch(const char* msg)
 	{
@@ -23,11 +24,9 @@ int main()
 	//apply algs
 
 	//GraphToGraphViewer
-	GraphViewer* gv = new GraphViewer(600, 600, false);
-
 	try
 	{
-		parseGraphToGraphViewer(gv,gr);
+		parseGraphToGraphViewer(gr,bounds);
 	}
 	catch(const char* msg)
 	{
@@ -35,7 +34,6 @@ int main()
 	}
 
 	//display Graph
-	gv->rearrange();
 	getchar();//*/
 	return 0;
 }

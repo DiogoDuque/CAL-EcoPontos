@@ -40,8 +40,9 @@ private:
 	double lon;
 };
 
-Graph<Coord> parseTxtToGraph() {
-	cout << "Started parser <txt> <Graph>\n";
+Graph<Coord> parseTxtToGraph(vector<Coord>* bounds) {
+	cout << "Started parser <txt> <Graph>" << endl;
+	double xMin=1000, xMax=-1000, yMin=1000, yMax=-1000;
 	Graph<Coord> gr;
 	unordered_map<int, Coord> coords;
 	fstream file, file2;
@@ -50,7 +51,7 @@ Graph<Coord> parseTxtToGraph() {
 	file.open("Nodes.txt");
 	if (!file.is_open())
 		throw "Could not open file 'Nodes.txt'!";
-	cout << "Reading 'Nodes.txt'\n";
+	cout << "Reading 'Nodes.txt'" << endl;
 	while (!file.eof()) {
 		bool eofFound=false; //fica true se a ultima linha do ficheiro existir, mas nao tiver carateres
 		string str[5];
@@ -80,9 +81,18 @@ Graph<Coord> parseTxtToGraph() {
 		Coord coord(coordX, coordY);
 		coords[id] = coord;
 		gr.addVertex(coord);
+		//atualizar maxs/mins
+		if(coordX>xMax)
+			xMax=coordX;
+		if(coordY>yMax)
+			yMax=coordY;
+		if(coordX<xMin)
+			xMin=coordX;
+		if(coordY<yMin)
+			yMin=coordY;
 	}
 	file.close();
-	cout << "Finished reading 'Nodes.txt'\n";
+	cout << "Finished reading 'Nodes.txt'" << endl;
 
 	//Roads.txt e Connections.txt
 	file.open("Roads.txt");
@@ -92,7 +102,7 @@ Graph<Coord> parseTxtToGraph() {
 	if (!file.is_open())
 		throw "Could not open file 'Connections.txt'!";
 
-	cout << "Reading 'Roads.txt' and 'Connections.txt'\n";
+	cout << "Reading 'Roads.txt' and 'Connections.txt'" << endl;
 	int oldID = -1; //estas 2 vars sao para controlo da sincronizacao dos 2 ficheiros
 	string twoway;
 	while (!file2.eof()) {
@@ -155,16 +165,27 @@ Graph<Coord> parseTxtToGraph() {
 	}
 	file.close();
 	file2.close();
-	cout << "Finished reading 'Roads.txt' and 'Connections.txt'\n";
-	cout << "Finished parser <txt> <Graph>\n\n\n";
+	cout << "Finished reading 'Roads.txt' and 'Connections.txt'" << endl;
+	cout << "Finished parser <txt> <Graph>" << endl << endl << endl;
+	bounds->push_back(Coord(xMax,yMax));
+	bounds->push_back(Coord(xMin,yMin));
 	return gr;
 }
 
-void parseGraphToGraphViewer(GraphViewer* gv, Graph<Coord> gr) {
-	cout << "Started parser <Graph> to <GraphViewer>\n";
-	gv->createWindow(600, 600);
+void parseGraphToGraphViewer(Graph<Coord> gr, vector<Coord>* bounds) {
+	cout << "Started parser <Graph> to <GraphViewer>" << endl;
+	Coord min = bounds->back();
+	bounds->pop_back();
+	Coord max = bounds->back();
+	bounds->pop_back();
+	double xMin=min.getLat(), yMin=min.getLon(), xMax=max.getLat(), yMax=max.getLon();
+
+
+	GraphViewer* gv = new GraphViewer(600,1000,false);
+	gv->createWindow(1000, 1000);
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("red");
+	gv->defineVertexSize(10);
 
 	fstream file, file2;
 	unordered_map <int, Coord> coords;
@@ -173,7 +194,7 @@ void parseGraphToGraphViewer(GraphViewer* gv, Graph<Coord> gr) {
 	file.open("Nodes.txt");
 	if (!file.is_open())
 		throw "Could not open file 'Nodes.txt'!";
-	cout << "Reading 'Nodes.txt'\n";
+	cout << "Reading 'Nodes.txt'" << endl;
 	while (!file.eof()) {
 		string str[5];
 		double coordX, coordY;
@@ -201,13 +222,13 @@ void parseGraphToGraphViewer(GraphViewer* gv, Graph<Coord> gr) {
 		(stringstream) str[1] >> coordX;
 		(stringstream) str[2] >> coordY;
 		//adicionar ao grafo
-		coords[id]=Coord(coordX,coordY);
-		gv->addNode(id,coordX*1000000,coordY*1000000);
+		coords[id]=Coord(coordX,coordY); //real
+		gv->addNode(id,(coordX-xMin)*10000/(xMax-xMin)-5000,(coordY-yMin)*10000/(yMax-yMin)-5000); //no grafo
 
 	}
 	file.close();
 	gv->rearrange();
-	cout << "Finished reading 'Nodes.txt'\n";
+	cout << "Finished reading 'Nodes.txt'" << endl;
 
 	//Roads.txt e Connections.txt
 	file.open("Roads.txt");
@@ -217,8 +238,8 @@ void parseGraphToGraphViewer(GraphViewer* gv, Graph<Coord> gr) {
 	if (!file.is_open())
 		throw "Could not open file 'Connections.txt'!";
 
-	cout << "Reading 'Roads.txt' and 'Connections.txt'\n";
-	int oldID = -1; //estas 2 vars sao para controlo da sincronizacao dos 2 ficheiros
+	cout << "Reading 'Roads.txt' and 'Connections.txt'" << endl;
+	int oldID = -1, auxID=0; //estas 2 vars sao para controlo da sincronizacao dos 2 ficheiros
 	string roadInfo[3];
 	while (!file2.eof()) {
 		string str[3];
@@ -246,9 +267,10 @@ void parseGraphToGraphViewer(GraphViewer* gv, Graph<Coord> gr) {
 		(stringstream) str[0] >> id;
 		(stringstream) str[1] >> node1;
 		(stringstream) str[2] >> node2;
-
+		auxID++;
 		if (id != oldID) //atualizar oneway e id caso seja necessario
 		{
+			auxID=0;
 			oldID = id;
 			for (int i = 0; i < 2; i++) {
 				getline(file, roadInfo[i], ';');
@@ -269,20 +291,21 @@ void parseGraphToGraphViewer(GraphViewer* gv, Graph<Coord> gr) {
 		int weight = coords[node1].calcWeight(coords[node2])*pow(10,12);
 		//adicionar ao grafo
 		if (roadInfo[2] == "yes") {
-			gv->addEdge(id,node1,node2,EdgeType::DIRECTED);
-			gv->setEdgeLabel(id,roadInfo[1]);
-			gv->setEdgeWeight(id,weight);
+			gv->addEdge(id*100+auxID,node1,node2,EdgeType::DIRECTED);
+			gv->setEdgeLabel(id*100+auxID,roadInfo[1]);
+			gv->setEdgeWeight(id*100+auxID,weight);
 		} else {
-			gv->addEdge(id,node1,node2,EdgeType::UNDIRECTED);
-			gv->setEdgeLabel(id,roadInfo[1]);
-			gv->setEdgeWeight(id,weight);
+			gv->addEdge(id*100+auxID,node1,node2,EdgeType::UNDIRECTED);
+			gv->setEdgeLabel(id*100+auxID,roadInfo[1]);
+			gv->setEdgeWeight(id*100+auxID,weight);
 		}
 
 	}
 	file.close();
 	file2.close();
-	cout << "Finished reading 'Roads.txt' and 'Connections.txt'\n";
-	cout << "Finished parser <Graph> to <GraphViewer>\n\n\n";
+	cout << "Finished reading 'Roads.txt' and 'Connections.txt'" << endl;//*/
+	cout << "Finished parser <Graph> to <GraphViewer>" << endl << endl << endl;
+	gv->rearrange();
 }
 
 #endif
