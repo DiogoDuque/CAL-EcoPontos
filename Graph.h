@@ -10,7 +10,6 @@
 #include <limits>
 #include <cmath>
 #include <iostream>
-
 using namespace std;
 
 template <class T> class Edge;
@@ -33,7 +32,7 @@ class Vertex {
 	bool visited;
 	bool processing;
 	int indegree;
-	int dist;
+	double dist;
 public:
 
 	Vertex(T in);
@@ -47,6 +46,8 @@ public:
 
 	int getDist() const;
 	int getIndegree() const;
+
+	bool operator<(const Vertex<T> vertex);
 
 	Vertex* path;
 };
@@ -88,7 +89,7 @@ void Vertex<T>::addEdge(Vertex<T> *dest, double w) {
 	adj.push_back(edgeD);
 }
 
-
+//--
 template <class T>
 T Vertex<T>::getInfo() const {
 	return this->info;
@@ -149,6 +150,10 @@ class Graph {
 	void dfsVisit();
 	void getPathTo(Vertex<T> *origin, list<T> &res);
 
+	//exercicio 6
+	int ** W;   //weight
+	int ** P;   //path
+
 public:
 	bool addVertex(const T &in);
 	bool addEdge(const T &sourc, const T &dest, double w);
@@ -170,6 +175,13 @@ public:
 	void unweightedShortestPath(const T &v);
 	bool isDAG();
 
+	//exercicio 6
+	void bellmanFordShortestPath(const T &s);
+	void dijkstraShortestPath(const T &s);
+	void floydWarshallShortestPath();
+	int edgeCost(int vOrigIndex, int vDestIndex);
+	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
+	void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
 };
 
 
@@ -297,6 +309,7 @@ void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++)
 	    if ( it->dest->visited == false ){
+	    	//cout << "ok ";
 	    	dfs(it->dest, res);
 	    }
 }
@@ -422,7 +435,7 @@ void Graph<T>::dfsVisit(Vertex<T> *v) {
 
 template<class T>
 vector<T> Graph<T>::topologicalOrder() {
-	//vector com o resultado da ordenacao
+	//vetor com o resultado da ordenacao
 	vector<T> res;
 
 	//verificar se é um DAG
@@ -441,6 +454,7 @@ vector<T> Graph<T>::topologicalOrder() {
 		q.push( sources.back() );
 		sources.pop_back();
 	}
+
 
 	//processar fontes
 	while( !q.empty() ) {
@@ -474,7 +488,6 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 	list<T> buffer;
 	Vertex<T>* v = getVertex(dest);
 
-	//cout << v->info << " ";
 	buffer.push_front(v->info);
 	while ( v->path != NULL &&  v->path->info != origin) {
 		v = v->path;
@@ -490,6 +503,64 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 		buffer.pop_front();
 	}
 	return res;
+}
+
+template<class T>
+vector<T> Graph<T>::getfloydWarshallPath(const T &origin, const T &dest){
+
+	int originIndex = -1, destinationIndex = -1;
+
+	for(unsigned int i = 0; i < vertexSet.size(); i++)
+	{
+		if(vertexSet[i]->info == origin)
+			originIndex = i;
+		if(vertexSet[i]->info == dest)
+			destinationIndex = i;
+
+		if(originIndex != -1 && destinationIndex != -1)
+			break;
+	}
+
+
+	vector<T> res;
+
+	//se nao foi encontrada solucao possivel, retorna lista vazia
+	if(W[originIndex][destinationIndex] == INT_INFINITY)
+		return res;
+
+	res.push_back(vertexSet[originIndex]->info);
+
+	//se houver pontos intermedios...
+	if(P[originIndex][destinationIndex] != -1)
+	{
+		int intermedIndex = P[originIndex][destinationIndex];
+
+		getfloydWarshallPathAux(originIndex, intermedIndex, res);
+
+		res.push_back(vertexSet[intermedIndex]->info);
+
+		getfloydWarshallPathAux(intermedIndex,destinationIndex, res);
+	}
+
+	res.push_back(vertexSet[destinationIndex]->info);
+
+
+	return res;
+}
+
+
+
+template<class T>
+void Graph<T>::getfloydWarshallPathAux(int index1, int index2, vector<T> & res)
+{
+	if(P[index1][index2] != -1)
+	{
+		getfloydWarshallPathAux(index1, P[index1][index2], res);
+
+		res.push_back(vertexSet[P[index1][index2]]->info);
+
+		getfloydWarshallPathAux(P[index1][index2],index2, res);
+	}
 }
 
 
@@ -517,6 +588,161 @@ void Graph<T>::unweightedShortestPath(const T &s) {
 			}
 		}
 	}
+}
+
+
+template<class T>
+void Graph<T>::bellmanFordShortestPath(const T &s) {
+
+	for(unsigned int i = 0; i < vertexSet.size(); i++) {
+		vertexSet[i]->path = NULL;
+		vertexSet[i]->dist = INT_INFINITY;
+	}
+
+	Vertex<T>* v = getVertex(s);
+	v->dist = 0;
+	queue< Vertex<T>* > q;
+	q.push(v);
+
+	while( !q.empty() ) {
+		v = q.front(); q.pop();
+		for(unsigned int i = 0; i < v->adj.size(); i++) {
+			Vertex<T>* w = v->adj[i].dest;
+			if(v->dist + v->adj[i].weight < w->dist) {
+				w->dist = v->dist + v->adj[i].weight;
+				w->path = v;
+				q.push(w);
+			}
+		}
+	}
+}
+
+
+
+
+
+template<class T>
+void Graph<T>::dijkstraShortestPath(const T &s) {
+
+	for(unsigned int i = 0; i < vertexSet.size(); i++) {
+		vertexSet[i]->path = NULL;
+		vertexSet[i]->dist = INT_INFINITY;
+		vertexSet[i]->processing = false;
+	}
+
+	Vertex<T>* v = getVertex(s);
+	v->dist = 0;
+
+	vector< Vertex<T>* > pq;
+	pq.push_back(v);
+
+	make_heap(pq.begin(), pq.end());
+
+
+	while( !pq.empty() ) {
+
+		v = pq.front();
+		pop_heap(pq.begin(), pq.end());
+		pq.pop_back();
+
+		for(unsigned int i = 0; i < v->adj.size(); i++) {
+			Vertex<T>* w = v->adj[i].dest;
+
+			if(v->dist + v->adj[i].weight < w->dist ) {
+
+				w->dist = v->dist + v->adj[i].weight;
+				w->path = v;
+
+				//se já estiver na lista, apenas a actualiza
+				if(!w->processing)
+				{
+					w->processing = true;
+					pq.push_back(w);
+				}
+
+				make_heap (pq.begin(),pq.end(),vertex_greater_than<T>());
+			}
+		}
+	}
+}
+
+template<class T>
+int Graph<T>::edgeCost(int vOrigIndex, int vDestIndex)
+{
+	if(vertexSet[vOrigIndex] == vertexSet[vDestIndex])
+		return 0;
+
+	for(unsigned int i = 0; i < vertexSet[vOrigIndex]->adj.size(); i++)
+	{
+		if(vertexSet[vOrigIndex]->adj[i].dest == vertexSet[vDestIndex])
+			return vertexSet[vOrigIndex]->adj[i].weight;
+	}
+
+	return INT_INFINITY;
+}
+
+
+void printSquareArray(int ** arr, unsigned int size)
+{
+	for(unsigned int k = 0; k < size; k++)
+	{
+		if(k == 0)
+		{
+			cout <<  "   ";
+			for(unsigned int i = 0; i < size; i++)
+				cout <<  " " << i+1 << " ";
+			cout << endl;
+		}
+
+		for(unsigned int i = 0; i < size; i++)
+		{
+			if(i == 0)
+				cout <<  " " << k+1 << " ";
+
+			if(arr[k][i] == INT_INFINITY)
+				cout << " - ";
+			else
+				cout <<  " " << arr[k][i] << " ";
+		}
+
+		cout << endl;
+	}
+}
+
+
+template<class T>
+void Graph<T>::floydWarshallShortestPath() {
+
+	W = new int * [vertexSet.size()];
+	P = new int * [vertexSet.size()];
+	for(unsigned int i = 0; i < vertexSet.size(); i++)
+	{
+		W[i] = new int[vertexSet.size()];
+		P[i] = new int[vertexSet.size()];
+		for(unsigned int j = 0; j < vertexSet.size(); j++)
+		{
+			W[i][j] = edgeCost(i,j);
+			P[i][j] = -1;
+		}
+	}
+
+
+	for(unsigned int k = 0; k < vertexSet.size(); k++)
+		for(unsigned int i = 0; i < vertexSet.size(); i++)
+			for(unsigned int j = 0; j < vertexSet.size(); j++)
+			{
+				//se somarmos qualquer coisa ao valor INT_INFINITY, ocorre overflow, o que resulta num valor negativo, logo nem convém considerar essa soma
+				if(W[i][k] == INT_INFINITY || W[k][j] == INT_INFINITY)
+					continue;
+
+				int val = min ( W[i][j], W[i][k]+W[k][j] );
+				if(val != W[i][j])
+				{
+					W[i][j] = val;
+					P[i][j] = k;
+				}
+			}
+
 }
 
 
