@@ -183,7 +183,9 @@ void parseGraphToGraphViewer(Graph<Coord> gr, vector<Coord>* bounds) {
 	gv->createWindow(2000, 800);
 	gv->defineEdgeColor("blue");
 	gv->defineVertexColor("black");
+	gv->defineEdgeCurved(false);
 
+	cout << "Adding nodes..." << endl;
 	vector<Vertex<Coord> *> vertices = gr.getVertexSet();
 	for(unsigned i=0; i<vertices.size(); i++)
 	{
@@ -194,6 +196,7 @@ void parseGraphToGraphViewer(Graph<Coord> gr, vector<Coord>* bounds) {
 	}
 	gv->rearrange();
 
+	cout << "Adding edges..." << endl;
 	int edgeID=0;
 	for(unsigned i=0; i<vertices.size(); i++)
 	{
@@ -206,6 +209,7 @@ void parseGraphToGraphViewer(Graph<Coord> gr, vector<Coord>* bounds) {
 		}
 	}
 	gv->rearrange();
+	cout << "Started parser <Graph> to <GraphViewer>" << endl << endl << endl;
 	getchar();
 }
 
