@@ -9,6 +9,9 @@
 #include "Graph.h"
 #include "jung/graphviewer.h"
 
+static unordered_map <double,int> doubleToInt;
+static int nextID=0;
+
 class Coord {
 public:
 	Coord() {
@@ -61,7 +64,7 @@ Graph<Coord> parseTxtToGraph(vector<Coord>* bounds) {
 		bool eofFound=false; //fica true se a ultima linha do ficheiro existir, mas nao tiver carateres
 		string str[5];
 		double coordX, coordY;
-		int id;
+		double id;
 		//ler da stream
 		for (int i = 0; i < 4; i++) {
 			getline(file, str[i], ';');
@@ -82,9 +85,14 @@ Graph<Coord> parseTxtToGraph(vector<Coord>* bounds) {
 		(stringstream) str[0] >> id;
 		(stringstream) str[1] >> coordX;
 		(stringstream) str[2] >> coordY;
-		//adicionar ao grafo
-		Coord coord(id,coordX, coordY);
-		coords[id] = coord;
+
+		//converter ID
+		doubleToInt[id]=nextID;
+		nextID++;
+
+		//gravar no grafo
+		Coord coord(nextID-1,coordX, coordY);
+		coords[nextID-1] = coord;
 		gr.addVertex(coord);
 		//atualizar maxs/mins
 		if(coordX>xMax)
@@ -117,7 +125,7 @@ Graph<Coord> parseTxtToGraph(vector<Coord>* bounds) {
 		bool eofFound=false;
 
 		//ler as connections
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			getline(file2, str[i], ';');
 			if (file2.eof())
@@ -132,10 +140,10 @@ Graph<Coord> parseTxtToGraph(vector<Coord>* bounds) {
 		}
 		if(eofFound)
 			break;
-		getline(file2, str[2]);
 		(stringstream) str[0] >> id;
 		(stringstream) str[1] >> node1;
 		(stringstream) str[2] >> node2;
+		getline(file2, str[0]);
 
 		if (id != oldID) //atualizar oneway e id caso seja necessario
 		{
@@ -146,18 +154,16 @@ Graph<Coord> parseTxtToGraph(vector<Coord>* bounds) {
 				if(file.eof())
 					throw "Reached end of file 'Roads.txt' too soon! Is file complete?";
 			}
-			if(eofFound)
-				break;
 			getline(file, twoway);
 		}//ENDIF
 
 		//adicionar ao grafo
-		int weight = coords[node1].calcWeight(coords[node2]);
+		int weight = coords[doubleToInt[node1]].calcWeight(coords[doubleToInt[node2]]);
 		if (twoway == "True") {
-			gr.addEdge(coords[node1], coords[node2], weight);
-			gr.addEdge(coords[node2], coords[node1], weight);
+			gr.addEdge(coords[doubleToInt[node1]], coords[doubleToInt[node2]], weight);
+			gr.addEdge(coords[doubleToInt[node2]], coords[doubleToInt[node1]], weight);
 		} else {
-			gr.addEdge(coords[node1], coords[node2], weight);
+			gr.addEdge(coords[doubleToInt[node1]], coords[doubleToInt[node2]], weight);
 		}
 
 	}
@@ -203,13 +209,14 @@ void parseGraphToGraphViewer(Graph<Coord> gr, vector<Coord>* bounds) {
 		vector<Edge<Coord> > edges = vertices[i]->getAdj();
 		for(unsigned j=0; j<edges.size(); j++)
 		{
-			gv->addEdge(edgeID,vertices[i]->getInfo().getID()
-					,edges[j].getDest()->getInfo().getID(),EdgeType::DIRECTED);
+			int source = vertices[i]->getInfo().getID();
+			int destination = edges[j].getDest()->getInfo().getID();
+			gv->addEdge(edgeID,source,destination,EdgeType::DIRECTED);
 			edgeID++;
 		}
 	}
 	gv->rearrange();
-	cout << "Started parser <Graph> to <GraphViewer>" << endl << endl << endl;
+	cout << "Finished parser <Graph> to <GraphViewer>" << endl << endl << endl;
 	getchar();
 }
 

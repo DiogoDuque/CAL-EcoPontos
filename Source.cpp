@@ -33,7 +33,7 @@ int main()
 	{
 		cerr << msg << endl;
 		exit(1);
-	}
+	}//*/
 
 	return 0;
 }
