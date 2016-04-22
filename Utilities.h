@@ -25,14 +25,12 @@ public:
 	};
 	double calcWeight(Coord c) {
 		return sqrt(pow((lon + c.getLon()), 2) + pow((lat + c.getLat()), 2));
-	}
-	;
+	};
+
 private:
 	int id;
 	double lat;
 	double lon;
 };
-
-
 
 #endif

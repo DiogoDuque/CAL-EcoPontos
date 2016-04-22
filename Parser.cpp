@@ -7,7 +7,7 @@
 
 #include "Parser.h"
 
-int Parser::nextID = 0;
+int Parser::nextID;
 vector<Coord> Parser::bounds;
 unordered_map <double,int> Parser::doubleToInt;
 unordered_map<int, Coord> Parser::coords;
@@ -17,6 +17,7 @@ unordered_map<int, Coord> Parser::coords;
  */
 Parser::Parser() {
 	nextID=0;
+	gv=NULL;
 }
 
 /**
@@ -161,16 +162,14 @@ Graph<Coord>* Parser::txtToGraph() {
  */
 void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	cout << "Started parser <Graph> to <GraphViewer>" << endl;
-	Coord min = bounds.back();
-	bounds.pop_back();
-	Coord max = bounds.back();
-	bounds.pop_back();
+	Coord min = bounds[1];
+	Coord max = bounds[0];
 	double xMin=min.getLat(), yMin=min.getLon(), xMax=max.getLat(), yMax=max.getLon();
 
 
-	GraphViewer* gv = new GraphViewer(2000,800,false);
+	gv = new GraphViewer(2000,800,false);
 	gv->createWindow(2000, 800);
-	gv->defineEdgeColor("blue");
+	gv->defineEdgeColor("black");
 	gv->defineVertexColor("black");
 	gv->defineEdgeCurved(false);
 
@@ -194,12 +193,13 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 		{
 			int source = vertices[i]->getInfo().getID();
 			int destination = edges[j].getDest()->getInfo().getID();
+			edgesIDs[source][destination]=edgeID;
 			gv->addEdge(edgeID,source,destination,EdgeType::DIRECTED);
 			edgeID++;
 		}
 	}
 	gv->rearrange();
-	cout << "Finished parser <Graph> to <GraphViewer>" << endl << endl << endl;
+	cout << "Finished parser <Graph> to <GraphViewer>" << endl;
 	getchar();
 }
 
@@ -218,6 +218,28 @@ int Parser::convertDoubleToIntID(double nr)
 Coord Parser::getCoordFromIntID(int nr)
 {
 	return coords[nr];
+}
+
+/**
+ * Recebebe um vector de nodes (Coord), um truck, e edita o grafo para que o caminho tracado
+ * por estes nodes apareca com a cor do Truck.
+ */
+void Parser::setGraphViewerPath(vector<Coord> path, Truck truck)
+{
+	if(gv==NULL)
+		throw "GraphViewer object not defined!";
+
+	for(unsigned i=1; i<path.size(); i++)
+	{
+		int source=path[i-1].getID();
+		int destination=path[i].getID();
+		int edgeID=edgesIDs[source][destination];
+		if(truck.getColor()=="black")
+			throw "Truck color cannot be the same as the GraphViewer standard color!";
+		gv->setEdgeColor(edgeID,truck.getColor());
+	}
+
+	gv->rearrange();
 }
 
 /**

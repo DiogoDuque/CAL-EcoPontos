@@ -30,18 +30,31 @@ void Ecoponto::setTrash(unsigned int trash) {
 	this->trash = trash;
 }
 
-/*Coord Ecoponto::getLocation() const {
+Coord Ecoponto::getLocation() const {
 	return location;
 }
 
 void Ecoponto::setLocation(Coord location) {
 	this->location = location;
-}*/
+}
 
 bool Ecoponto::operator<(const Ecoponto& other){
 	return (this->trash < other.trash);
 }
 
+/*
+ * Receives the list of ecopontos and a truck (should be selected by popBestTruck(trucks,[sum of trash in the ecopontos's list]))
+ * Returns the best list of ecopontos that tries to fill the truck to the maximum.
+ *
+ * Example: (Ecoponto, amount )
+ *
+ * ecopontos (A, 10), (B, 30), (C,50) , (D, 70)
+ * Truck -> capacity = 100
+ *
+ *	Returns (B,D)
+ *
+ *	IMPORTANT: pops the result so ecopontos becomes just A,C
+ */
 list<Ecoponto> fillMax(list<Ecoponto> ecopontos, Truck truck){
 	list<Ecoponto> res = {};
 	unsigned int currentCapacity = truck.getCapacity();
@@ -58,8 +71,11 @@ list<Ecoponto> fillMax(list<Ecoponto> ecopontos, Truck truck){
 	return res;
 }
 
+/**
+ * Le os ecopontos do ficheiro 'Ecopontos.txt' e retorna uma lista com os mesmos.
+ */
 list<Ecoponto> getEcopontos()
-		{
+{
 	list<Ecoponto> ecopontos;
 	fstream file;
 	file.open("Ecopontos.txt");
