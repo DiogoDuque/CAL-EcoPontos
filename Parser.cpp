@@ -7,6 +7,11 @@
 
 #include "Parser.h"
 
+int Parser::nextID = 0;
+vector<Coord> Parser::bounds;
+unordered_map <double,int> Parser::doubleToInt;
+unordered_map<int, Coord> Parser::coords;
+
 /**
  * Construtor
  */
