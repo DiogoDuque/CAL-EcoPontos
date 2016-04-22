@@ -18,7 +18,7 @@ using namespace std;
 class Ecoponto {
 private:
 	unsigned int trash;
-	//Coord location;
+	Coord location;
 public:
 	Ecoponto();
 	Ecoponto(unsigned int trash, double id);
@@ -27,8 +27,8 @@ public:
 	unsigned int getTrash() const;
 	void setTrash(unsigned int trash);
 
-//	Coord getLocation() const;
-//	void setLocation(Coord location);
+	Coord getLocation() const;
+	void setLocation(Coord location);
 
 	bool operator<(const Ecoponto& other);
 

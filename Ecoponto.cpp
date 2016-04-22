@@ -14,7 +14,8 @@ Ecoponto::Ecoponto() {
 
 Ecoponto::Ecoponto(unsigned int trash, double id) {
 	this->trash = trash;
-	//this->location=Coord(-1,0,0);//TODO DUQUE!!! Tenho de transformar id em Coord
+	Parser temp;
+	this->location=temp.getCoordFromIntID(temp.convertDoubleToIntID(id));
 }
 
 Ecoponto::~Ecoponto() {

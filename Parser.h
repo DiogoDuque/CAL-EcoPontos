@@ -16,6 +16,7 @@
 #include "Graph.h"
 #include "jung/graphviewer.h"
 #include "Utilities.h"
+#include "Parser.h"
 
 using namespace std;
 
@@ -26,11 +27,13 @@ public:
 	Graph<Coord>* txtToGraph();
 	void graphToGraphViewer(Graph<Coord>* gr);
 	int convertDoubleToIntID(double nr);
+	Coord getCoordFromIntID(int nr);
 private:
 	int getNextID(); //é private pq so é usada dentro da propria classe
-	vector<Coord> bounds;
-	unordered_map <double,int> doubleToInt;
-	int nextID;
+	static vector<Coord> bounds;
+	static unordered_map <double,int> doubleToInt;
+	static unordered_map<int, Coord> coords;
+	static int nextID;
 };
 
 #endif /* PARSER_H_ */

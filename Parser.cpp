@@ -29,7 +29,6 @@ Graph<Coord>* Parser::txtToGraph() {
 	cout << "Started parser <txt> <Graph>" << endl;
 	double xMin=1000, xMax=-1000, yMin=1000, yMax=-1000;
 	Graph<Coord>* gr = new Graph<Coord>;
-	unordered_map<int, Coord> coords;
 	fstream file, file2;
 
 	//Nodes.txt
@@ -209,6 +208,14 @@ int Parser::convertDoubleToIntID(double nr)
 }
 
 /**
+ * Retorna as coordenadas do node com id nr.
+ */
+Coord Parser::getCoordFromIntID(int nr)
+{
+	return coords[nr];
+}
+
+/**
  * Retorna um id e incrementa para uma proxima utilizacao.
  */
 int Parser::getNextID()
@@ -217,3 +224,4 @@ int Parser::getNextID()
 	nextID++;
 	return ret;
 }
+
