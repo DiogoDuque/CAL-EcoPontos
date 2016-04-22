@@ -1,20 +1,22 @@
 #include <iostream>
-#include "Truck.h"
-#include "Utilities.h"
 #include "Graph.h"
 #include "jung/graphviewer.h"
 #include "Ecoponto.h"
+#include "Truck.h"
+#include "Parser.h"
+#include "Utilities.h"
+
 using namespace std;
 
 int main()
 {
 	cout << "Starting EcoPontos..." << endl << endl;
-	/*//parse txtToGraph
-	Graph<Coord> gr;
-	vector<Coord>* bounds = new vector<Coord>;
+	//parse txtToGraph
+	Parser parser;
+	Graph<Coord>* gr;
 	try
 	{
-		gr = parseTxtToGraph(bounds);
+		gr = parser.txtToGraph();
 	}
 	catch(const char* msg)
 	{
@@ -27,7 +29,7 @@ int main()
 	//GraphToGraphViewer
 	try
 	{
-		parseGraphToGraphViewer(gr,bounds);
+		parser.graphToGraphViewer(gr);
 	}
 	catch(const char* msg)
 	{
@@ -35,11 +37,7 @@ int main()
 		exit(1);
 	}//*/
 
-	list<Truck> trucks = getTrucks();
-
-	//	for(list<Truck>::iterator it = trucks.begin();it != trucks.end();++it){
-	//		cout << it->getName() << " " << it->getCapacity()<< " " << it->getColor() << endl;
-	//	}
+	/*list<Truck> trucks = getTrucks();
 
 	list<Ecoponto> eco2 = getEcopontos();
 
@@ -48,7 +46,7 @@ int main()
 	list<Ecoponto> eco = fillMax(eco2, best);
 	for(list<Ecoponto>::iterator it = eco.begin();it != eco.end();++it){
 		cout << it->getTrash()<< endl;
-	}
+	}*/
 
 	return 0;
 }
