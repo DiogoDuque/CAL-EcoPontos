@@ -35,7 +35,7 @@ public:
 	void setName(const string& name);
 
 };
-	Truck popBestTruck(list<Truck> trucks, int totalTrash);
+	Truck popBestTruck(list<Truck> trucks, int totalThrash);
 
 
 #endif /* TRUCK_H_ */

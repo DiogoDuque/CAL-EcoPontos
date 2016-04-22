@@ -34,7 +34,6 @@ class Vertex {
 	int indegree;
 	double dist;
 public:
-	vector<Edge<T>  > getAdj() const {return adj;};
 
 	Vertex(T in);
 	friend class Graph<T>;
@@ -47,6 +46,7 @@ public:
 
 	int getDist() const;
 	int getIndegree() const;
+	vector<Edge<T>  > getAdj() const {return adj;};
 
 	bool operator<(const Vertex<T> vertex);
 
@@ -56,9 +56,9 @@ public:
 
 template <class T>
 struct vertex_greater_than {
-    bool operator()(Vertex<T> * a, Vertex<T> * b) const {
-        return a->getDist() > b->getDist();
-    }
+	bool operator()(Vertex<T> * a, Vertex<T> * b) const {
+		return a->getDist() > b->getDist();
+	}
 };
 
 
@@ -184,6 +184,10 @@ public:
 	int edgeCost(int vOrigIndex, int vDestIndex);
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest);
 	void getfloydWarshallPathAux(int index1, int index2, vector<T> & res);
+
+	vector<T> shortestTravelOrder(vector<T> & mustPass);
+	int weight(vector<T> & Path);
+	int weight(const T &sourc, const T &dest);
 };
 
 
@@ -253,9 +257,9 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 	Vertex<T> *vS, *vD;
 	while (found!=2 && it!=ite ) {
 		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
+		{ vS=*it; found++;}
 		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
+		{ vD=*it; found++;}
 		it ++;
 	}
 	if (found!=2) return false;
@@ -273,9 +277,9 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
 	Vertex<T> *vS, *vD;
 	while (found!=2 && it!=ite ) {
 		if ( (*it)->info == sourc )
-			{ vS=*it; found++;}
+		{ vS=*it; found++;}
 		if ( (*it)->info == dest )
-			{ vD=*it; found++;}
+		{ vD=*it; found++;}
 		it ++;
 	}
 	if (found!=2)
@@ -298,8 +302,8 @@ vector<T> Graph<T>::dfs() const {
 	vector<T> res;
 	it=vertexSet.begin();
 	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfs(*it,res);
+		if ( (*it)->visited==false )
+			dfs(*it,res);
 	return res;
 }
 
@@ -310,10 +314,10 @@ void Graph<T>::dfs(Vertex<T> *v,vector<T> &res) const {
 	typename vector<Edge<T> >::iterator it= (v->adj).begin();
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++)
-	    if ( it->dest->visited == false ){
-	    	//cout << "ok ";
-	    	dfs(it->dest, res);
-	    }
+		if ( it->dest->visited == false ){
+			//cout << "ok ";
+			dfs(it->dest, res);
+		}
 }
 
 template <class T>
@@ -416,8 +420,8 @@ void Graph<T>::dfsVisit() {
 		(*it)->visited=false;
 	it=vertexSet.begin();
 	for (; it !=ite; it++)
-	    if ( (*it)->visited==false )
-	    	dfsVisit(*it);
+		if ( (*it)->visited==false )
+			dfsVisit(*it);
 }
 
 template <class T>
@@ -428,9 +432,9 @@ void Graph<T>::dfsVisit(Vertex<T> *v) {
 	typename vector<Edge<T> >::iterator ite= (v->adj).end();
 	for (; it !=ite; it++) {
 		if ( it->dest->processing == true) numCycles++;
-	    if ( it->dest->visited == false ){
-	    	dfsVisit(it->dest);
-	    }
+		if ( it->dest->visited == false ){
+			dfsVisit(it->dest);
+		}
 	}
 	v->processing = false;
 }
@@ -527,6 +531,7 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &origin, const T &dest){
 	vector<T> res;
 
 	//se nao foi encontrada solucao possivel, retorna lista vazia
+	cout << W[originIndex][destinationIndex];
 	if(W[originIndex][destinationIndex] == INT_INFINITY)
 		return res;
 
@@ -744,8 +749,68 @@ void Graph<T>::floydWarshallShortestPath() {
 					P[i][j] = k;
 				}
 			}
-
 }
+
+
+template<class T>
+vector<T> Graph<T>::shortestTravelOrder(vector<T> & mustPass){
+	int INT_MAX = 2147483647;
+	T currentInfo = mustPass[0];
+	vector<T> res = {};
+
+	while (true){
+		dijkstraShortestPath(currentInfo);
+		getVertex(currentInfo)->visited = true;
+		vector<T> minorPath;
+		int minorPathWeight = INT_MAX;
+
+		for (int i = 0; i < mustPass.size(); i++){
+			if (getVertex(mustPass[i])->visited == true)
+				continue;
+			vector<T> currentPath = getPath(currentInfo,mustPass[i]);
+			int currentPathWeight = weight(currentPath);
+			if(currentPathWeight == INT_MAX)
+				return vector<T>();
+			if(currentPathWeight < minorPathWeight){
+				minorPath = currentPath;
+				minorPathWeight = currentPathWeight;
+				currentInfo = mustPass[i];
+			}
+		}
+		if (minorPathWeight == INT_MAX){
+			res.push_back(currentInfo);
+			return res;
+		}
+
+		res.insert(res.end(), minorPath.begin(), minorPath.end()-1);
+
+	}
+}
+
+//Peso a percorrer um vector, retorna INT_INFINITY se algum par de nodes seguidos nao se conectarem
+template<class T>
+int Graph<T>::weight(vector<T> & Path){
+	int w = 0;
+	for (unsigned int i = 0; i < Path.size() - 1; i++){
+		unsigned int weightInc = weight(Path[i],Path[i+1]);
+		if(weightInc != INT_INFINITY)
+			w += weightInc;
+		else
+			return INT_INFINITY;
+	}
+	return w;
+}
+//Peso entre dois nodes adjacentes
+template<class T>
+int Graph<T>::weight(const T &sourc, const T &dest){
+	Vertex<T> *v = getVertex(sourc);
+	for (unsigned int i = 0; i < v->adj.size(); i++){
+		if (v->adj[i].dest->info == dest)
+			return v->adj[i].weight;
+	}
+	return INT_INFINITY;
+}
+
 
 
 #endif /* GRAPH_H_ */

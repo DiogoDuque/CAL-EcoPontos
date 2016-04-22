@@ -58,10 +58,10 @@ void Truck::setName(const string& name) {
 	this->name = name;
 }
 
-Truck popBestTruck(list<Truck> trucks, int totalTrash){
+Truck popBestTruck(list<Truck> trucks, int totalTgrash){
 	int bestCapacity = 0;
 	Truck best;
-	for (list<Truck>::iterator it=trucks.begin(); bestCapacity < totalTrash && it != trucks.end(); ++it){
+	for (list<Truck>::iterator it=trucks.begin(); bestCapacity < totalTgrash && it != trucks.end(); ++it){
 		 best = (*it);
 		 bestCapacity = (*it).getCapacity();
 	}
