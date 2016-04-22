@@ -34,7 +34,21 @@ public:
 
 };
 
-list<Ecoponto> fillMax(list<Ecoponto>, Truck);
+/*
+ * Receives the list of ecopontos and a truck (should be selected by popBestTruck(trucks,[sum of trash in the ecopontos's list]))
+ * Returns the best list of ecopontos that tries to fill the truck to the maximum.
+ *
+ * Example: (Ecoponto, amount )
+ *
+ * ecopontos (A, 10), (B, 30), (C,50) , (D, 70)
+ * Truck -> capacity = 100
+ *
+ *	Returns (B,D)
+ *
+ *	IMPORTANT: pops the result so ecopontos becomes just A,C
+ */
+list<Ecoponto> fillMax(list<Ecoponto> ecopontos, Truck truck);
+
 
 
 list<Ecoponto> getEcopontos();

@@ -37,7 +37,21 @@ public:
 	void setName(const string& name);
 
 };
-
+/*
+ * Receives a list of trucks and the amount of thrash to collect.
+ * POPS the best truck for the job.
+ *
+ * Example: (Truck, TruckCapacity)
+ * trucks: (A,100), (B,150), (C,200)
+ *
+ * amount of trash to collect:
+ * 45 - pops A
+ * 60 - pops B
+ * 99 - pops B
+ * 100- pops B
+ * 101 - Pops C
+ * 160 - Pops C
+ */
 Truck popBestTruck(list<Truck> trucks, int totalThrash);
 
 list<Truck> getTrucks();
