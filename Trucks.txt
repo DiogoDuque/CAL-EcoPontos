@@ -1,0 +1,5 @@
+A;100;red
+B;300;blue
+H;1000;pink
+K;300;green
+C;20;black

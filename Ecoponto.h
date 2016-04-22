@@ -9,24 +9,33 @@
 #define ECOPONTO_H_
 
 #include <list>
+#include "Utilities.h"
 #include "Truck.h"
+
 
 using namespace std;
 
 class Ecoponto {
 private:
-	unsigned int thrash;
+	unsigned int trash;
+	//Coord location;
 public:
 	Ecoponto();
-	Ecoponto(unsigned int thrash);
+	Ecoponto(unsigned int trash, double id);
 	virtual ~Ecoponto();
 
-	unsigned int getThrash() const;
-	void setThrash(unsigned int thrash);
+	unsigned int getTrash() const;
+	void setTrash(unsigned int trash);
+
+//	Coord getLocation() const;
+//	void setLocation(Coord location);
 
 	bool operator<(const Ecoponto& other);
+
 };
 
 list<Ecoponto> fillMax(list<Ecoponto>, Truck);
 
+
+list<Ecoponto> getEcopontos();
 #endif /* ECOPONTO_H_ */

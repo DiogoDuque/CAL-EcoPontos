@@ -10,6 +10,8 @@
 
 #include <string>
 #include <list>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -35,7 +37,10 @@ public:
 	void setName(const string& name);
 
 };
-	Truck popBestTruck(list<Truck> trucks, int totalThrash);
+
+Truck popBestTruck(list<Truck> trucks, int totalThrash);
+
+list<Truck> getTrucks();
 
 
 #endif /* TRUCK_H_ */

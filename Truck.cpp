@@ -48,9 +48,9 @@ bool Truck::operator <(const Truck& other) {
 
 bool Truck::operator ==(const Truck& other) {
 	return (
-		name == other.name &&
-		capacity == other.capacity &&
-		color == other.color
+			name == other.name &&
+			capacity == other.capacity &&
+			color == other.color
 	);
 }
 
@@ -62,9 +62,40 @@ Truck popBestTruck(list<Truck> trucks, int totalTgrash){
 	int bestCapacity = 0;
 	Truck best;
 	for (list<Truck>::iterator it=trucks.begin(); bestCapacity < totalTgrash && it != trucks.end(); ++it){
-		 best = (*it);
-		 bestCapacity = (*it).getCapacity();
+		best = (*it);
+		bestCapacity = (*it).getCapacity();
 	}
 	trucks.remove(best);
 	return best;
+}
+
+list<Truck> getTrucks()
+		{
+	list<Truck> trucks;
+	fstream file;
+	file.open("Trucks.txt");
+	if(!file.is_open())
+		throw "Could not open file 'Trucks.txt'!";
+	while(!file.eof())
+	{
+		string name, color;
+		int capacity;
+		string str[3];
+		for(unsigned i=0; i<2; i++)
+		{
+			getline(file,str[i],';');
+			if(file.eof())
+			{
+				throw "Reached end of file 'Trucks.txt' too soon! Is file complete?";
+			}
+		}
+		getline(file,str[2]);
+		(stringstream) str[0] >> name;
+		(stringstream) str[1] >> capacity;
+		(stringstream) str[2] >> color;
+		trucks.push_back(Truck(name,capacity,color));
+	}
+	file.close();
+	trucks.sort();
+	return trucks;
 }

@@ -689,32 +689,32 @@ int Graph<T>::edgeCost(int vOrigIndex, int vDestIndex)
 }
 
 
-void printSquareArray(int ** arr, unsigned int size)
-{
-	for(unsigned int k = 0; k < size; k++)
-	{
-		if(k == 0)
-		{
-			cout <<  "   ";
-			for(unsigned int i = 0; i < size; i++)
-				cout <<  " " << i+1 << " ";
-			cout << endl;
-		}
-
-		for(unsigned int i = 0; i < size; i++)
-		{
-			if(i == 0)
-				cout <<  " " << k+1 << " ";
-
-			if(arr[k][i] == INT_INFINITY)
-				cout << " - ";
-			else
-				cout <<  " " << arr[k][i] << " ";
-		}
-
-		cout << endl;
-	}
-}
+//void printSquareArray(int ** arr, unsigned int size)
+//{
+//	for(unsigned int k = 0; k < size; k++)
+//	{
+//		if(k == 0)
+//		{
+//			cout <<  "   ";
+//			for(unsigned int i = 0; i < size; i++)
+//				cout <<  " " << i+1 << " ";
+//			cout << endl;
+//		}
+//
+//		for(unsigned int i = 0; i < size; i++)
+//		{
+//			if(i == 0)
+//				cout <<  " " << k+1 << " ";
+//
+//			if(arr[k][i] == INT_INFINITY)
+//				cout << " - ";
+//			else
+//				cout <<  " " << arr[k][i] << " ";
+//		}
+//
+//		cout << endl;
+//	}
+//}
 
 
 template<class T>
