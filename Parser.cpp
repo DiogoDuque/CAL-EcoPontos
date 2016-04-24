@@ -182,6 +182,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 					(vertices[i]->getInfo().getLat()-xMin)*10000/(xMax-xMin)-5000,
 					(vertices[i]->getInfo().getLon()-yMin)*10000/(yMax-yMin)-5000);
 		gv->addNode(temp.getID(),temp.getLat(),temp.getLon());
+		gv->setVertexSize(temp.getID(), 5);
 	}
 	gv->rearrange();
 
@@ -199,6 +200,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 			edgeID++;
 		}
 	}
+
 	gv->rearrange();
 	cout << "Finished parser <Graph> to <GraphViewer>" << endl;
 }
@@ -237,6 +239,7 @@ void Parser::setGraphViewerPath(vector<Coord> path, Truck truck)
 		if(truck.getColor()=="black")
 			throw "Truck color cannot be the same as the GraphViewer standard color!";
 		gv->setEdgeColor(edgeID,truck.getColor());
+		gv->setEdgeThickness(edgeID,10);
 	}
 
 	gv->rearrange();
