@@ -231,6 +231,9 @@ void Parser::setGraphViewerPath(vector<Coord> path, Truck truck)
 	if(gv==NULL)
 		throw "GraphViewer object not defined!";
 
+	int initialId = path[0].getID();
+	gv->setVertexColor(initialId, "green");
+
 	for(unsigned i=1; i<path.size(); i++)
 	{
 		int source=path[i-1].getID();

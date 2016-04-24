@@ -46,7 +46,7 @@ int main()
 		vector<Coord> ecoCoord = ecoToCoord(temp, initial);
 		vector<Coord> ecoCoord2 = gr->shortestTravelOrder(ecoCoord);
 		parser.setGraphViewerPath(ecoCoord2, best);
-		getchar();
+		//getchar();
 	}
 
 
