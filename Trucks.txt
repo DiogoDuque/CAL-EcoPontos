@@ -2,4 +2,4 @@ A;1000;red
 B;1000;blue
 H;1000;pink
 K;1000;green
-C;2000;black
+C;2000;yellow

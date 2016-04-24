@@ -221,7 +221,7 @@ Coord Parser::getCoordFromIntID(int nr)
 }
 
 /**
- * Recebebe um vector de nodes (Coord), um truck, e edita o grafo para que o caminho tracado
+ * Recebe um vector de nodes (Coord), um truck, e edita o grafo para que o caminho tracado
  * por estes nodes apareca com a cor do Truck.
  */
 void Parser::setGraphViewerPath(vector<Coord> path, Truck truck)

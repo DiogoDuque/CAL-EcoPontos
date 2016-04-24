@@ -26,7 +26,7 @@ int main()
 
 	list<Truck> trucks = getTrucks();
 	list<Ecoponto> eco = getEcopontos();
-	Coord initial = Coord(137896696,41.14596,-8.597403);
+	Coord initial = Coord(parser.convertDoubleToIntID(137896696),41.14596,-8.597403);
 
 	//GraphToGraphViewer
 	try
