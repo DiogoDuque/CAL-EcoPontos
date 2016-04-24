@@ -24,22 +24,24 @@ int main()
 		exit(1);
 	}
 
+	list<Ecoponto> eco = getEcopontos();
+
 	//apply algs
 
 	//GraphToGraphViewer
 	try
 	{
 		parser.graphToGraphViewer(gr);
+		parser.setGraphViewerEcopontos(eco);
 	}
 	catch(const char* msg)
 	{
 		cerr << msg << endl;
 		exit(1);
-	}//*/
+	}
+	getchar();
 
 	/*list<Truck> trucks = getTrucks();
-
-	list<Ecoponto> eco2 = getEcopontos();
 
 
 	Truck best = popBestTruck(trucks,70);

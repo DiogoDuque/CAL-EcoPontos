@@ -31,6 +31,7 @@ public:
 	int convertDoubleToIntID(double nr);
 	Coord getCoordFromIntID(int nr);
 	void setGraphViewerPath(vector<Coord> path, Truck truck);
+	void setGraphViewerEcopontos(list<Ecoponto> ecopontos);
 private:
 	int getNextID(); //é private pq so é usada dentro da propria classe
 	static int nextID;

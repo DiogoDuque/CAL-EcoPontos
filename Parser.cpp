@@ -171,6 +171,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	gv->createWindow(2000, 800);
 	gv->defineEdgeColor("black");
 	gv->defineVertexColor("black");
+	gv->defineVertexSize(10);
 	gv->defineEdgeCurved(false);
 
 	cout << "Adding nodes..." << endl;
@@ -200,7 +201,6 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	}
 	gv->rearrange();
 	cout << "Finished parser <Graph> to <GraphViewer>" << endl;
-	getchar();
 }
 
 /**
@@ -252,3 +252,9 @@ int Parser::getNextID()
 	return ret;
 }
 
+void Parser::setGraphViewerEcopontos(list<Ecoponto> ecopontos) {
+	for(list<Ecoponto>::const_iterator it=ecopontos.begin(); it != ecopontos.end(); ++it) {
+		gv->setVertexColor((*it).getLocation().getID(), "red");
+		gv->setVertexLabel((*it).getLocation().getID(), "ECOPONTO");
+	}
+}
