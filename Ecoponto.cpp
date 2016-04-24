@@ -55,7 +55,7 @@ bool Ecoponto::operator<(const Ecoponto& other){
  *
  *	IMPORTANT: pops the result so ecopontos becomes just A,C
  */
-list<Ecoponto> fillMax(list<Ecoponto> ecopontos, Truck truck){
+list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck){
 	list<Ecoponto> res = {};
 	unsigned int currentCapacity = truck.getCapacity();
 	for (list<Ecoponto>::reverse_iterator it = ecopontos.rbegin(); it != ecopontos.rend() && currentCapacity > 0;){
@@ -99,4 +99,19 @@ list<Ecoponto> getEcopontos()
 	file.close();
 	ecopontos.sort();
 	return ecopontos;
+}
+
+int totalTrash(list<Ecoponto> ecopontos){
+	int res = 0;
+	for (list<Ecoponto>::iterator it = ecopontos.begin(); it != ecopontos.end(); ++it)
+		res+=(*it).getTrash();
+	return res;
+}
+
+vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord first){
+	vector<Coord> res = {};
+	res.push_back(first);
+	for (list<Ecoponto>::iterator it = ecopontos.begin(); it != ecopontos.end(); ++it)
+			res.push_back(it->getLocation());
+	return res;
 }

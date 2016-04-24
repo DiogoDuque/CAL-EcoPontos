@@ -495,7 +495,7 @@ vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 	Vertex<T>* v = getVertex(dest);
 
 	buffer.push_front(v->info);
-	while ( v->path != NULL &&  v->path->info != origin) {
+	while ( v->path != NULL /*&&  v->path->info != origin*/) {
 		v = v->path;
 		buffer.push_front(v->info);
 	}

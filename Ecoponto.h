@@ -34,7 +34,11 @@ public:
 
 };
 
-list<Ecoponto> fillMax(list<Ecoponto> ecopontos, Truck truck);
+list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck);
+
+int totalTrash(list<Ecoponto> ecopontos);
+
+vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord first);
 
 list<Ecoponto> getEcopontos();
 #endif /* ECOPONTO_H_ */

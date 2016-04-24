@@ -38,7 +38,7 @@ public:
 
 };
 
-Truck popBestTruck(list<Truck> trucks, int totalThrash);
+Truck popBestTruck(list<Truck> &trucks, int totalThrash);
 
 list<Truck> getTrucks();
 

@@ -24,9 +24,9 @@ int main()
 		exit(1);
 	}
 
+	list<Truck> trucks = getTrucks();
 	list<Ecoponto> eco = getEcopontos();
-
-	//apply algs
+	Coord initial = Coord(137896696,41.14596,-8.597403);
 
 	//GraphToGraphViewer
 	try
@@ -39,6 +39,22 @@ int main()
 		cerr << msg << endl;
 		exit(1);
 	}
+
+	while(eco.size() != 0 && trucks.size() != 0){
+		Truck best = popBestTruck(trucks,totalTrash(eco));
+		list<Ecoponto> temp = fillMax(eco, best);
+		vector<Coord> ecoCoord = ecoToCoord(temp, initial);
+		cerr << ecoCoord.size() << endl;
+		vector<Coord> ecoCoord2 = gr->shortestTravelOrder(ecoCoord);
+		cerr << ecoCoord2.size() << endl;
+		parser.setGraphViewerPath(ecoCoord2, best);
+		cerr << "Next" << endl;
+		cerr << trucks.size();
+		getchar();
+	}
+
+
+
 	getchar();
 
 	/*list<Truck> trucks = getTrucks();
