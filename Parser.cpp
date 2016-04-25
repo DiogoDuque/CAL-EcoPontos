@@ -102,6 +102,7 @@ Graph<Coord>* Parser::txtToGraph() {
 	string twoway;
 	while (!file2.eof()) {
 		string str[3];
+		string road[2];
 		long long node1, node2;
 		int id;
 		bool eofFound=false;
@@ -132,7 +133,7 @@ Graph<Coord>* Parser::txtToGraph() {
 			oldID = id;
 			for (int i = 0; i < 2; i++)
 			{
-				getline(file, twoway, ';');
+				getline(file, road[i], ';');
 				if(file.eof())
 					throw "Reached end of file 'Roads.txt' too soon! Is file complete?";
 			}
@@ -143,11 +144,13 @@ Graph<Coord>* Parser::txtToGraph() {
 		int weight = coords[nodeID[node1]].calcWeight(coords[nodeID[node2]]);
 		if (twoway == "True") {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
+			roads[nodeID[node1]][nodeID[node2]] = road[1];
 			gr->addEdge(coords[nodeID[node2]], coords[nodeID[node1]], weight);
+			roads[nodeID[node2]][nodeID[node1]] = " ";
 		} else {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
+			roads[nodeID[node1]][nodeID[node2]] = road[1];
 		}
-
 	}
 	file.close();
 	file2.close();
@@ -201,8 +204,23 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 			edgeID++;
 		}
 	}
+	gv->rearrange();
+
+	for(unsigned i=0; i<vertices.size(); i++)
+	{
+		gv->setVertexSize(vertices[i]->getInfo().getID(), 1);
+		//gv->setVertexLabel(vertices[i]->getInfo().getID(), ".");
+		vector<Edge<Coord> > edges = vertices[i]->getAdj();
+		for(unsigned j=0; j<edges.size(); j++)
+		{
+			int source = vertices[i]->getInfo().getID();
+			int destination = edges[j].getDest()->getInfo().getID();
+			gv->setEdgeLabel(edgesIDs[source][destination], roads[source][destination]);
+		}
+	}
 
 	gv->rearrange();
+
 	cout << "Finished parser <Graph> to <GraphViewer>" << endl;
 }
 

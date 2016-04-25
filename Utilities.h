@@ -24,7 +24,7 @@ public:
 		return lat == c.getLat() && lon == c.getLon();
 	};
 	double calcWeight(Coord c) {
-		return sqrt(pow((lon + c.getLon()), 2) + pow((lat + c.getLat()), 2));
+		return sqrt(pow((c.getLon() - lon), 2) + pow((c.getLat() - lat), 2));
 	};
 
 private:
