@@ -39,6 +39,7 @@ private:
 	static unordered_map <long long,int> nodeID;
 	static unordered_map<int, Coord> coords;
 	unordered_map<int,unordered_map<int,int>> edgesIDs; //edges[source][destination]=idAresta
+	unordered_map<int,unordered_map<int,string>> roads;
 	GraphViewer* gv;
 };
 
