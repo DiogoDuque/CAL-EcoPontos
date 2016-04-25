@@ -28,7 +28,7 @@ public:
 	virtual ~Parser();
 	Graph<Coord>* txtToGraph();
 	void graphToGraphViewer(Graph<Coord>* gr);
-	int convertDoubleToIntID(double nr);
+	int getNodeID(long long nr);
 	Coord getCoordFromIntID(int nr);
 	void setGraphViewerPath(vector<Coord> path, Truck truck);
 	void setGraphViewerEcopontos(list<Ecoponto> ecopontos);
@@ -36,7 +36,7 @@ private:
 	int getNextID(); //é private pq so é usada dentro da propria classe
 	static int nextID;
 	static vector<Coord> bounds;
-	static unordered_map <double,int> doubleToInt;
+	static unordered_map <long long,int> nodeID;
 	static unordered_map<int, Coord> coords;
 	unordered_map<int,unordered_map<int,int>> edgesIDs; //edges[source][destination]=idAresta
 	GraphViewer* gv;

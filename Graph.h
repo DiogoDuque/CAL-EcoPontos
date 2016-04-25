@@ -783,7 +783,6 @@ vector<T> Graph<T>::shortestTravelOrder(vector<T> & mustPass){
 		}
 
 		res.insert(res.end(), minorPath.begin(), minorPath.end()-1);
-
 	}
 }
 
@@ -810,7 +809,5 @@ int Graph<T>::weight(const T &sourc, const T &dest){
 	}
 	return INT_INFINITY;
 }
-
-
 
 #endif /* GRAPH_H_ */

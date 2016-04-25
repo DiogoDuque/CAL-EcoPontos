@@ -9,7 +9,7 @@
 
 int Parser::nextID;
 vector<Coord> Parser::bounds;
-unordered_map <double,int> Parser::doubleToInt;
+unordered_map <long long,int> Parser::nodeID;
 unordered_map<int, Coord> Parser::coords;
 
 /**
@@ -23,9 +23,7 @@ Parser::Parser() {
 /**
  * Destrutor
  */
-Parser::~Parser() {
-	// TODO Auto-generated destructor stub
-}
+Parser::~Parser() {}
 
 /**
  * Le os ficheiros de texto 'Nodes.txt', 'Roads.txt' e 'Connections.txt',
@@ -46,7 +44,8 @@ Graph<Coord>* Parser::txtToGraph() {
 		bool eofFound=false; //fica true se a ultima linha do ficheiro existir, mas nao tiver carateres
 		string str[5];
 		double coordX, coordY;
-		double id;
+		long long id;
+
 		//ler da stream
 		for (int i = 0; i < 4; i++) {
 			getline(file, str[i], ';');
@@ -63,19 +62,21 @@ Graph<Coord>* Parser::txtToGraph() {
 		if(eofFound)
 			break;
 		getline(file, str[4]);
-		//transformar para int
+
+		// extrair numeros das strings obtidas em "Nodes.txt"
 		(stringstream) str[0] >> id;
 		(stringstream) str[1] >> coordX;
 		(stringstream) str[2] >> coordY;
 
-		//converter ID
-		doubleToInt[id]=getNextID();
+		// obter novo ID inteiro
+		nodeID[id]=getNextID();
 
-		//gravar no grafo
+		// gravar no grafo
 		Coord coord(nextID-1,coordX, coordY);
 		coords[nextID-1] = coord;
 		gr->addVertex(coord);
-		//atualizar maxs/mins
+
+		// atualizar maxs/mins
 		if(coordX>xMax)
 			xMax=coordX;
 		if(coordY>yMax)
@@ -101,7 +102,7 @@ Graph<Coord>* Parser::txtToGraph() {
 	string twoway;
 	while (!file2.eof()) {
 		string str[3];
-		double node1, node2;
+		long long node1, node2;
 		int id;
 		bool eofFound=false;
 
@@ -139,19 +140,19 @@ Graph<Coord>* Parser::txtToGraph() {
 		}//ENDIF
 
 		//adicionar ao grafo
-		int weight = coords[doubleToInt[node1]].calcWeight(coords[doubleToInt[node2]]);
+		int weight = coords[nodeID[node1]].calcWeight(coords[nodeID[node2]]);
 		if (twoway == "True") {
-			gr->addEdge(coords[doubleToInt[node1]], coords[doubleToInt[node2]], weight);
-			gr->addEdge(coords[doubleToInt[node2]], coords[doubleToInt[node1]], weight);
+			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
+			gr->addEdge(coords[nodeID[node2]], coords[nodeID[node1]], weight);
 		} else {
-			gr->addEdge(coords[doubleToInt[node1]], coords[doubleToInt[node2]], weight);
+			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
 		}
 
 	}
 	file.close();
 	file2.close();
 	cout << "Finished reading 'Roads.txt' and 'Connections.txt'" << endl;
-	cout << "Finished parser <txt> <Graph>" << endl << endl << endl;
+	cout << "Finished parser <txt> <Graph>" << endl << endl;
 	bounds.push_back(Coord(-1,xMax,yMax));
 	bounds.push_back(Coord(-1,xMin,yMin));
 	return gr;
@@ -209,9 +210,9 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
  * Converte um double lido de um ficheiro para o int correspondente
  * usado no grafo.
  */
-int Parser::convertDoubleToIntID(double nr)
+int Parser::getNodeID(long long nr)
 {
-	return doubleToInt[nr];
+	return nodeID[nr];
 }
 
 /**
@@ -261,6 +262,6 @@ int Parser::getNextID()
 void Parser::setGraphViewerEcopontos(list<Ecoponto> ecopontos) {
 	for(list<Ecoponto>::const_iterator it=ecopontos.begin(); it != ecopontos.end(); ++it) {
 		gv->setVertexColor((*it).getLocation().getID(), "red");
-		gv->setVertexLabel((*it).getLocation().getID(), "ECOPONTO");
+		//gv->setVertexLabel((*it).getLocation().getID(), "ECOPONTO");
 	}
 }

@@ -21,12 +21,13 @@ int main()
 	catch(const char* msg)
 	{
 		cerr << msg << endl;
+		getchar();
 		exit(1);
 	}
 
 	list<Truck> trucks = getTrucks();
 	list<Ecoponto> eco = getEcopontos();
-	Coord initial = Coord(parser.convertDoubleToIntID(137896696),41.14596,-8.597403);
+	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
 
 	//GraphToGraphViewer
 	try
@@ -37,23 +38,28 @@ int main()
 	catch(const char* msg)
 	{
 		cerr << msg << endl;
+		getchar();
 		exit(1);
 	}
 
 	while(eco.size() != 0 && trucks.size() != 0){
 		Truck best = popBestTruck(trucks,totalTrash(eco));
+
+		cout << totalTrash(eco) << " " << best.getColor() << endl;
+
 		list<Ecoponto> temp = fillMax(eco, best);
 		vector<Coord> ecoCoord = ecoToCoord(temp, initial);
 		vector<Coord> ecoCoord2 = gr->shortestTravelOrder(ecoCoord);
-		parser.setGraphViewerPath(ecoCoord2, best);
+		try{
+			parser.setGraphViewerPath(ecoCoord2, best);
+		} catch(const char* msg){
+			cerr << msg << endl;
+			getchar();
+			exit(1);
+		}
 		//getchar();
 	}
 
-
-
 	getchar();
-
-
-
 	return 0;
 }

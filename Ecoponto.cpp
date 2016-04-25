@@ -15,7 +15,7 @@ Ecoponto::Ecoponto() {
 Ecoponto::Ecoponto(unsigned int trash, double id) {
 	this->trash = trash;
 	Parser temp;
-	this->location=temp.getCoordFromIntID(temp.convertDoubleToIntID(id));
+	this->location=temp.getCoordFromIntID(temp.getNodeID(id));
 }
 
 Ecoponto::~Ecoponto() {
@@ -63,7 +63,7 @@ list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck){
 			currentCapacity -= (*it).getTrash();
 			res.push_back(*it);
 			++it;
-			it= list<Ecoponto>::reverse_iterator(ecopontos.erase(it.base()));
+			it = list<Ecoponto>::reverse_iterator(ecopontos.erase(it.base()));
 		}
 		else
 			++it;
