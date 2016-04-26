@@ -29,20 +29,20 @@ int main()
 	list<Ecoponto> eco = getEcopontos();
 	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
 
-	unsigned int max_load;
+	unsigned int min_load;
 	bool validValues;
 
 	do{
 		validValues = true;
 
-		cout << "Please insert maximum load of the recycling bins in kg (0 to 100): ";
-		cin >> max_load;
+		cout << "Please insert minimum load of the ecopontos bins in kg (0 to 100): ";
+		cin >> min_load;
 		cin.ignore(1000, '\n');
 
-		if (max_load > 100 || cin.fail())
+		if (min_load > 100 || cin.fail())
 		{
 			validValues = false;
-			cin.clear();											// clears state of error
+			cin.clear();											// clears state of error of the buffer
 			cout << "Invalid input. Please try again.\n";
 		}
 	} while (!validValues);
@@ -66,7 +66,7 @@ int main()
 	{
 		bool notEnough;
 
-		if ((*i).getTrash() < max_load)
+		if ((*i).getTrash() < min_load)
 			notEnough = true;
 		else notEnough = false;
 
@@ -84,6 +84,8 @@ int main()
 	vector<Coord> connected = gr->bfs(gr->getVertex(initial));	// connected contains Coord of all the nodes that we can access from the initial point
 	gr->resetVisited();											// resets the visited member of every vertex (so that we can use other functions that use visited)
 
+	cout << "\nStarting connectivity test..." << endl;
+
 	for(list<Ecoponto>::iterator it = eco.begin(); it!=eco.end(); it++) // for every ecoponto
 	{
 		for(unsigned int i=0; i<=connected.size(); i++) // for every node that we can access from initial
@@ -97,6 +99,10 @@ int main()
 			}
 		}
 	}
+
+	cout << "Finished connectivity test." << endl;
+
+	cout << "\nAdding truck routes..." << endl;
 
 	// shows the most efficient route for all the trucks
 	while(eco.size() != 0 && trucks.size() != 0){
@@ -112,6 +118,8 @@ int main()
 			exit(1);
 		}
 	}
+
+	cout << "Finished!" << endl;
 
 	getchar();
 	return 0;

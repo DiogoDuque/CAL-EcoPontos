@@ -37,7 +37,7 @@ public:
 	void setLocation(Coord location);
 
 	/**
-	 * Compares the contents of the ecopontos: if one ecoponto has more trash than the other then it is "bigger"
+	 * Compares the contents of the ecopontos: if one ecoponto has more trash than the other then it is 'bigger'
 	 *
 	 * @param other - ecoponto object that will be compared with this object
 	 * @return true if other has less trash than this object, false if otherwise
