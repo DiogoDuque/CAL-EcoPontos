@@ -14,7 +14,7 @@ Ecoponto::Ecoponto() {
 Ecoponto::Ecoponto(unsigned int trash, unsigned int id) {
 	this->trash = trash;
 	Parser temp;
-	this->location=temp.getCoordFromIntID(id);
+	this->location=temp.getCoordFromID(id);
 }
 
 Ecoponto::~Ecoponto() {

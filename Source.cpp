@@ -81,7 +81,8 @@ int main()
 	}
 
 	//verificar conectividade da Coord inicial aos ecopontos
-	/*vector<Coord> connected = gr->bfs(gr->getVertex(initial)); //connected tem todos os Coord a que podemos chegar a partir de inicial
+	vector<Coord> connected = gr->bfs(gr->getVertex(initial)); //connected tem todos os Coord a que podemos chegar a partir de inicial
+	gr->resetVisited();
 	for(list<Ecoponto>::iterator it = eco.begin(); it!=eco.end(); it++) //percorre ecopontos
 	{
 		for(unsigned int i=0; i<=connected.size(); i++) //percorrer vertices obtidos
@@ -95,20 +96,19 @@ int main()
 			}
 		}
 	}
-	*/
+
 	while(eco.size() != 0 && trucks.size() != 0){
-		Truck best = popBestTruck(trucks,totalTrash(eco));
-		list<Ecoponto> temp = fillMax(eco, best);
+		Truck best_truck = popBestTruck(trucks,totalTrash(eco));
+		list<Ecoponto> temp = fillMax(eco, best_truck);
 		vector<Coord> ecoCoord = ecoToCoord(temp, initial);
-		vector<Coord> ecoCoord2 = gr->shortestTravelOrder(ecoCoord);
+		vector<Coord> route = gr->shortestTravelOrder(ecoCoord);
 		try{
-			parser.setGraphViewerPath(ecoCoord2, best);
+			parser.setGraphViewerPath(route, best_truck);
 		} catch(const char* msg){
 			cerr << msg << endl;
 			getchar();
 			exit(1);
 		}
-		//getchar();
 	}
 	getchar();
 	return 0;

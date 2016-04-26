@@ -191,7 +191,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	gv->rearrange();
 
 	cout << "Adding edges..." << endl;
-	int edgeID=0;
+	int id=0;
 	for(unsigned i=0; i<vertices.size(); i++)
 	{
 		vector<Edge<Coord> > edges = vertices[i]->getAdj();
@@ -199,9 +199,9 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 		{
 			int source = vertices[i]->getInfo().getID();
 			int destination = edges[j].getDest()->getInfo().getID();
-			edgesIDs[source][destination]=edgeID;
-			gv->addEdge(edgeID,source,destination,EdgeType::DIRECTED);
-			edgeID++;
+			edgeID[source][destination]=id;
+			gv->addEdge(id,source,destination,EdgeType::DIRECTED);
+			id++;
 		}
 	}
 	gv->rearrange();
@@ -215,7 +215,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 		{
 			int source = vertices[i]->getInfo().getID();
 			int destination = edges[j].getDest()->getInfo().getID();
-			gv->setEdgeLabel(edgesIDs[source][destination], roads[source][destination]);
+			gv->setEdgeLabel(edgeID[source][destination], roads[source][destination]);
 		}
 	}
 
@@ -236,7 +236,7 @@ int Parser::getNodeID(long long nr)
 /**
  * Retorna as coordenadas do node com id nr.
  */
-Coord Parser::getCoordFromIntID(int nr)
+Coord Parser::getCoordFromID(int nr)
 {
 	return coords[nr];
 }
@@ -257,11 +257,11 @@ void Parser::setGraphViewerPath(vector<Coord> path, Truck truck)
 	{
 		int source=path[i-1].getID();
 		int destination=path[i].getID();
-		int edgeID=edgesIDs[source][destination];
+		int id=edgeID[source][destination];
 		if(truck.getColor()=="black")
 			throw "Truck color cannot be the same as the GraphViewer standard color!";
-		gv->setEdgeColor(edgeID,truck.getColor());
-		gv->setEdgeThickness(edgeID,10);
+		gv->setEdgeColor(id,truck.getColor());
+		gv->setEdgeThickness(id,10);
 	}
 
 	gv->rearrange();

@@ -24,8 +24,8 @@ using namespace std;
 
 class Ecoponto {
 private:
-	unsigned int trash;
-	Coord location;
+	unsigned int trash;				// amount of trash in the ecoponto (0 to 100 kg)
+	Coord location;					// location of the ecoponto (id and coordinates)
 public:
 	Ecoponto();
 	Ecoponto(unsigned int trash, unsigned int id);
@@ -37,6 +37,9 @@ public:
 	Coord getLocation() const;
 	void setLocation(Coord location);
 
+	/*
+	 * Compares the contents of the ecopontos: if one ecoponto has more trash than the other then it is "bigger"
+	 */
 	bool operator<(const Ecoponto& other);
 
 };

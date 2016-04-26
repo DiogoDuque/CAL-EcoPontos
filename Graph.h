@@ -48,6 +48,8 @@ public:
 	int getIndegree() const;
 	vector<Edge<T>  > getAdj() const {return adj;};
 
+	void setVisited(bool v);
+
 	bool operator<(const Vertex<T> vertex);
 
 	Vertex* path;
@@ -106,6 +108,11 @@ void Vertex<T>::setInfo(T info) {
 template <class T>
 int Vertex<T>::getIndegree() const {
 	return this->indegree;
+}
+
+template <class T>
+void Vertex<T>::setVisited(bool v){
+	visited = v;
 }
 
 /* ================================================================================================
@@ -177,6 +184,7 @@ public:
 	vector<T> shortestTravelOrder(vector<T> & mustPass);
 	int weight(vector<T> & Path);
 	int weight(const T &sourc, const T &dest);
+	void resetVisited();
 };
 
 template <class T>
@@ -753,6 +761,14 @@ int Graph<T>::weight(const T &sourc, const T &dest){
 			return v->adj[i].weight;
 	}
 	return INT_INFINITY;
+}
+
+
+template<class T>
+void Graph<T>::resetVisited(){
+	for(unsigned int i = 0; i < vertexSet.size(); i++){
+		vertexSet[i]->setVisited(false);
+	}
 }
 
 #endif /* GRAPH_H_ */
