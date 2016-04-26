@@ -1,5 +1,6 @@
-A;1000;red
-B;1000;blue
-H;1000;pink
-K;1000;green
-C;2000;yellow
+A;120;red
+B;175;blue
+H;150;magenta
+K;300;green
+F;125;orange
+E;100;pink
