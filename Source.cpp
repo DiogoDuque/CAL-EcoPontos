@@ -48,7 +48,7 @@ int main()
 	} while (!validValues);
 	cout << endl;
 
-	//GraphToGraphViewer
+	// GraphToGraphViewer
 	try
 	{
 		parser.graphToGraphViewer(gr);
@@ -80,16 +80,17 @@ int main()
 		}
 	}
 
-	//verificar conectividade da Coord inicial aos ecopontos
-	vector<Coord> connected = gr->bfs(gr->getVertex(initial)); //connected tem todos os Coord a que podemos chegar a partir de inicial
-	gr->resetVisited();
-	for(list<Ecoponto>::iterator it = eco.begin(); it!=eco.end(); it++) //percorre ecopontos
+	// verify Graph connectivity from initial point (central) to the ecopontos
+	vector<Coord> connected = gr->bfs(gr->getVertex(initial));	// connected contains Coord of all the nodes that we can access from the initial point
+	gr->resetVisited();											// resets the visited member of every vertex (so that we can use other functions that use visited)
+
+	for(list<Ecoponto>::iterator it = eco.begin(); it!=eco.end(); it++) // for every ecoponto
 	{
-		for(unsigned int i=0; i<=connected.size(); i++) //percorrer vertices obtidos
+		for(unsigned int i=0; i<=connected.size(); i++) // for every node that we can access from initial
 		{
-			if(connected[i] == (*it).getLocation())
+			if(connected[i] == (*it).getLocation())		// verifies if ecoponto can be reached
 				break;
-			if(i==connected.size()){ //se nao tiver encontrado
+			if(i==connected.size()){ 					// if not found
 				cout << "Ecoponto cannot be reached!" << endl;
 				getchar();
 				exit(1);
@@ -97,19 +98,21 @@ int main()
 		}
 	}
 
+	// shows the most efficient route for all the trucks
 	while(eco.size() != 0 && trucks.size() != 0){
-		Truck best_truck = popBestTruck(trucks,totalTrash(eco));
-		list<Ecoponto> temp = fillMax(eco, best_truck);
-		vector<Coord> ecoCoord = ecoToCoord(temp, initial);
-		vector<Coord> route = gr->shortestTravelOrder(ecoCoord);
+		Truck best_truck = popBestTruck(trucks,totalTrash(eco));		// returns and pops best truck
+		list<Ecoponto> assignedEco = fillMax(eco, best_truck);			// ecopontos assigned to the truck
+		vector<Coord> ecoCoord = ecoToCoord(assignedEco, initial);		// location and id (Coord) of the central and ecopontos
+		vector<Coord> route = gr->shortestTravelOrder(ecoCoord);		// obtains the shortest route
 		try{
-			parser.setGraphViewerPath(route, best_truck);
-		} catch(const char* msg){
-			cerr << msg << endl;
+			parser.setGraphViewerPath(route, best_truck);				// shows the route on GraphViewer
+		} catch(const char* black_color){								// if the truck is black this catches an exception
+			cerr << black_color << endl;
 			getchar();
 			exit(1);
 		}
 	}
+
 	getchar();
 	return 0;
 }
