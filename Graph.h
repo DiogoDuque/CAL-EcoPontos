@@ -53,14 +53,12 @@ public:
 	Vertex* path;
 };
 
-
 template <class T>
 struct vertex_greater_than {
 	bool operator()(Vertex<T> * a, Vertex<T> * b) const {
 		return a->getDist() > b->getDist();
 	}
 };
-
 
 template <class T>
 bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
@@ -83,7 +81,6 @@ Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0
 	path = NULL;
 }
 
-
 template <class T>
 void Vertex<T>::addEdge(Vertex<T> *dest, double w) {
 	Edge<T> edgeD(dest,w);
@@ -101,7 +98,6 @@ int Vertex<T>::getDist() const {
 	return this->dist;
 }
 
-
 template <class T>
 void Vertex<T>::setInfo(T info) {
 	this->info = info;
@@ -111,9 +107,6 @@ template <class T>
 int Vertex<T>::getIndegree() const {
 	return this->indegree;
 }
-
-
-
 
 /* ================================================================================================
  * Class Edge
@@ -132,10 +125,6 @@ public:
 
 template <class T>
 Edge<T>::Edge(Vertex<T> *d, double w): dest(d), weight(w){}
-
-
-
-
 
 /* ================================================================================================
  * Class Graph
@@ -189,7 +178,6 @@ public:
 	int weight(vector<T> & Path);
 	int weight(const T &sourc, const T &dest);
 };
-
 
 template <class T>
 int Graph<T>::getNumVertex() const {
@@ -290,9 +278,6 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
 	return vS->removeEdgeTo(vD);
 }
 
-
-
-
 template <class T>
 vector<T> Graph<T>::dfs() const {
 	typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin();
@@ -378,7 +363,6 @@ int Graph<T>::maxNewChildren(Vertex<T> *v, T &inf) const {
 	}
 	return maxChildren;
 }
-
 
 template <class T>
 Vertex<T>* Graph<T>::getVertex(const T &v) const {
@@ -486,8 +470,6 @@ vector<T> Graph<T>::topologicalOrder() {
 	return res;
 }
 
-
-
 template<class T>
 vector<T> Graph<T>::getPath(const T &origin, const T &dest){
 
@@ -555,8 +537,6 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &origin, const T &dest){
 	return res;
 }
 
-
-
 template<class T>
 void Graph<T>::getfloydWarshallPathAux(int index1, int index2, vector<T> & res)
 {
@@ -569,7 +549,6 @@ void Graph<T>::getfloydWarshallPathAux(int index1, int index2, vector<T> & res)
 		getfloydWarshallPathAux(P[index1][index2],index2, res);
 	}
 }
-
 
 template<class T>
 void Graph<T>::unweightedShortestPath(const T &s) {
@@ -597,7 +576,6 @@ void Graph<T>::unweightedShortestPath(const T &s) {
 	}
 }
 
-
 template<class T>
 void Graph<T>::bellmanFordShortestPath(const T &s) {
 
@@ -623,10 +601,6 @@ void Graph<T>::bellmanFordShortestPath(const T &s) {
 		}
 	}
 }
-
-
-
-
 
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &s) {
@@ -688,35 +662,6 @@ int Graph<T>::edgeCost(int vOrigIndex, int vDestIndex)
 	return INT_INFINITY;
 }
 
-
-//void printSquareArray(int ** arr, unsigned int size)
-//{
-//	for(unsigned int k = 0; k < size; k++)
-//	{
-//		if(k == 0)
-//		{
-//			cout <<  "   ";
-//			for(unsigned int i = 0; i < size; i++)
-//				cout <<  " " << i+1 << " ";
-//			cout << endl;
-//		}
-//
-//		for(unsigned int i = 0; i < size; i++)
-//		{
-//			if(i == 0)
-//				cout <<  " " << k+1 << " ";
-//
-//			if(arr[k][i] == INT_INFINITY)
-//				cout << " - ";
-//			else
-//				cout <<  " " << arr[k][i] << " ";
-//		}
-//
-//		cout << endl;
-//	}
-//}
-
-
 template<class T>
 void Graph<T>::floydWarshallShortestPath() {
 
@@ -750,7 +695,6 @@ void Graph<T>::floydWarshallShortestPath() {
 				}
 			}
 }
-
 
 template<class T>
 vector<T> Graph<T>::shortestTravelOrder(vector<T> & mustPass){
@@ -786,7 +730,7 @@ vector<T> Graph<T>::shortestTravelOrder(vector<T> & mustPass){
 	}
 }
 
-//Peso a percorrer um vector, retorna INT_INFINITY se algum par de nodes seguidos nao se conectarem
+// Peso a percorrer um vector, retorna INT_INFINITY se algum par de nodes seguidos nao se conectarem
 template<class T>
 int Graph<T>::weight(vector<T> & Path){
 	int w = 0;
@@ -799,7 +743,8 @@ int Graph<T>::weight(vector<T> & Path){
 	}
 	return w;
 }
-//Peso entre dois nodes adjacentes
+
+// Peso entre dois nodes adjacentes
 template<class T>
 int Graph<T>::weight(const T &sourc, const T &dest){
 	Vertex<T> *v = getVertex(sourc);

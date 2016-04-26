@@ -9,7 +9,6 @@
 
 Ecoponto::Ecoponto() {
 	// TODO Auto-generated constructor stub
-
 }
 
 Ecoponto::Ecoponto(unsigned int trash, unsigned int id) {

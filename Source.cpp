@@ -30,10 +30,23 @@ int main()
 	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
 
 	unsigned int max_load;
+	bool validValues;
 
-	cout << endl << "Please insert maximum load of the recycling bins in kg (0 to 100): ";
-	cin >> max_load;
-	cin.ignore(1000, '\n');
+	do{
+		validValues = true;
+
+		cout << "Please insert maximum load of the recycling bins in kg (0 to 100): ";
+		cin >> max_load;
+		cin.ignore(1000, '\n');
+
+		if (max_load > 100 || cin.fail())
+		{
+			validValues = false;
+			cin.clear();											// clears state of error
+			cout << "Invalid input. Please try again.\n";
+		}
+	} while (!validValues);
+	cout << endl;
 
 	//GraphToGraphViewer
 	try
@@ -98,6 +111,5 @@ int main()
 		//getchar();
 	}
 	getchar();
-	cout << "buh" << endl;
 	return 0;
 }
