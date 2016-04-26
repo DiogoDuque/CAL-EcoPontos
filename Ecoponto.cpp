@@ -12,10 +12,10 @@ Ecoponto::Ecoponto() {
 
 }
 
-Ecoponto::Ecoponto(unsigned int trash, double id) {
+Ecoponto::Ecoponto(unsigned int trash, unsigned int id) {
 	this->trash = trash;
 	Parser temp;
-	this->location=temp.getCoordFromIntID(temp.getNodeID(id));
+	this->location=temp.getCoordFromIntID(id);
 }
 
 Ecoponto::~Ecoponto() {
@@ -42,19 +42,6 @@ bool Ecoponto::operator<(const Ecoponto& other){
 	return (this->trash < other.trash);
 }
 
-/*
- * Receives the list of ecopontos and a truck (should be selected by popBestTruck(trucks,[sum of trash in the ecopontos's list]))
- * Returns the best list of ecopontos that tries to fill the truck to the maximum.
- *
- * Example: (Ecoponto, amount )
- *
- * ecopontos (A, 10), (B, 30), (C,50) , (D, 70)
- * Truck -> capacity = 100
- *
- *	Returns (B,D)
- *
- *	IMPORTANT: pops the result so ecopontos becomes just A,C
- */
 list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck){
 	list<Ecoponto> res = {};
 	unsigned int currentCapacity = truck.getCapacity();
@@ -71,9 +58,6 @@ list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck){
 	return res;
 }
 
-/**
- * Le os ecopontos do ficheiro 'Ecopontos.txt' e retorna uma lista com os mesmos.
- */
 list<Ecoponto> getEcopontos()
 {
 	list<Ecoponto> ecopontos;
@@ -83,8 +67,7 @@ list<Ecoponto> getEcopontos()
 		throw "Could not open file 'Ecopontos.txt'!";
 	while(!file.eof())
 	{
-		int trash;
-		double id;
+		unsigned int id, trash;
 		string str[2];
 		getline(file,str[0],';');
 		if(file.eof())
@@ -108,9 +91,9 @@ int totalTrash(list<Ecoponto> ecopontos){
 	return res;
 }
 
-vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord first){
+vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord initial){
 	vector<Coord> res = {};
-	res.push_back(first);
+	res.push_back(initial);
 	for (list<Ecoponto>::iterator it = ecopontos.begin(); it != ecopontos.end(); ++it)
 			res.push_back(it->getLocation());
 	return res;

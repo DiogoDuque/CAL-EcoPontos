@@ -33,6 +33,7 @@ int main()
 
 	cout << endl << "Please insert maximum load of the recycling bins in kg (0 to 100): ";
 	cin >> max_load;
+	cin.ignore(1000, '\n');
 
 	//GraphToGraphViewer
 	try
@@ -66,6 +67,22 @@ int main()
 		}
 	}
 
+	//verificar conectividade da Coord inicial aos ecopontos
+	/*vector<Coord> connected = gr->bfs(gr->getVertex(initial)); //connected tem todos os Coord a que podemos chegar a partir de inicial
+	for(list<Ecoponto>::iterator it = eco.begin(); it!=eco.end(); it++) //percorre ecopontos
+	{
+		for(unsigned int i=0; i<=connected.size(); i++) //percorrer vertices obtidos
+		{
+			if(connected[i] == (*it).getLocation())
+				break;
+			if(i==connected.size()){ //se nao tiver encontrado
+				cout << "Ecoponto cannot be reached!" << endl;
+				getchar();
+				exit(1);
+			}
+		}
+	}
+	*/
 	while(eco.size() != 0 && trucks.size() != 0){
 		Truck best = popBestTruck(trucks,totalTrash(eco));
 		list<Ecoponto> temp = fillMax(eco, best);
@@ -80,7 +97,6 @@ int main()
 		}
 		//getchar();
 	}
-	cin.ignore(1000, '\n');
 	getchar();
 	cout << "buh" << endl;
 	return 0;

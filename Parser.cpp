@@ -41,12 +41,12 @@ Graph<Coord>* Parser::txtToGraph() {
 		throw "Could not open file 'Nodes.txt'!";
 	cout << "Reading 'Nodes.txt'" << endl;
 	while (!file.eof()) {
-		bool eofFound=false; //fica true se a ultima linha do ficheiro existir, mas nao tiver carateres
+		bool eofFound=false; // fica true se a ultima linha do ficheiro existir, mas nao tiver carateres
 		string str[5];
 		double coordX, coordY;
 		long long id;
 
-		//ler da stream
+		// ler da stream
 		for (int i = 0; i < 4; i++) {
 			getline(file, str[i], ';');
 			if (file.eof())
