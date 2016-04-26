@@ -11,12 +11,14 @@ using namespace std;
 int main()
 {
 	cout << "Starting EcoPontos..." << endl << endl;
-	//parse txtToGraph
+
+	// parse txtToGraph
 	Parser parser;
 	Graph<Coord>* gr;
+
 	try
 	{
-		gr = parser.txtToGraph();
+		gr = parser.txtToGraph();		// gr contains the graph with the info from the files
 	}
 	catch(const char* msg)
 	{
@@ -25,34 +27,49 @@ int main()
 		exit(1);
 	}
 
-	list<Truck> trucks = getTrucks();
-	list<Ecoponto> eco = getEcopontos();
-	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
+	list<Truck> trucks;
+	try{
+		trucks = getTrucks();
+	} catch(const char* msg){		// if the file 'Trucks.txt' could not be opened or the data on the file is wrong or incomplete
+		cerr << msg << endl;		// this block catches an exception and shows a message on the screen
+		getchar();
+		exit(1);
+	}
+
+	list<Ecoponto> eco;
+	try{
+		eco = getEcopontos();
+	} catch(const char* msg){		// if the file 'Ecopontos.txt' could not be opened or the data on the file is wrong or incomplete
+		cerr << msg << endl;		// this block catches an exception and shows a message on the screen
+		getchar();
+		exit(1);
+	}
+
+	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);		// initial point (central)
 
 	unsigned int min_load;
-	bool validValues;
+	bool validValue;		// checks if the character input is valid
 
 	do{
-		validValues = true;
+		validValue = true;
 
-		cout << "Please insert minimum load of the ecopontos bins in kg (0 to 100): ";
+		cout << "Please insert minimum load of the ecopontos in kg (0 to 100): ";
 		cin >> min_load;
 		cin.ignore(1000, '\n');
 
 		if (min_load > 100 || cin.fail())
 		{
-			validValues = false;
+			validValue = false;
 			cin.clear();											// clears state of error of the buffer
 			cout << "Invalid input. Please try again.\n";
 		}
-	} while (!validValues);
+	} while (!validValue);
 	cout << endl;
 
 	// GraphToGraphViewer
 	try
 	{
 		parser.graphToGraphViewer(gr);
-		parser.setGraphViewerEcopontos(eco);
 	}
 	catch(const char* msg)
 	{
@@ -61,10 +78,12 @@ int main()
 		exit(1);
 	}
 
+	parser.setGraphViewerEcopontos(eco);			// shows the ecopontos on GraphViewer
+
 	std::list<Ecoponto>::iterator i = eco.begin();
 	while (i != eco.end())
 	{
-		bool notEnough;
+		bool notEnough;						// true if ecoponto hasn't enough trash
 
 		if ((*i).getTrash() < min_load)
 			notEnough = true;
@@ -72,7 +91,7 @@ int main()
 
 		if (notEnough)
 		{
-			eco.erase(i++);
+			eco.erase(i++);					// erases ecoponto from list
 		}
 		else
 		{
@@ -81,6 +100,7 @@ int main()
 	}
 
 	// verify Graph connectivity from initial point (central) to the ecopontos
+
 	vector<Coord> connected = gr->bfs(gr->getVertex(initial));	// connected contains Coord of all the nodes that we can access from the initial point
 	gr->resetVisited();											// resets the visited member of every vertex (so that we can use other functions that use visited)
 
@@ -112,8 +132,8 @@ int main()
 		vector<Coord> route = gr->shortestTravelOrder(ecoCoord);		// obtains the shortest route
 		try{
 			parser.setGraphViewerPath(route, best_truck);				// shows the route on GraphViewer
-		} catch(const char* black_color){								// if the truck is black this catches an exception
-			cerr << black_color << endl;
+		} catch(const char* msg){										// if the truck is black this catches an exception
+			cerr << msg << endl;
 			getchar();
 			exit(1);
 		}

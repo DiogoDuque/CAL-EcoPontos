@@ -79,7 +79,7 @@ list<Ecoponto> getEcopontos()
 		ecopontos.push_back(Ecoponto(trash,id));
 	}
 	file.close();
-	ecopontos.sort();
+	ecopontos.sort();			// sort ecopontos by amount of trash
 	return ecopontos;
 }
 

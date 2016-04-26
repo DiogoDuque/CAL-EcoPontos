@@ -26,8 +26,19 @@ private:
 	unsigned int trash;				// amount of trash in the ecoponto (0 to 100 kg)
 	Coord location;					// location of the ecoponto (id and coordinates)
 public:
+	/**
+	 * Default constructor
+	 */
 	Ecoponto();
+
+	/**
+	 * Construtor
+	 */
 	Ecoponto(unsigned int trash, unsigned int id);
+
+	/**
+	 * Destructor
+	 */
 	virtual ~Ecoponto();
 
 	unsigned int getTrash() const;

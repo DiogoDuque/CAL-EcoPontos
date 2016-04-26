@@ -26,9 +26,17 @@ public:
 	double getLon() const {
 		return lon;
 	};
+
+	/**
+	 * Compares two locations: one Coord is equal to other if all its latitute and longitute are equal
+	 *
+	 * @param other - Coord object that will be compared with this object
+	 * @return true if the location is equal, false if otherwise
+	 */
 	bool operator==(const Coord c) {
 		return lat == c.getLat() && lon == c.getLon();
 	};
+
 	/**
 	 * This function calculates the weight of the edge that connects two nodes given its respective ids and locations.
 	 * The weight is calculated calculating the distance between the nodes

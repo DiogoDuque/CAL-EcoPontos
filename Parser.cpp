@@ -12,39 +12,30 @@ vector<Coord> Parser::bounds;
 unordered_map <long long,int> Parser::nodeID;
 unordered_map<int, Coord> Parser::coords;
 
-/**
- * Construtor
- */
 Parser::Parser() {
 	nextID=0;
 	gv=NULL;
 }
 
-/**
- * Destrutor
- */
 Parser::~Parser() {}
 
-/**
- * Le os ficheiros de texto 'Nodes.txt', 'Roads.txt' e 'Connections.txt',
- * e retorna o grafo feito a partir desses ficheiros.
- */
 Graph<Coord>* Parser::txtToGraph() {
 	cout << "Started parser <txt> <Graph>" << endl;
 	double xMin=1000, xMax=-1000, yMin=1000, yMax=-1000;
 	Graph<Coord>* gr = new Graph<Coord>;
 	fstream file, file2;
 
-	//Nodes.txt
+	// Nodes.txt
 	file.open("Nodes.txt");
 	if (!file.is_open())
 		throw "Could not open file 'Nodes.txt'!";
+
 	cout << "Reading 'Nodes.txt'" << endl;
 	while (!file.eof()) {
-		bool eofFound=false; // fica true se a ultima linha do ficheiro existir, mas nao tiver carateres
+		bool eofFound=false;		// true if last line of the file is empty
 		string str[5];
-		double coordX, coordY;
-		long long id;
+		double coordX, coordY;		// coordinates of the nodes
+		long long id;				// int would not be enough to store the numbers on the file since they are too big
 
 		// ler da stream
 		for (int i = 0; i < 4; i++) {
@@ -59,24 +50,25 @@ Graph<Coord>* Parser::txtToGraph() {
 				else throw "Reached end of file 'Nodes.txt' too soon! Is file complete?";
 			}
 		}
+
 		if(eofFound)
 			break;
 		getline(file, str[4]);
 
-		// extrair numeros das strings obtidas em "Nodes.txt"
+		// extract numbers from the strings obtained from 'Nodes.txt'
 		(stringstream) str[0] >> id;
 		(stringstream) str[1] >> coordX;
 		(stringstream) str[2] >> coordY;
 
-		// obter novo ID inteiro
+		// obtain new int ID (instead of long long)
 		nodeID[id]=getNextID();
 
-		// gravar no grafo
+		// add node to the graph
 		Coord coord(nextID-1,coordX, coordY);
 		coords[nextID-1] = coord;
 		gr->addVertex(coord);
 
-		// atualizar maxs/mins
+		// update maxs/mins
 		if(coordX>xMax)
 			xMax=coordX;
 		if(coordY>yMax)
@@ -89,7 +81,7 @@ Graph<Coord>* Parser::txtToGraph() {
 	file.close();
 	cout << "Finished reading 'Nodes.txt'" << endl;
 
-	//Roads.txt e Connections.txt
+	// Roads.txt and Connections.txt
 	file.open("Roads.txt");
 	if (!file.is_open())
 		throw "Could not open file 'Roads.txt'!";
@@ -98,7 +90,8 @@ Graph<Coord>* Parser::txtToGraph() {
 		throw "Could not open file 'Connections.txt'!";
 
 	cout << "Reading 'Roads.txt' and 'Connections.txt'" << endl;
-	int oldID = -1; //estas 2 vars sao para controlo da sincronizacao dos 2 ficheiros
+
+	int oldID = -1; // controls files' synchronization (checks if the files are being read correctly)
 	string twoway;
 	while (!file2.eof()) {
 		string str[3];
@@ -107,7 +100,7 @@ Graph<Coord>* Parser::txtToGraph() {
 		int id;
 		bool eofFound=false;
 
-		//ler as connections
+		// read connections
 		for (int i = 0; i < 3; i++)
 		{
 			getline(file2, str[i], ';');
@@ -128,7 +121,7 @@ Graph<Coord>* Parser::txtToGraph() {
 		(stringstream) str[2] >> node2;
 		getline(file2, str[0]);
 
-		if (id != oldID) //atualizar oneway e id caso seja necessario
+		if (id != oldID) // update oneway and id if necessary
 		{
 			oldID = id;
 			for (int i = 0; i < 2; i++)
@@ -140,13 +133,14 @@ Graph<Coord>* Parser::txtToGraph() {
 			getline(file, twoway);
 		}//ENDIF
 
-		//adicionar ao grafo
+		// add to graph
 		int weight = coords[nodeID[node1]].calcWeight(coords[nodeID[node2]]);
 		if (twoway == "True") {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
-			roads[nodeID[node1]][nodeID[node2]] = road[1];
+			roads[nodeID[node1]][nodeID[node2]] = road[1];				// name of the road
+
 			gr->addEdge(coords[nodeID[node2]], coords[nodeID[node1]], weight);
-			roads[nodeID[node2]][nodeID[node1]] = " ";
+			roads[nodeID[node2]][nodeID[node1]] = " ";					// same name doesn't show two times
 		} else {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
 			roads[nodeID[node1]][nodeID[node2]] = road[1];
@@ -161,15 +155,11 @@ Graph<Coord>* Parser::txtToGraph() {
 	return gr;
 }
 
-/**
- * Recebe um grafo e representa-o através do GraphViewer.
- */
 void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	cout << "Started parser <Graph> to <GraphViewer>" << endl;
 	Coord min = bounds[1];
 	Coord max = bounds[0];
 	double xMin=min.getLat(), yMin=min.getLon(), xMax=max.getLat(), yMax=max.getLon();
-
 
 	gv = new GraphViewer(2000,800,false);
 	gv->createWindow(2000, 800);
@@ -186,7 +176,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 					(vertices[i]->getInfo().getLat()-xMin)*10000/(xMax-xMin)-5000,
 					(vertices[i]->getInfo().getLon()-yMin)*10000/(yMax-yMin)-5000);
 		gv->addNode(temp.getID(),temp.getLat(),temp.getLon());
-		gv->setVertexSize(temp.getID(), 5);
+		//gv->setVertexSize(temp.getID(), 5);
 	}
 	gv->rearrange();
 
@@ -199,7 +189,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 		{
 			int source = vertices[i]->getInfo().getID();
 			int destination = edges[j].getDest()->getInfo().getID();
-			edgeID[source][destination]=id;
+			edgeID[source][destination]=id;							// assigns int id
 			gv->addEdge(id,source,destination,EdgeType::DIRECTED);
 			id++;
 		}
@@ -209,7 +199,7 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	for(unsigned i=0; i<vertices.size(); i++)
 	{
 		gv->setVertexSize(vertices[i]->getInfo().getID(), 1);
-		//gv->setVertexLabel(vertices[i]->getInfo().getID(), ".");
+
 		vector<Edge<Coord> > edges = vertices[i]->getAdj();
 		for(unsigned j=0; j<edges.size(); j++)
 		{
@@ -224,27 +214,16 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	cout << "Finished parser <Graph> to <GraphViewer>" << endl;
 }
 
-/**
- * Converte um double lido de um ficheiro para o int correspondente
- * usado no grafo.
- */
 int Parser::getNodeID(long long nr)
 {
 	return nodeID[nr];
 }
 
-/**
- * Retorna as coordenadas do node com id nr.
- */
 Coord Parser::getCoordFromID(int nr)
 {
 	return coords[nr];
 }
 
-/**
- * Recebe um vector de nodes (Coord), um truck, e edita o grafo para que o caminho tracado
- * por estes nodes apareca com a cor do Truck.
- */
 void Parser::setGraphViewerPath(vector<Coord> path, Truck truck)
 {
 	if(gv==NULL)
@@ -267,9 +246,6 @@ void Parser::setGraphViewerPath(vector<Coord> path, Truck truck)
 	gv->rearrange();
 }
 
-/**
- * Retorna um id e incrementa para uma proxima utilizacao.
- */
 int Parser::getNextID()
 {
 	int ret = nextID;
@@ -279,7 +255,16 @@ int Parser::getNextID()
 
 void Parser::setGraphViewerEcopontos(list<Ecoponto> ecopontos) {
 	for(list<Ecoponto>::const_iterator it=ecopontos.begin(); it != ecopontos.end(); ++it) {
+		string label = "ECOPONTO";
+		string id;
+		stringstream ss;
+
+		ss << (*it).getLocation().getID();
+		id = ss.str();
+
+		label = label + " " + id;		// shows id of the ecoponto
+
+		gv->setVertexLabel((*it).getLocation().getID(), label);
 		gv->setVertexColor((*it).getLocation().getID(), "red");
-		//gv->setVertexLabel((*it).getLocation().getID(), "ECOPONTO");
 	}
 }

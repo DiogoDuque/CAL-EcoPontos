@@ -9,7 +9,6 @@
 
 Truck::Truck() {
 	// TODO Auto-generated constructor stub
-
 }
 
 Truck::~Truck() {
@@ -96,6 +95,6 @@ list<Truck> getTrucks()
 		trucks.push_back(Truck(name,capacity,color));
 	}
 	file.close();
-	trucks.sort();
+	trucks.sort();				// sorts trucks by capacity
 	return trucks;
 }

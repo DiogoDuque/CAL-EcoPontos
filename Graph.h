@@ -89,7 +89,6 @@ void Vertex<T>::addEdge(Vertex<T> *dest, double w) {
 	adj.push_back(edgeD);
 }
 
-//--
 template <class T>
 T Vertex<T>::getInfo() const {
 	return this->info;

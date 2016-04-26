@@ -3,4 +3,4 @@ B;175;blue
 H;150;magenta
 K;300;green
 F;125;orange
-E;100;pink
+E;105;pink

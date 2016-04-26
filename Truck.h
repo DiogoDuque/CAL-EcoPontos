@@ -15,6 +15,12 @@
 
 using namespace std;
 
+/**
+ *
+ * This class stores an truck object that represents a truck.
+ * An truck object is characterized by its name, capacity and color.
+ *
+ */
 class Truck {
 private:
 	string name;
@@ -22,8 +28,19 @@ private:
 	string color;
 
 public:
+	/**
+	 * Default construtor
+	 */
 	Truck();
+
+	/**
+	 * Construtor
+	 */
 	Truck(string name, int capacity,string color);
+
+	/**
+	 * Destructor
+	 */
 	virtual ~Truck();
 
 	int getCapacity() const;
