@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "Graph.h"
 #include "jung/graphviewer.h"
 #include "Ecoponto.h"
@@ -19,18 +20,6 @@ int main()
 	try
 	{
 		gr = parser.txtToGraph();		// gr contains the graph with the info from the files
-	}
-	catch(const char* msg)
-	{
-		cerr << msg << endl;
-		getchar();
-		exit(1);
-	}
-
-	//----------------------GraphToGraphViewer----------------------
-	try
-	{
-		parser.graphToGraphViewer(gr);
 	}
 	catch(const char* msg)
 	{
@@ -78,6 +67,50 @@ int main()
 		exit(1);
 	}
 
+	//----------------------InitialPoint----------------------
+
+	string val;
+	bool valid = true;		// checks if the character input is valid
+
+	do{
+		valid = true;
+
+		cout << endl << "Do you want to change default initial point? (YES/NO) ";
+		cin >> val;
+		cin.ignore(1000, '\n');
+
+		for (size_t i = 0; i < val.length(); i++)
+			val[i] = toupper(val[i]);
+
+		if ((val != "YES" && val != "NO") || cin.fail())
+		{
+			valid = false;
+			cin.clear();											// clears state of error of the buffer
+			cout << "Invalid input. Please try again." << endl;
+		}
+	} while (!valid);
+
+	valid = true;
+
+	int id = 1011;
+
+	if (val == "YES"){
+		do{
+			valid = true;
+
+			cout << "Insert initial point: ";
+			cin >> id;
+			cin.ignore(1000, '\n');
+
+			if (id < 0 || cin.fail())
+			{
+				valid = false;
+				cin.clear();										// clears state of error of the buffer
+				cout << "Invalid input. Please try again." << endl;
+			}
+		} while (!valid);
+	}
+
 	//----------------------EcopontosLoad----------------------
 	int min_load;
 	bool validValue = true;		// checks if the character input is valid
@@ -96,6 +129,18 @@ int main()
 			cout << "Invalid input. Please try again." << endl;
 		}
 	} while (!validValue);
+
+	//----------------------GraphToGraphViewer----------------------
+		try
+		{
+			parser.graphToGraphViewer(gr);
+		}
+		catch(const char* msg)
+		{
+			cerr << msg << endl;
+			getchar();
+			exit(1);
+		}
 
 	//----------------------UpdateGraphViewer----------------------
 	parser.setGraphViewerEcopontos(eco);			// shows the ecopontos on GraphViewer
@@ -128,7 +173,7 @@ int main()
 	}
 
 	// initial point (central)
-	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
+	Coord initial = parser.getCoordFromID(id);
 
 	//----------------------CheckGraphConnectivity----------------------
 	vector<Coord> connected = gr->bfs(gr->getVertex(initial));	// connected contains Coord of all the nodes that we can access from the initial point
