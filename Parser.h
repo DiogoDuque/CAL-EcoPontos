@@ -59,7 +59,7 @@ public:
 	 *
 	 * @param nr - long long id
 	 */
-	int getNodeID(long long nr);
+	int getNodeID(long long nr) const;
 
 	/**
 	 * Gets the location of the node with the id given as a parameter
@@ -67,7 +67,7 @@ public:
 	 * @param nr - id of the node
 	 * @return location of the node with id equal to nr
 	 */
-	Coord getCoordFromID(int nr);
+	Coord getCoordFromID(int nr) const;
 
 	/**
 	 * Changes GraphViewer so that the route of the truck is shown on GraphViewer with the color of truck

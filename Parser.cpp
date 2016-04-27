@@ -214,12 +214,12 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 	cout << "Finished parser <Graph> to <GraphViewer>" << endl;
 }
 
-int Parser::getNodeID(long long nr)
+int Parser::getNodeID(long long nr) const
 {
 	return nodeID[nr];
 }
 
-Coord Parser::getCoordFromID(int nr)
+Coord Parser::getCoordFromID(int nr) const
 {
 	return coords[nr];
 }
