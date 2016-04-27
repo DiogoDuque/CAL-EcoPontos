@@ -78,17 +78,14 @@ int main()
 		exit(1);
 	}
 
-	// initial point (central)
-	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
-
 	//----------------------EcopontosLoad----------------------
 	int min_load;
-	bool validValue;		// checks if the character input is valid
+	bool validValue = true;		// checks if the character input is valid
 
 	do{
 		validValue = true;
 
-		cout << "Please insert minimum load of the ecopontos in kg (0 to 100):" << endl;
+		cout << endl << "Please insert minimum load of the ecopontos in kg (0 to 100): ";
 		cin >> min_load;
 		cin.ignore(1000, '\n');
 
@@ -130,6 +127,9 @@ int main()
 						parser.getCoordFromID(roads[i].dest));
 	}
 
+	// initial point (central)
+	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
+
 	//----------------------CheckGraphConnectivity----------------------
 	vector<Coord> connected = gr->bfs(gr->getVertex(initial));	// connected contains Coord of all the nodes that we can access from the initial point
 	gr->resetVisited();											// resets the visited member of every vertex (so that we can use other functions that use visited)
@@ -140,8 +140,9 @@ int main()
 	{
 		for(unsigned int i=0; i<=connected.size(); i++) // for every node that we can access from initial
 		{
-			if(connected[i] == (*it).getLocation())		// verifies if ecoponto can be reached
+			if(connected[i] == (*it).getLocation()){		// verifies if ecoponto can be reached
 				break;
+			}
 			if(i==connected.size()){ 					// if not found
 				stringstream ss;
 				string id;
@@ -157,22 +158,22 @@ int main()
 
 		for(list<Ecoponto>::iterator ita = eco.begin(); ita!=eco.end(); ita++){
 			if (it != ita){
-				vector<Coord> connected = gr->bfs(gr->getVertex((*it).getLocation()));
+				vector<Coord> connected2 = gr->bfs(gr->getVertex((*it).getLocation()));
 				gr->resetVisited();
 
-				for(unsigned int i=0; i<=connected.size(); i++) // for every node that we can access from the current ecoponto
+				for(unsigned int i=0; i<=connected2.size(); i++) // for every node that we can access from the current ecoponto
 				{
-					if(connected[i] == (*ita).getLocation())	// verifies if ecoponto can be reached
+					if(connected2[i] == (*ita).getLocation())	// verifies if ecoponto can be reached
 						break;
-					if(i==connected.size()){ 					// if not found
-						stringstream ss;
+					if(i==connected2.size()){ 					// if not found
+						stringstream ss1, ss2;
 						string id_s, id_d;
 
-						ss << (*it).getLocation().getID();
-						id_s = ss.str();
+						ss1 << (*it).getLocation().getID();
+						id_s = ss1.str();
 
-						ss << (*ita).getLocation().getID();
-						id_d = ss.str();
+						ss2 << (*ita).getLocation().getID();
+						id_d = ss2.str();
 
 						cout << "Connectity error: Ecoponto " + id_d + " cannot be reached from " + id_s + "!" << endl;
 						getchar();
