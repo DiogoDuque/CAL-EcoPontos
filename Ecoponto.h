@@ -10,7 +10,6 @@
 
 #include <list>
 #include "Utilities.h"
-#include "Truck.h"
 #include "Parser.h"
 
 using namespace std;
