@@ -2,9 +2,10 @@
 #define UTILITIES_H_
 
 #include <cmath>
+#include "Truck.h"
 
 /**
- *
+ * Represents a few attributes of a road.
  */
 struct Road {
 	int source;
@@ -13,8 +14,8 @@ struct Road {
 
 /**
  *
- * This class stores an Coord object that represents the location of an object.
- * An Coord object is characterized by its location and the id of the object in this location.
+ * This class stores a Coord object that represents the location of an object.
+ * A Coord object is characterized by its location and the id of the object in this location.
  *
  */
 class Coord {
@@ -29,12 +30,21 @@ public:
 		lat = latitude;
 		lon = longitude;
 	};
+	/**
+	 * @return Coord's id.
+	 */
 	int getID() const {
 		return id;
 	};
+	/**
+	 * @return Coord's latitude.
+	 */
 	double getLat() const {
 		return lat;
 	};
+	/**
+	 * @return Coord's longitude.
+	 */
 	double getLon() const {
 		return lon;
 	};

@@ -12,7 +12,7 @@ int main()
 {
 	cout << "Starting EcoPontos..." << endl << endl;
 
-	// parse txtToGraph
+	//----------------------txtToGraph----------------------
 	Parser parser;
 	Graph<Coord>* gr;
 
@@ -27,55 +27,7 @@ int main()
 		exit(1);
 	}
 
-	list<Truck> trucks;
-	try{
-		trucks = getTrucks();
-	} catch(const char* msg){		// if the file 'Trucks.txt' could not be opened or the data on the file is wrong or incomplete
-		cerr << msg << endl;		// this block catches an exception and shows a message on the screen
-		getchar();
-		exit(1);
-	}
-
-	list<Ecoponto> eco;
-	try{
-		eco = getEcopontos();
-	} catch(const char* msg){		// if the file 'Ecopontos.txt' could not be opened or the data on the file is wrong or incomplete
-		cerr << msg << endl;		// this block catches an exception and shows a message on the screen
-		getchar();
-		exit(1);
-	}
-
-	vector<Road> roads;
-	try{
-		roads = getBlockedRoads();
-	} catch(const char* msg){
-		cerr << msg << endl;		// if the file 'BlockedRoads.txt' could not be opened or the data on the file is wrong or incomplete
-		getchar();					// this block catches an exception and shows a message on the screen
-		exit(1);
-	}
-
-	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);		// initial point (central)
-
-	int min_load;
-	bool validValue;		// checks if the character input is valid
-
-	do{
-		validValue = true;
-
-		cout << "Please insert minimum load of the ecopontos in kg (0 to 100): ";
-		cin >> min_load;
-		cin.ignore(1000, '\n');
-
-		if (min_load > 100 || min_load < 0 || cin.fail())
-		{
-			validValue = false;
-			cin.clear();											// clears state of error of the buffer
-			cout << "Invalid input. Please try again.\n";
-		}
-	} while (!validValue);
-	cout << endl;
-
-	// GraphToGraphViewer
+	//----------------------GraphToGraphViewer----------------------
 	try
 	{
 		parser.graphToGraphViewer(gr);
@@ -87,10 +39,73 @@ int main()
 		exit(1);
 	}
 
+	//----------------------GetTrucks----------------------
+	list<Truck> trucks;
+	try
+	{
+		trucks = getTrucks();
+	}
+	catch(const char* msg) 		// if the file 'Trucks.txt' could not be opened or the data
+	{							// on the file is wrong or incomplete this block catches
+		cerr << msg << endl;	// an exception and shows a message on the screen
+		getchar();
+		exit(1);
+	}
+
+	//----------------------GetEcopontos----------------------
+	list<Ecoponto> eco;
+	try
+	{
+		eco = getEcopontos();
+	}
+	catch(const char* msg) 	// if the file 'Ecopontos.txt' could not be opened or the data
+	{						// on the file is wrong or incomplete this block catches
+		cerr << msg << endl;// an exception and shows a message on the screen
+		getchar();
+		exit(1);
+	}
+
+	//----------------------getBlockedRoads----------------------
+	vector<Road> roads;
+	try
+	{
+		roads = getBlockedRoads();
+	}
+	catch(const char* msg)	// if the file 'BlockedRoads.txt' could not be opened or the
+	{						// data on the file is wrong or incomplete this block catches
+		cerr << msg << endl;// an exception and shows a message on the screen
+		getchar();
+		exit(1);
+	}
+
+	// initial point (central)
+	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);
+
+	//----------------------EcopontosLoad----------------------
+	int min_load;
+	bool validValue;		// checks if the character input is valid
+
+	do{
+		validValue = true;
+
+		cout << "Please insert minimum load of the ecopontos in kg (0 to 100):" << endl;
+		cin >> min_load;
+		cin.ignore(1000, '\n');
+
+		if (min_load > 100 || min_load < 0 || cin.fail())
+		{
+			validValue = false;
+			cin.clear();											// clears state of error of the buffer
+			cout << "Invalid input. Please try again." << endl;
+		}
+	} while (!validValue);
+
+	//----------------------UpdateGraphViewer----------------------
 	parser.setGraphViewerEcopontos(eco);			// shows the ecopontos on GraphViewer
 	parser.setGraphViewerBlockedRoads(roads);		// shows the blocked roads on GraphViewer
 
-	std::list<Ecoponto>::iterator i = eco.begin();
+	//----------------------CheckEcopontosToUnload----------------------
+	list<Ecoponto>::iterator i = eco.begin();
 	while (i != eco.end())
 	{
 		bool notEnough;						// true if ecoponto hasn't enough trash
@@ -109,13 +124,13 @@ int main()
 		}
 	}
 
-	// removes blocked roads from the graph
+	//----------------------RemoveBlockedRoadsFromGraph----------------------
 	for(unsigned int i = 0; i < roads.size(); i++){
-		gr->removeEdge(parser.getCoordFromID(roads[i].source), parser.getCoordFromID(roads[i].dest));
+		gr->removeEdge(parser.getCoordFromID(roads[i].source),
+						parser.getCoordFromID(roads[i].dest));
 	}
 
-	// verify Graph connectivity from initial point (central) to the ecopontos
-
+	//----------------------CheckGraphConnectivity----------------------
 	vector<Coord> connected = gr->bfs(gr->getVertex(initial));	// connected contains Coord of all the nodes that we can access from the initial point
 	gr->resetVisited();											// resets the visited member of every vertex (so that we can use other functions that use visited)
 
@@ -168,11 +183,10 @@ int main()
 			}
 		}
 	}
-
 	cout << "Finished connectivity test." << endl;
 
+	//----------------------ChooseTrucksRoutes----------------------
 	cout << "\nAdding truck routes..." << endl;
-
 	// shows the most efficient route for all the trucks
 	while(eco.size() != 0 && trucks.size() != 0){
 		Truck best_truck = popBestTruck(trucks,totalTrash(eco));		// returns and pops best truck
@@ -190,7 +204,6 @@ int main()
 	}
 
 	cout << "Finished!" << endl;
-
 	getchar();
 	return 0;
 }
