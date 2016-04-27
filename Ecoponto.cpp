@@ -8,7 +8,7 @@
 #include "Ecoponto.h"
 
 Ecoponto::Ecoponto() {
-	// TODO Auto-generated constructor stub
+	trash = 0;
 }
 
 Ecoponto::Ecoponto(int trash,  int id) {

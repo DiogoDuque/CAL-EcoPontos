@@ -7,8 +7,6 @@
 
 #include "Parser.h"
 
-int Parser::nextID;
-vector<Coord> Parser::bounds;
 unordered_map <long long,int> Parser::nodeID;
 unordered_map<int, Coord> Parser::coords;
 
@@ -272,4 +270,48 @@ void Parser::setGraphViewerEcoLabel(list<Ecoponto> ecopontos, string color) {
 
 		gv->setVertexLabel((*it).getLocation().getID(), label);
 	}
+}
+
+void Parser::setGraphViewerBlockedRoads(vector<Road> blockedRoads){
+	for(unsigned int i = 0; i < blockedRoads.size(); i++){
+		int source=blockedRoads[i].source;
+		int destination=blockedRoads[i].dest;
+		int id=edgeID[source][destination];
+
+		gv->setEdgeLabel(id, "BLOCKED ROAD");
+		gv->setEdgeThickness(id, 15);
+	}
+}
+
+vector<Road> getBlockedRoads(){
+	vector<Road> blockedRoads;
+	fstream file;
+	file.open("BlockedRoads.txt");
+	if(!file.is_open())
+		throw "Could not open file 'BlockedRoads.txt'!";
+
+	while(!file.eof())
+	{
+		int id_source, id_dest;
+		string str[2];
+		getline(file,str[0],';');
+		if(file.eof())
+		{
+			vector<Road> tmp;
+			cout << "Warning: file 'BlockedRoads.txt' is empty or incomplete" << endl;
+			return tmp;
+		}
+		getline(file,str[1]);
+		(stringstream) str[0] >> id_source;
+		(stringstream) str[1] >> id_dest;
+
+		Road road;
+		road.source = id_source;
+		road.dest = id_dest;
+
+		blockedRoads.push_back(road);
+	}
+	file.close();
+
+	return blockedRoads;
 }

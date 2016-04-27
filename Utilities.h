@@ -5,13 +5,25 @@
 
 /**
  *
+ */
+struct Road {
+	int source;
+	int dest;
+};
+
+/**
+ *
  * This class stores an Coord object that represents the location of an object.
  * An Coord object is characterized by its location and the id of the object in this location.
  *
  */
 class Coord {
 public:
-	Coord() {};
+	Coord() {
+		id = 0;
+		lat = 0;
+		lon = 0;
+	};
 	Coord(int ID, double latitude, double longitude) {
 		id = ID;
 		lat = latitude;

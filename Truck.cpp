@@ -8,7 +8,7 @@
 #include "Truck.h"
 
 Truck::Truck() {
-	// TODO Auto-generated constructor stub
+	capacity = 0;
 }
 
 Truck::~Truck() {

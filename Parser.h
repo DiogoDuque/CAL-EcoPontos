@@ -83,6 +83,7 @@ public:
 	 * @param ecopontos - list of all ecopontos
 	 */
 	void setGraphViewerEcopontos(list<Ecoponto> ecopontos);
+
 	/**
 	 * Changes the label of all the ecopontos on the list on GraphViewer.
 	 * This is necessary because sometimes different trucks may pass on the same ecoponto (but ONLY one truck collects its trash)
@@ -91,6 +92,13 @@ public:
 	 * @param color - color of the truck that will collect the trash
 	 */
 	void setGraphViewerEcoLabel(list<Ecoponto> ecopontos, string color);
+
+	/**
+	 * Shows the blocked roads on GraphViewer
+	 *
+	 * @param blockedRoads - vector of the blocked roads
+	 */
+	void setGraphViewerBlockedRoads(vector<Road> blockedRoads);
 private:
 	/**
 	 * Returns current nextID and increments it
@@ -98,13 +106,19 @@ private:
 	 */
 	int getNextID(); 										// private because is only used inside the class
 
-	static int nextID;										// int node id
-	static vector<Coord> bounds;							// stores the coordinates corresponding to minimum and the maximum of the map
+	int nextID;												// int node id
+	vector<Coord> bounds;									// stores the coordinates corresponding to minimum and the maximum of the map
 	static unordered_map <long long,int> nodeID;			// nodeID[id] gives the int node id corresponding to the long long id
 	static unordered_map<int, Coord> coords;				// coords[id] gives the location of the node corresponding to id
 	unordered_map<int,unordered_map<int,int>> edgeID; 		// edgeID[id_source][id_destination] gives the id of the edge (which is an int)
 	unordered_map<int,unordered_map<int,string>> roads;		// roads[id_source][id_destination] gives the name of the road
 	GraphViewer* gv;										// shows the map
 };
+/**
+ * Reads the file 'BlockedRoads.txt' and returns a vector with the blocked roads on the file
+ *
+ * @return vector with the blocked roads
+ */
+vector<Road> getBlockedRoads();
 
 #endif /* PARSER_H_ */

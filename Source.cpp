@@ -45,9 +45,18 @@ int main()
 		exit(1);
 	}
 
+	vector<Road> roads;
+	try{
+		roads = getBlockedRoads();
+	} catch(const char* msg){
+		cerr << msg << endl;		// if the file 'BlockedRoads.txt' could not be opened or the data on the file is wrong or incomplete
+		getchar();					// this block catches an exception and shows a message on the screen
+		exit(1);
+	}
+
 	Coord initial = Coord(parser.getNodeID(137896696),41.14596,-8.597403);		// initial point (central)
 
-	unsigned int min_load;
+	int min_load;
 	bool validValue;		// checks if the character input is valid
 
 	do{
@@ -57,7 +66,7 @@ int main()
 		cin >> min_load;
 		cin.ignore(1000, '\n');
 
-		if (min_load > 100 || cin.fail())
+		if (min_load > 100 || min_load < 0 || cin.fail())
 		{
 			validValue = false;
 			cin.clear();											// clears state of error of the buffer
@@ -79,6 +88,7 @@ int main()
 	}
 
 	parser.setGraphViewerEcopontos(eco);			// shows the ecopontos on GraphViewer
+	parser.setGraphViewerBlockedRoads(roads);		// shows the blocked roads on GraphViewer
 
 	std::list<Ecoponto>::iterator i = eco.begin();
 	while (i != eco.end())
@@ -99,6 +109,11 @@ int main()
 		}
 	}
 
+	// removes blocked roads from the graph
+	for(unsigned int i = 0; i < roads.size(); i++){
+		gr->removeEdge(parser.getCoordFromID(roads[i].source), parser.getCoordFromID(roads[i].dest));
+	}
+
 	// verify Graph connectivity from initial point (central) to the ecopontos
 
 	vector<Coord> connected = gr->bfs(gr->getVertex(initial));	// connected contains Coord of all the nodes that we can access from the initial point
@@ -113,9 +128,43 @@ int main()
 			if(connected[i] == (*it).getLocation())		// verifies if ecoponto can be reached
 				break;
 			if(i==connected.size()){ 					// if not found
-				cout << "Connectity error: Ecoponto cannot be reached!" << endl;
+				stringstream ss;
+				string id;
+
+				ss << (*it).getLocation().getID();
+				id = ss.str();
+
+				cout << "Connectity error: Ecoponto " + id + " cannot be reached!" << endl;
 				getchar();
 				exit(1);
+			}
+		}
+
+		for(list<Ecoponto>::iterator ita = eco.begin(); ita!=eco.end(); ita++){
+			if (it != ita){
+				vector<Coord> connected = gr->bfs(gr->getVertex((*it).getLocation()));
+				gr->resetVisited();
+
+				for(unsigned int i=0; i<=connected.size(); i++) // for every node that we can access from the current ecoponto
+				{
+					if(connected[i] == (*ita).getLocation())	// verifies if ecoponto can be reached
+						break;
+					if(i==connected.size()){ 					// if not found
+						stringstream ss;
+						string id_s, id_d;
+
+						ss << (*it).getLocation().getID();
+						id_s = ss.str();
+
+						ss << (*ita).getLocation().getID();
+						id_d = ss.str();
+
+						cout << "Connectity error: Ecoponto " + id_d + " cannot be reached from " + id_s + "!" << endl;
+						getchar();
+						exit(1);
+					}
+				}
+
 			}
 		}
 	}
