@@ -255,16 +255,21 @@ int Parser::getNextID()
 
 void Parser::setGraphViewerEcopontos(list<Ecoponto> ecopontos) {
 	for(list<Ecoponto>::const_iterator it=ecopontos.begin(); it != ecopontos.end(); ++it) {
-		string label = "ECOPONTO";
+		gv->setVertexColor((*it).getLocation().getID(), "red");
+	}
+}
+
+void Parser::setGraphViewerEcoLabel(list<Ecoponto> ecopontos, string color) {
+	for(list<Ecoponto>::const_iterator it=ecopontos.begin(); it != ecopontos.end(); ++it) {
+		string label;
 		string id;
 		stringstream ss;
 
 		ss << (*it).getLocation().getID();
 		id = ss.str();
 
-		label = label + " " + id;		// shows id of the ecoponto
+		label = id + " " + color;		// shows id of the ecoponto and the color of the truck that colected its trash
 
 		gv->setVertexLabel((*it).getLocation().getID(), label);
-		gv->setVertexColor((*it).getLocation().getID(), "red");
 	}
 }

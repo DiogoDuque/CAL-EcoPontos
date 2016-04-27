@@ -36,7 +36,7 @@ public:
 	/**
 	 * Construtor
 	 */
-	Truck(string name, int capacity,string color);
+	Truck(string name, int capacity, string color);
 
 	/**
 	 * Destructor

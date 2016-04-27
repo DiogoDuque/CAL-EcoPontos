@@ -80,7 +80,7 @@ list<Truck> getTrucks()
 		string name, color;
 		int capacity;
 		string str[3];
-		for(unsigned i=0; i<2; i++)
+		for(unsigned int i=0; i<2; i++)
 		{
 			getline(file,str[i],';');
 			if(file.eof())
@@ -92,6 +92,10 @@ list<Truck> getTrucks()
 		(stringstream) str[0] >> name;
 		(stringstream) str[1] >> capacity;
 		(stringstream) str[2] >> color;
+
+		if (capacity < 100)
+			throw "Not enough capacity! The capacity must be above 100!";
+
 		trucks.push_back(Truck(name,capacity,color));
 	}
 	file.close();

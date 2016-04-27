@@ -34,15 +34,15 @@ public:
 	/**
 	 * Construtor
 	 */
-	Ecoponto(unsigned int trash, unsigned int id);
+	Ecoponto(int trash, int id);
 
 	/**
 	 * Destructor
 	 */
 	virtual ~Ecoponto();
 
-	unsigned int getTrash() const;
-	void setTrash(unsigned int trash);
+	int getTrash() const;
+	void setTrash(int trash);
 
 	Coord getLocation() const;
 	void setLocation(Coord location);

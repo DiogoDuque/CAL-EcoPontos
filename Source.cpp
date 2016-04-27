@@ -113,7 +113,7 @@ int main()
 			if(connected[i] == (*it).getLocation())		// verifies if ecoponto can be reached
 				break;
 			if(i==connected.size()){ 					// if not found
-				cout << "Ecoponto cannot be reached!" << endl;
+				cout << "Connectity error: Ecoponto cannot be reached!" << endl;
 				getchar();
 				exit(1);
 			}
@@ -128,6 +128,7 @@ int main()
 	while(eco.size() != 0 && trucks.size() != 0){
 		Truck best_truck = popBestTruck(trucks,totalTrash(eco));		// returns and pops best truck
 		list<Ecoponto> assignedEco = fillMax(eco, best_truck);			// ecopontos assigned to the truck
+		parser.setGraphViewerEcoLabel(assignedEco, best_truck.getColor());
 		vector<Coord> ecoCoord = ecoToCoord(assignedEco, initial);		// location and id (Coord) of the central and ecopontos
 		vector<Coord> route = gr->shortestTravelOrder(ecoCoord);		// obtains the shortest route
 		try{

@@ -83,6 +83,14 @@ public:
 	 * @param ecopontos - list of all ecopontos
 	 */
 	void setGraphViewerEcopontos(list<Ecoponto> ecopontos);
+	/**
+	 * Changes the label of all the ecopontos on the list on GraphViewer.
+	 * This is necessary because sometimes different trucks may pass on the same ecoponto (but ONLY one truck collects its trash)
+	 *
+	 * @param ecopontos - list of ecopontos that will have their trash collected by the same truck
+	 * @param color - color of the truck that will collect the trash
+	 */
+	void setGraphViewerEcoLabel(list<Ecoponto> ecopontos, string color);
 private:
 	/**
 	 * Returns current nextID and increments it

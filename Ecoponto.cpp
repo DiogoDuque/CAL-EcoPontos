@@ -11,7 +11,7 @@ Ecoponto::Ecoponto() {
 	// TODO Auto-generated constructor stub
 }
 
-Ecoponto::Ecoponto(unsigned int trash, unsigned int id) {
+Ecoponto::Ecoponto(int trash,  int id) {
 	this->trash = trash;
 	Parser temp;
 	this->location=temp.getCoordFromID(id);
@@ -21,11 +21,11 @@ Ecoponto::~Ecoponto() {
 	// TODO Auto-generated destructor stub
 }
 
-unsigned int Ecoponto::getTrash() const {
+int Ecoponto::getTrash() const {
 	return trash;
 }
 
-void Ecoponto::setTrash(unsigned int trash) {
+void Ecoponto::setTrash(int trash) {
 	this->trash = trash;
 }
 
@@ -43,7 +43,7 @@ bool Ecoponto::operator<(const Ecoponto& other){
 
 list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck){
 	list<Ecoponto> res = {};
-	unsigned int currentCapacity = truck.getCapacity();
+	 int currentCapacity = truck.getCapacity();
 	for (list<Ecoponto>::reverse_iterator it = ecopontos.rbegin(); it != ecopontos.rend() && currentCapacity > 0;){
 		if((*it).getTrash() <= currentCapacity){
 			currentCapacity -= (*it).getTrash();
@@ -66,7 +66,7 @@ list<Ecoponto> getEcopontos()
 		throw "Could not open file 'Ecopontos.txt'!";
 	while(!file.eof())
 	{
-		unsigned int id, trash;
+		int id, trash;
 		string str[2];
 		getline(file,str[0],';');
 		if(file.eof())
@@ -76,6 +76,10 @@ list<Ecoponto> getEcopontos()
 		getline(file,str[1]);
 		(stringstream) str[0] >> id;
 		(stringstream) str[1] >> trash;
+
+		if (trash > 100 || trash < 0)
+			throw "Invalid amount of trash! The ecoponto must have 0 to 100 kg of trash...";
+
 		ecopontos.push_back(Ecoponto(trash,id));
 	}
 	file.close();
