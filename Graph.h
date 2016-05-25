@@ -150,6 +150,8 @@ class Graph {
 	//exercicio 6
 	int ** W;   //weight
 	int ** P;   //path
+	
+	void dfsEuler(Vertex<T> *v, vector<T> &res) const;
 
 public:
 	bool addVertex(const T &in);
@@ -184,6 +186,8 @@ public:
 	int weight(vector<T> & Path);
 	int weight(const T &sourc, const T &dest);
 	void resetVisited();
+	
+	vector<T> eulerCircuit(Vertex<T> initial, vector<Vertex<T>> mustPass) const;
 };
 
 template <class T>
@@ -284,6 +288,7 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
 
 	return vS->removeEdgeTo(vD);
 }
+
 
 template <class T>
 vector<T> Graph<T>::dfs() const {
@@ -768,6 +773,34 @@ void Graph<T>::resetVisited(){
 	for(unsigned int i = 0; i < vertexSet.size(); i++){
 		vertexSet[i]->setVisited(false);
 	}
+}
+
+//TODO para ja, isto esta quase igual ao dfs. tera de ser alterado para fazer um circuito atraves de dfs
+template <class T>
+vector<T> Graph<T>::eulerCircuit(Vertex<T> initial, vector<Vertex<T>> mustPass) const {
+	typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin();
+	typename vector<Vertex<T>*>::const_iterator ite= vertexSet.end();
+	for (; it !=ite; it++)
+		(*it)->visited=false;
+	vector<T> res;
+	it=vertexSet.begin();
+	for (; it !=ite; it++)
+		if ( (*it)->visited==false )
+			dfsEuler(*it,res);
+	return res;
+}
+
+template <class T>
+void Graph<T>::dfsEuler(Vertex<T> *v,vector<T> &res) const {
+	v->visited = true;
+	res.push_back(v->info);
+	typename vector<Edge<T> >::iterator it= (v->adj).begin();
+	typename vector<Edge<T> >::iterator ite= (v->adj).end();
+	for (; it !=ite; it++)
+		if ( it->dest->visited == false ){
+			//cout << "ok ";
+			dfsEuler(it->dest, res);
+		}
 }
 
 #endif /* GRAPH_H_ */
