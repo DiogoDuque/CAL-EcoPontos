@@ -150,8 +150,6 @@ class Graph {
 	//exercicio 6
 	int ** W;   //weight
 	int ** P;   //path
-	
-	void dfsEuler(Vertex<T> *v, vector<T> &res) const;
 
 public:
 	bool addVertex(const T &in);
@@ -187,7 +185,8 @@ public:
 	int weight(const T &sourc, const T &dest);
 	void resetVisited();
 	
-	vector<T> eulerCircuit(Vertex<T> initial, vector<Vertex<T>> mustPass) const;
+	vector<T> hamiltonCircuit(Vertex<T> initial, Graph<T> simplifiedGraph) const;
+	void backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) const;
 };
 
 template <class T>
@@ -288,7 +287,6 @@ bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
 
 	return vS->removeEdgeTo(vD);
 }
-
 
 template <class T>
 vector<T> Graph<T>::dfs() const {
@@ -397,7 +395,6 @@ void Graph<T>::resetIndegrees() {
 	}
 }
 
-
 template<class T>
 vector<Vertex<T>*> Graph<T>::getSources() const {
 	vector< Vertex<T>* > buffer;
@@ -406,7 +403,6 @@ vector<Vertex<T>*> Graph<T>::getSources() const {
 	}
 	return buffer;
 }
-
 
 template <class T>
 void Graph<T>::dfsVisit() {
@@ -767,7 +763,6 @@ int Graph<T>::weight(const T &sourc, const T &dest){
 	return INT_INFINITY;
 }
 
-
 template<class T>
 void Graph<T>::resetVisited(){
 	for(unsigned int i = 0; i < vertexSet.size(); i++){
@@ -777,30 +772,45 @@ void Graph<T>::resetVisited(){
 
 //TODO para ja, isto esta quase igual ao dfs. tera de ser alterado para fazer um circuito atraves de dfs
 template <class T>
-vector<T> Graph<T>::eulerCircuit(Vertex<T> initial, vector<Vertex<T>> mustPass) const {
-	typename vector<Vertex<T>*>::const_iterator it= vertexSet.begin();
-	typename vector<Vertex<T>*>::const_iterator ite= vertexSet.end();
-	for (; it !=ite; it++)
-		(*it)->visited=false;
-	vector<T> res;
-	it=vertexSet.begin();
-	for (; it !=ite; it++)
-		if ( (*it)->visited==false )
-			dfsEuler(*it,res);
-	return res;
+vector<T> Graph<T>::hamiltonCircuit(Vertex<T> initial, Graph<T> simplifiedGraph) const {
+
+
+	vector<Vertex<T>> bestPath, currPath;
+	int bestWeight=-1;
+	simplifiedGraph.backtrackingHamilton(currPath,0,bestPath,bestWeight);
+
+	//preparar o retorno
+	vector<T> ret;
+	for(int i=0; i<bestPath.size(); i++)
+		ret.push_back(bestPath[i]);
+	return ret;
 }
 
 template <class T>
-void Graph<T>::dfsEuler(Vertex<T> *v,vector<T> &res) const {
-	v->visited = true;
-	res.push_back(v->info);
-	typename vector<Edge<T> >::iterator it= (v->adj).begin();
-	typename vector<Edge<T> >::iterator ite= (v->adj).end();
-	for (; it !=ite; it++)
-		if ( it->dest->visited == false ){
-			//cout << "ok ";
-			dfsEuler(it->dest, res);
-		}
+void Graph<T>::backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) const {
+	//se este path ja estiver demasiado comprido, parar
+	if(currWeight>=bestWeight)
+	{
+		if(bestWeight!=-1)
+			return;
+	}
+
+	//se os vertices ja estiverem todos percorridos, atualizar os bests
+	if(currPath.size()==vertexSet.size())
+	{
+		bestWeight=currWeight;
+		bestPath=currPath;
+		return;
+	}
+
+	//se puder continuar caminho
+	for(int i=0; i<vertexSet.size(); i++)
+	{
+		currPath.push_back(vertexSet[i]);
+		backtrackingHamilton(currPath,currWeight+weight(currPath.back()+currPath[currPath.size()-2]),
+							bestPath,bestWeight);
+		currPath.pop_back();
+	}
 }
 
 #endif /* GRAPH_H_ */
