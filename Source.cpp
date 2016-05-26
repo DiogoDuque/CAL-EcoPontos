@@ -7,6 +7,8 @@
 #include "Parser.h"
 #include "Utilities.h"
 
+#define PONTO_INICIAL 1010
+
 using namespace std;
 
 int main()
@@ -92,7 +94,7 @@ int main()
 
 	valid = true;
 
-	int id = 1011;
+	int id = PONTO_INICIAL;
 
 	if (val == "YES"){
 		do{

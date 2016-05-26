@@ -109,7 +109,7 @@ list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck){
  * @return list with the ecopontos on 'Ecopontos.txt'
  */
 list<Ecoponto> getEcopontos()
-						{
+{
 	list<Ecoponto> ecopontos;
 	fstream file;
 	file.open("Ecopontos.txt");

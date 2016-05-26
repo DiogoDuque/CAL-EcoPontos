@@ -110,9 +110,11 @@ private:
 	vector<Coord> bounds;									// stores the coordinates corresponding to minimum and the maximum of the map
 	static unordered_map <long long,int> nodeID;			// nodeID[id] gives the int node id corresponding to the long long id
 	static unordered_map<int, Coord> coords;				// coords[id] gives the location of the node corresponding to id
-	unordered_map<int,unordered_map<int,int>> edgeID; 		// edgeID[id_source][id_destination] gives the id of the edge (which is an int)
+	unordered_map<int,unordered_map<int,int>> edgeID; 		// edgeID[id_source][id_destination] gives the id of the edge (necessary because of GraphViewer)
 	unordered_map<int,unordered_map<int,string>> roads;		// roads[id_source][id_destination] gives the name of the road
 	GraphViewer* gv;										// shows the map
+
+	unordered_map<string,vector<Road>> road_edges;
 };
 /**
  * Reads the file 'BlockedRoads.txt' and returns a vector with the blocked roads on the file

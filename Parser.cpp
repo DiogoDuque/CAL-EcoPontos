@@ -89,13 +89,17 @@ Graph<Coord>* Parser::txtToGraph() {
 
 	cout << "Reading 'Roads.txt' and 'Connections.txt'" << endl;
 
-	int oldID = -1; // controls files' synchronization (checks if the files are being read correctly)
+	long long oldID = -1; // controls files' synchronization (checks if the files are being read correctly)
 	string twoway;
+
+	bool read_name = false;
+	vector<Road> connectionsRoad;
+	string road[2];
+
 	while (!file2.eof()) {
 		string str[3];
-		string road[2];
 		long long node1, node2;
-		int id;
+		long long id;
 		bool eofFound=false;
 
 		// read connections
@@ -115,12 +119,34 @@ Graph<Coord>* Parser::txtToGraph() {
 		if(eofFound)
 			break;
 		(stringstream) str[0] >> id;
+
+		if (read_name && (oldID != id))
+		{
+			for(unsigned int i = 0; i < connectionsRoad.size(); i++){
+				long long n1 = connectionsRoad[i].source;
+				long long n2 = connectionsRoad[i].dest;
+
+				roads[nodeID[n1]][nodeID[n2]] = road[1];				// name of the road
+			}
+			road_edges[road[1]] = connectionsRoad;
+			connectionsRoad.clear();
+			read_name = false;
+		}
+
 		(stringstream) str[1] >> node1;
 		(stringstream) str[2] >> node2;
+
 		getline(file2, str[0]);
+
+		Road r;
+		r.source = node1;
+		r.dest = node2;
+
+		connectionsRoad.push_back(r);
 
 		if (id != oldID) // update oneway and id if necessary
 		{
+			read_name = true;
 			oldID = id;
 			for (int i = 0; i < 2; i++)
 			{
@@ -135,17 +161,14 @@ Graph<Coord>* Parser::txtToGraph() {
 		int weight = coords[nodeID[node1]].calcWeight(coords[nodeID[node2]]);
 		if (twoway == "True") {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
-			roads[nodeID[node1]][nodeID[node2]] = road[1];				// name of the road
-
 			gr->addEdge(coords[nodeID[node2]], coords[nodeID[node1]], weight);
-			roads[nodeID[node2]][nodeID[node1]] = " ";					// same name doesn't show two times
 		} else {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
-			roads[nodeID[node1]][nodeID[node2]] = road[1];
 		}
 	}
 	file.close();
 	file2.close();
+
 	cout << "Finished reading 'Roads.txt' and 'Connections.txt'" << endl;
 	cout << "Finished parser <txt> <Graph>" << endl << endl;
 	bounds.push_back(Coord(-1,xMax,yMax));
@@ -202,8 +225,8 @@ void Parser::graphToGraphViewer(Graph<Coord>* gr) {
 		for(unsigned j=0; j<edges.size(); j++)
 		{
 			int source = vertices[i]->getInfo().getID();
-			int destination = edges[j].getDest()->getInfo().getID();
-			gv->setEdgeLabel(edgeID[source][destination], roads[source][destination]);
+			int dest = edges[j].getDest()->getInfo().getID();
+			gv->setEdgeLabel(edgeID[source][dest], roads[source][dest]);
 		}
 	}
 
@@ -274,8 +297,8 @@ void Parser::setGraphViewerEcoLabel(list<Ecoponto> ecopontos, string color) {
 
 void Parser::setGraphViewerBlockedRoads(vector<Road> blockedRoads){
 	for(unsigned int i = 0; i < blockedRoads.size(); i++){
-		int source=blockedRoads[i].source;
-		int destination=blockedRoads[i].dest;
+		long long source=blockedRoads[i].source;
+		long long destination=blockedRoads[i].dest;
 		int id=edgeID[source][destination];
 
 		gv->setEdgeLabel(id, "BLOCKED ROAD");
@@ -292,7 +315,7 @@ vector<Road> getBlockedRoads(){
 
 	while(!file.eof())
 	{
-		int id_source, id_dest;
+		long long id_source, id_dest;
 		string str[2];
 		getline(file,str[0],';');
 		if(file.eof())
