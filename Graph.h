@@ -106,6 +106,7 @@ void Vertex<T>::setInfo(T info) {
 
 template <class T>
 int Vertex<T>::getIndegree() const {
+
 	return this->indegree;
 }
 
@@ -770,7 +771,9 @@ void Graph<T>::resetVisited(){
 	}
 }
 
-//TODO para ja, isto esta quase igual ao dfs. tera de ser alterado para fazer um circuito atraves de dfs
+//BINTE: o simplifiedGraph é um grafo simplificado do original. so tem copias dos vertices que nos interessam passar, e devem ter arestas de
+//maneira a que consigamos ir de um vertice para qq outro recorrendo apenas a uma aresta (ou seja, todos estao ligados a todos).
+//como foste tu que usaste o dijkstra da outra vez, achei que farias isto melhor que eu xD
 template <class T>
 vector<T> Graph<T>::hamiltonCircuit(Vertex<T> initial, Graph<T> simplifiedGraph) const {
 
