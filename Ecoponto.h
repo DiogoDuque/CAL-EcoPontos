@@ -10,7 +10,6 @@
 
 #include <list>
 #include "Utilities.h"
-#include "Parser.h"
 
 using namespace std;
 
@@ -40,16 +39,5 @@ public:
 	bool operator<(const Ecoponto& other);
 
 };
-
-
-list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck);
-
-list<Ecoponto> getEcopontos();
-
-int totalTrash(list<Ecoponto> ecopontos);
-
-vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord initial);
-
-list<Ecoponto> CheckEcopontosToUnload(list<Ecoponto> eco, int min_load);
 
 #endif /* ECOPONTO_H_ */

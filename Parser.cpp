@@ -319,61 +319,11 @@ void Parser::setGraphViewerBlockedRoads(vector<Road> blockedRoads){
 	}
 }
 
-vector<Road> getBlockedRoads(){
-	vector<Road> blockedRoads;
-	fstream file;
-	file.open("BlockedRoads.txt");
-	if(!file.is_open())
-		throw "Could not open file 'BlockedRoads.txt'!";
-
-	while(!file.eof())
-	{
-		int long long id_source, id_dest;
-		string str[2];
-		getline(file,str[0],';');
-		if(file.eof())
-		{
-			vector<Road> tmp;
-			cout << "Warning: file 'BlockedRoads.txt' is empty or incomplete" << endl;
-			return tmp;
-		}
-		getline(file,str[1]);
-		(stringstream) str[0] >> id_source;
-		(stringstream) str[1] >> id_dest;
-
-		Road road;
-		road.source = id_source;
-		road.dest = id_dest;
-
-		blockedRoads.push_back(road);
-	}
-	file.close();
-
-	return blockedRoads;
-}
-
 Graph<Coord>* Parser::initializeGraph(){
 	string val_names;
-	bool valid_in = true;		// checks if the character input is valid
+	string question = "Do you want to visualize the roads' names on GraphViewer? (YES/NO) ";
 
-	do{
-		valid_in = true;
-
-		cout << "Do you want to visualize the roads' names on GraphViewer? (YES/NO) ";
-		cin >> val_names;
-		cin.ignore(1000, '\n');
-
-		for (size_t i = 0; i < val_names.length(); i++)
-			val_names[i] = toupper(val_names[i]);
-
-		if ((val_names != "YES" && val_names != "NO") || cin.fail())
-		{
-			valid_in = false;
-			cin.clear();											// clears state of error of the buffer
-			cout << "Invalid input. Please try again." << endl;
-		}
-	} while (!valid_in);
-	cout << endl;
+	val_names = askUser(question);
 
 	Graph<Coord> * gr;
 	string val_all;
@@ -382,24 +332,9 @@ Graph<Coord>* Parser::initializeGraph(){
 
 	if (val_names == "YES"){
 		show_names = true;
+		string question2 = "Show roads' names on every portion of the road? (YES/NO) ";
 
-		do{
-			valid_in = true;
-
-			cout << "Show roads' names on every portion of the road? (YES/NO) ";
-			cin >> val_all;
-			cin.ignore(1000, '\n');
-
-			for (size_t i = 0; i < val_all.length(); i++)
-				val_all[i] = toupper(val_all[i]);
-
-			if ((val_all != "YES" && val_all != "NO") || cin.fail())
-			{
-				valid_in = false;
-				cin.clear();											// clears state of error of the buffer
-				cout << "Invalid input. Please try again." << endl;
-			}
-		} while (!valid_in);
+		val_all = askUser(question2);
 		cout << endl;
 
 		if(val_all == "YES"){

@@ -47,8 +47,4 @@ public:
 	bool operator==(const Truck& other);
 };
 
-Truck popBestTruck(list<Truck> &trucks, int totalTrash);
-
-list<Truck> getTrucks();
-
 #endif /* TRUCK_H_ */

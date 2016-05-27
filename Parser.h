@@ -16,6 +16,7 @@
 #include <algorithm>
 
 #include "float.h"
+#include "SourceAux.h"
 #include "Graph.h"
 #include "jung/graphviewer.h"
 #include "Utilities.h"
@@ -126,11 +127,5 @@ private:
 
 	unordered_map<string,vector<Road>> road_edges;
 };
-/**
- * Reads the file 'BlockedRoads.txt' and returns a vector with the blocked roads on the file
- *
- * @return vector with the blocked roads
- */
-vector<Road> getBlockedRoads();
 
 #endif /* PARSER_H_ */
