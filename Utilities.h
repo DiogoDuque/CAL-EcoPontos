@@ -8,8 +8,8 @@
  * Represents a few attributes of a road.
  */
 struct Road {
-	long long source;
-	long long dest;
+	int source;
+	int dest;
 };
 
 /**
