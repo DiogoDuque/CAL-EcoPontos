@@ -33,26 +33,10 @@ unsigned int edit_distance(const string& word, const string& toSearch)
 	return d[p][t];
 }
 
-
-float numApproximateStringMatching(string filename, string toSearch){
-	ifstream in;
-
-	in.open(filename.c_str());
-
-	if(!in.is_open()){
-		cout << "File doesn't exist!\n";
-	}
-
-	string text = "";
+float numApproximateStringMatching(string text, string toSearch){
 	int sum = 0;
 	int num = 0;
 	float mean;
-
-	while(!in.eof()){
-		string tmp;
-		getline(in, tmp);
-		text = text + "\n" + tmp;
-	}
 
 	int low = 0;
 	while (text[low] == ' ')
@@ -76,7 +60,6 @@ float numApproximateStringMatching(string filename, string toSearch){
 
 		upperBound = index;
 		word = text.substr(lowerBound, upperBound-lowerBound);
-
 
 		if (word != ""){
 			res = edit_distance(word, toSearch);

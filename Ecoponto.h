@@ -50,4 +50,6 @@ int totalTrash(list<Ecoponto> ecopontos);
 
 vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord initial);
 
+list<Ecoponto> CheckEcopontosToUnload(list<Ecoponto> eco, int min_load);
+
 #endif /* ECOPONTO_H_ */

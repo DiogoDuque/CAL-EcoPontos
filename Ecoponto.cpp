@@ -166,3 +166,26 @@ vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord initial){
 		res.push_back(it->getLocation());
 	return res;
 }
+
+list<Ecoponto> CheckEcopontosToUnload(list<Ecoponto> eco, int min_load){
+	list<Ecoponto>::iterator i = eco.begin();
+	while (i != eco.end())
+	{
+		bool notEnough;						// true if ecoponto hasn't enough trash
+
+		if ((*i).getTrash() < min_load)
+			notEnough = true;
+		else notEnough = false;
+
+		if (notEnough)
+		{
+			eco.erase(i++);					// erases ecoponto from list
+		}
+		else
+		{
+			++i;
+		}
+	}
+
+	return eco;
+}

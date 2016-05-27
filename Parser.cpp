@@ -425,24 +425,21 @@ string Parser::searchRoad(string name_road){
 		road_names.push_back(i.first);
 	}
 
-	int max = -1;
-	int tmp = 1;
+	double min = DBL_MAX;
 	string name;
 
 	cout << "NOME A PROCURAR: " << name_road << endl;
 
 	for(unsigned int i = 0; i < road_names.size(); i++){
-		if (name_road.size() <= road_names[i].size())
-			tmp = KMP_matcher(name_road, road_names[i]);
-		else tmp = KMP_matcher(road_names[i], name_road);
+		int res = edit_distance(road_names[i], name_road);
 
-		if (max < tmp){
+		if (res < min){
+			min = res;
 			name = road_names[i];
-			max = tmp;
 		}
 	}
 
-	cout << "NOME ENCONTRADO: " << name << endl;
+	cout << " NOME ENCONTRADO: " << name << endl;
 
 	return name;
 
