@@ -62,7 +62,7 @@ list<Truck> getTrucks()																										{
 }
 
 list<Ecoponto> getEcopontos()
-				{
+{
 	list<Ecoponto> ecopontos;
 	fstream file;
 	file.open("Ecopontos.txt");
@@ -151,30 +151,64 @@ int initialPoint(){
 	return id;
 }
 
-list<Ecoponto> addEcoponto(list<Ecoponto> eco){
-	string question = "Do you want to add ecopontos to the map? (YES/NO) ";
-	string val = askUser(question);
-
+string getRoadName(){
 	bool valid;
-	string name;;
-	if (val == "YES"){
-		do{
-			valid = true;
+	string name;
 
-			cout << "Insert name of the road where you want to place the ecoponto: ";
-			cin >> name;
-			cin.ignore(1000, '\n');
+	do{
+		valid = true;
 
-			if (cin.fail())
-			{
-				valid = false;
-				cin.clear();										// clears state of error of the buffer
-				cout << "Invalid input. Please try again." << endl;
-			}
-		} while (!valid);
-		cout << endl;
-	}
+		cout << "Insert name of the road where you want to place the ecoponto: ";
+		cin >> name;
+		cin.ignore(1000, '\n');
 
+		if (cin.fail())
+		{
+			valid = false;
+			cin.clear();										// clears state of error of the buffer
+			cout << "Invalid input. Please try again." << endl;
+		}
+	} while (!valid);
+
+	return name;
+}
+
+int getTrash(){
+	bool valid;
+	int trash;
+
+	do{
+		valid = true;
+
+		cout << "Insert name of the road where you want to place the ecoponto: ";
+		cin >> trash;
+		cin.ignore(1000, '\n');
+
+		if (trash < 0 || trash > 100 || cin.fail())
+		{
+			valid = false;
+			cin.clear();										// clears state of error of the buffer
+			cout << "Invalid input. Please try again." << endl;
+		}
+	} while (!valid);
+	cout << endl;
+
+	return trash;
+
+}
+
+
+	for(list<Ecoponto>::iterator i = eco.begin(); i != eco.end(); i++)
+		for (vector<int>::iterator it =nodes.begin(); it!=nodes.end(); )
+			if (i->getLocation().getID() == *it){
+				it = nodes.erase(it);
+			} else it++;
+
+	int index = rand() % nodes.size();
+
+
+	eco.push_back(ecoponto);
+	return eco;
 }
 
 void ecopontosLoad(){

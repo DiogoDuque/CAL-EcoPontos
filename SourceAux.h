@@ -9,6 +9,8 @@
 #define MAP_H_
 
 #include <list>
+#include <stdlib.h>
+
 #include "Truck.h"
 #include "Graph.h"
 #include "Ecoponto.h"
@@ -40,7 +42,10 @@ vector<Road> getBlockedRoads();
 
 int initialPoint();
 
-list<Ecoponto> addEcoponto(list<Ecoponto> eco);
+string getRoadName();
+
+int getTrash();
+
 
 void ecopontosLoad();
 

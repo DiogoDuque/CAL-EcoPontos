@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <stdlib.h>
+#include <time.h>
 
 #include "SourceAux.h"
 #include "Graph.h"
@@ -14,6 +16,8 @@ using namespace std;
 
 int main()
 {
+	srand(time(NULL));
+
 	cout << "Starting EcoPontos..." << endl << endl;
 
 	Parser parser;
@@ -55,7 +59,23 @@ int main()
 		exit(1);
 	}
 
-	//----------------------AddEcopontos------------------------
+	//----------------------AddEcopontos-----------------------
+
+	string question = "Do you want to add ecopontos to the map? (YES/NO) ";
+	string val = askUser(question);
+
+	if(val == "YES"){
+		string name = getRoadName();		// user road name input
+		int trash = getTrash();
+		string road_name = parser.searchRoad(name);
+		int num_ecopontos = parser.getNumEcopontos(road_name, eco);
+
+		cout << "There are " << num_ecopontos << " on the road " << road_name << endl;
+
+		vector<int> nodes = parser.getNodesRoad(road_name);
+
+		eco = addEcoponto(eco,nodes, trash);
+	}
 
 
 	//----------------------getBlockedRoads----------------------

@@ -380,11 +380,8 @@ string Parser::searchRoad(string name_road){
 
 }
 
-int Parser::getNumEcopontos(string name_road, list<Ecoponto> ecopontos){
-
-	string name = searchRoad(name_road);
-
-	vector<Road> roads = road_edges[name];
+vector<int> Parser::getNodesRoad(string name_road){
+	vector<Road> roads = road_edges[name_road];
 	vector<int> nodes;
 	int count = 0;
 
@@ -392,10 +389,16 @@ int Parser::getNumEcopontos(string name_road, list<Ecoponto> ecopontos){
 		nodes.push_back(roads[i].source);
 		nodes.push_back(roads[i].dest);
 	}
-	cout << endl;
 
 	sort(nodes.begin(), nodes.end());
 	nodes.erase(unique(nodes.begin(), nodes.end()), nodes.end());
+
+	return nodes;
+}
+
+int Parser::getNumEcopontos(string name_road, list<Ecoponto> ecopontos){
+	vector<int> nodes = getNodesRoad(name_road);
+	int count = 0;
 
 	for (list<Ecoponto>::iterator it = ecopontos.begin(); it != ecopontos.end(); ++it)
 		for(unsigned int i = 0; i < nodes.size(); i++){

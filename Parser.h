@@ -107,6 +107,8 @@ public:
 
 	Graph<Coord>* initializeGraph();
 
+	vector<int> getNodesRoad(string name_road);
+
 	string searchRoad(string name_road);
 
 	int getNumEcopontos(string name_road, list<Ecoponto> ecopontos);
