@@ -46,6 +46,7 @@ string getRoadName();
 
 int getTrash();
 
+list<Ecoponto> addEcoponto(list<Ecoponto> eco, vector<int> nodes, int trash);
 
 void ecopontosLoad();
 

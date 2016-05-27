@@ -197,6 +197,7 @@ int getTrash(){
 
 }
 
+list<Ecoponto> addEcoponto(list<Ecoponto> eco, vector<int> nodes, int trash){
 
 	for(list<Ecoponto>::iterator i = eco.begin(); i != eco.end(); i++)
 		for (vector<int>::iterator it =nodes.begin(); it!=nodes.end(); )
@@ -206,6 +207,7 @@ int getTrash(){
 
 	int index = rand() % nodes.size();
 
+	Ecoponto ecoponto = Ecoponto(trash,nodes[index]);
 
 	eco.push_back(ecoponto);
 	return eco;
