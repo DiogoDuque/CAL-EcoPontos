@@ -17,7 +17,7 @@
 
 using namespace std;
 
-string askUser(string question);
+bool askUser(string question);
 
 /**
  * Reads file 'Trucks.txt' and returns a list with the trucks on the file

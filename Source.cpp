@@ -62,9 +62,7 @@ int main()
 	//----------------------AddEcopontos-----------------------
 
 	string question = "Do you want to add ecopontos to the map? (YES/NO) ";
-	string val = askUser(question);
-
-	if(val == "YES"){
+	while(askUser(question)){
 		string name = getRoadName();		// user road name input
 		int trash = getTrash();
 		string road_name = parser.searchRoad(name);
