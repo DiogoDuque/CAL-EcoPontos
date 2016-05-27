@@ -17,7 +17,7 @@ Parser::Parser() {
 
 Parser::~Parser() {}
 
-Graph<Coord>* Parser::txtToGraph() {
+Graph<Coord>* Parser::txtToGraph(bool show_names, bool all) {
 	cout << "Started parser <txt> <Graph>" << endl;
 	double xMin=1000, xMax=-1000, yMin=1000, yMax=-1000;
 	Graph<Coord>* gr = new Graph<Coord>;
@@ -122,12 +122,14 @@ Graph<Coord>* Parser::txtToGraph() {
 
 		if (read_name && (oldID != id))
 		{
-			for(unsigned int i = 0; i < connectionsRoad.size(); i++){
-				long long n1 = connectionsRoad[i].source;
-				long long n2 = connectionsRoad[i].dest;
+			/*if(show_names && all){
+				for(unsigned int i = 0; i < connectionsRoad.size(); i++){
+					long long n1 = connectionsRoad[i].source;
+					long long n2 = connectionsRoad[i].dest;
 
-				roads[nodeID[n1]][nodeID[n2]] = road[1];				// name of the road
-			}
+					roads[nodeID[n1]][nodeID[n2]] = road[1];				// name of the road
+				}
+			}*/
 			road_edges[road[1]] = connectionsRoad;
 			connectionsRoad.clear();
 			read_name = false;
@@ -139,8 +141,8 @@ Graph<Coord>* Parser::txtToGraph() {
 		getline(file2, str[0]);
 
 		Road r;
-		r.source = node1;
-		r.dest = node2;
+		r.source = nodeID[node1];
+		r.dest = nodeID[node2];
 
 		connectionsRoad.push_back(r);
 
@@ -155,6 +157,9 @@ Graph<Coord>* Parser::txtToGraph() {
 					throw "Reached end of file 'Roads.txt' too soon! Is file complete?";
 			}
 			getline(file, twoway);
+
+			if(show_names && !all)
+				roads[nodeID[node1]][nodeID[node2]] = road[1];
 		}//ENDIF
 
 		// add to graph
@@ -162,8 +167,16 @@ Graph<Coord>* Parser::txtToGraph() {
 		if (twoway == "True") {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
 			gr->addEdge(coords[nodeID[node2]], coords[nodeID[node1]], weight);
+
+			if(show_names && all){
+				roads[nodeID[node1]][nodeID[node2]] = road[1];				// name of the road
+				roads[nodeID[node2]][nodeID[node1]] = " ";
+			}
 		} else {
 			gr->addEdge(coords[nodeID[node1]], coords[nodeID[node2]], weight);
+
+			if(show_names && all)
+				roads[nodeID[node1]][nodeID[node2]] = road[1];
 		}
 	}
 	file.close();
@@ -297,8 +310,8 @@ void Parser::setGraphViewerEcoLabel(list<Ecoponto> ecopontos, string color) {
 
 void Parser::setGraphViewerBlockedRoads(vector<Road> blockedRoads){
 	for(unsigned int i = 0; i < blockedRoads.size(); i++){
-		long long source=blockedRoads[i].source;
-		long long destination=blockedRoads[i].dest;
+		int source=blockedRoads[i].source;
+		int destination=blockedRoads[i].dest;
 		int id=edgeID[source][destination];
 
 		gv->setEdgeLabel(id, "BLOCKED ROAD");
@@ -315,7 +328,7 @@ vector<Road> getBlockedRoads(){
 
 	while(!file.eof())
 	{
-		long long id_source, id_dest;
+		int long long id_source, id_dest;
 		string str[2];
 		getline(file,str[0],';');
 		if(file.eof())
@@ -337,4 +350,126 @@ vector<Road> getBlockedRoads(){
 	file.close();
 
 	return blockedRoads;
+}
+
+Graph<Coord>* Parser::initializeGraph(){
+	string val_names;
+	bool valid_in = true;		// checks if the character input is valid
+
+	do{
+		valid_in = true;
+
+		cout << "Do you want to visualize the roads' names on GraphViewer? (YES/NO) ";
+		cin >> val_names;
+		cin.ignore(1000, '\n');
+
+		for (size_t i = 0; i < val_names.length(); i++)
+			val_names[i] = toupper(val_names[i]);
+
+		if ((val_names != "YES" && val_names != "NO") || cin.fail())
+		{
+			valid_in = false;
+			cin.clear();											// clears state of error of the buffer
+			cout << "Invalid input. Please try again." << endl;
+		}
+	} while (!valid_in);
+	cout << endl;
+
+	Graph<Coord> * gr;
+	string val_all;
+	bool show_names;
+	bool all;
+
+	if (val_names == "YES"){
+		show_names = true;
+
+		do{
+			valid_in = true;
+
+			cout << "Show roads' names on every portion of the road? (YES/NO) ";
+			cin >> val_all;
+			cin.ignore(1000, '\n');
+
+			for (size_t i = 0; i < val_all.length(); i++)
+				val_all[i] = toupper(val_all[i]);
+
+			if ((val_all != "YES" && val_all != "NO") || cin.fail())
+			{
+				valid_in = false;
+				cin.clear();											// clears state of error of the buffer
+				cout << "Invalid input. Please try again." << endl;
+			}
+		} while (!valid_in);
+		cout << endl;
+
+		if(val_all == "YES"){
+			all = true;
+			gr = txtToGraph(show_names, all);
+		} else{
+			all = false;
+			gr = txtToGraph(show_names, all);
+
+		}
+	} else {
+		show_names = false;
+		all = false;
+		gr = txtToGraph(show_names, all);
+	}
+	return gr;
+}
+
+string Parser::searchRoad(string name_road){
+	vector<string> road_names;			// nomes de todas as ruas
+
+	for(auto i : road_edges){
+		road_names.push_back(i.first);
+	}
+
+	int max = -1;
+	int tmp = 1;
+	string name;
+
+	cout << "NOME A PROCURAR: " << name_road << endl;
+
+	for(unsigned int i = 0; i < road_names.size(); i++){
+		if (name_road.size() <= road_names[i].size())
+			tmp = KMP_matcher(name_road, road_names[i]);
+		else tmp = KMP_matcher(road_names[i], name_road);
+
+		if (max < tmp){
+			name = road_names[i];
+			max = tmp;
+		}
+	}
+
+	cout << "NOME ENCONTRADO: " << name << endl;
+
+	return name;
+
+}
+
+int Parser::getNumEcopontos(string name_road, list<Ecoponto> ecopontos){
+
+	string name = searchRoad(name_road);
+
+	vector<Road> roads = road_edges[name];
+	vector<int> nodes;
+	int count = 0;
+
+	for(unsigned int i = 0; i < roads.size(); i++){
+		nodes.push_back(roads[i].source);
+		nodes.push_back(roads[i].dest);
+	}
+	cout << endl;
+
+	sort(nodes.begin(), nodes.end());
+	nodes.erase(unique(nodes.begin(), nodes.end()), nodes.end());
+
+	for (list<Ecoponto>::iterator it = ecopontos.begin(); it != ecopontos.end(); ++it)
+		for(unsigned int i = 0; i < nodes.size(); i++){
+			if(it->getLocation().getID() == nodes[i])
+				count++;
+		}
+
+	return count;
 }

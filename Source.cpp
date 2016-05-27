@@ -7,7 +7,8 @@
 #include "Parser.h"
 #include "Utilities.h"
 
-#define PONTO_INICIAL 1010
+#define INITIAL_POINT 1010
+#define MINIMUM_ECO_LOAD 40
 
 using namespace std;
 
@@ -15,13 +16,11 @@ int main()
 {
 	cout << "Starting EcoPontos..." << endl << endl;
 
-	//----------------------txtToGraph----------------------
 	Parser parser;
 	Graph<Coord>* gr;
 
-	try
-	{
-		gr = parser.txtToGraph();		// gr contains the graph with the info from the files
+	try{
+		gr = parser.initializeGraph();		// gr contains the graph with the info from the files
 	}
 	catch(const char* msg)
 	{
@@ -56,6 +55,10 @@ int main()
 		exit(1);
 	}
 
+	int num = parser.getNumEcopontos("Rua Zeferino Costa", eco);
+
+	cout << "Numero de ecopontos: " << num << endl;
+
 	//----------------------getBlockedRoads----------------------
 	vector<Road> roads;
 	try
@@ -71,13 +74,13 @@ int main()
 
 	//----------------------InitialPoint----------------------
 
-	string val;
+	/*string val;
 	bool valid = true;		// checks if the character input is valid
 
 	do{
 		valid = true;
 
-		cout << endl << "Do you want to change default initial point? (YES/NO) ";
+		cout << "Do you want to change default initial point? (YES/NO) ";
 		cin >> val;
 		cin.ignore(1000, '\n');
 
@@ -92,11 +95,11 @@ int main()
 		}
 	} while (!valid);
 
-	valid = true;
+	valid = true;*/
 
-	int id = PONTO_INICIAL;
+	int id = INITIAL_POINT;
 
-	if (val == "YES"){
+	/*if (val == "YES"){
 		do{
 			valid = true;
 
@@ -111,11 +114,11 @@ int main()
 				cout << "Invalid input. Please try again." << endl;
 			}
 		} while (!valid);
-	}
+	}*/
 
 	//----------------------EcopontosLoad----------------------
-	int min_load;
-	bool validValue = true;		// checks if the character input is valid
+	int min_load = MINIMUM_ECO_LOAD;
+	/*bool validValue = true;		// checks if the character input is valid
 
 	do{
 		validValue = true;
@@ -130,7 +133,7 @@ int main()
 			cin.clear();											// clears state of error of the buffer
 			cout << "Invalid input. Please try again." << endl;
 		}
-	} while (!validValue);
+	} while (!validValue);*/
 
 	//----------------------GraphToGraphViewer----------------------
 		try

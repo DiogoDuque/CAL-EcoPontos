@@ -12,11 +12,13 @@
 #include <unordered_map>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include "Graph.h"
 #include "jung/graphviewer.h"
 #include "Utilities.h"
 #include "Ecoponto.h"
+#include "StringSearch.h"
 
 class Ecoponto;
 
@@ -45,7 +47,7 @@ public:
 	 *
 	 * @return graph with information obtained from the files.
 	 */
-	Graph<Coord>* txtToGraph();
+	Graph<Coord>* txtToGraph(bool show_names, bool all);
 
 	/**
 	 *  Represents the graph given as a parameter through GraphViewer.
@@ -99,6 +101,12 @@ public:
 	 * @param blockedRoads - vector of the blocked roads
 	 */
 	void setGraphViewerBlockedRoads(vector<Road> blockedRoads);
+
+	Graph<Coord>* initializeGraph();
+
+	string searchRoad(string name_road);
+
+	int getNumEcopontos(string name_road, list<Ecoponto> ecopontos);
 private:
 	/**
 	 * Returns current nextID and increments it
