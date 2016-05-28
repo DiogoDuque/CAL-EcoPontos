@@ -107,14 +107,13 @@ int main()
 
 	//----------------------AssignDriversToTrucks----------------------
 
-	vector<string> tmp = drivers;
-
 	cout << "Please assign drivers to all the trucks" << endl;
 	for(list<Truck>::iterator it=trucks.begin(); it!=trucks.end(); it++)
 	{
 		cout << "Drivers available for truck " << (*it).getName() << ":" << endl;
 		for(unsigned i=0; i<drivers.size(); i++)
 			cout << drivers[i] << endl;
+		vector<string> tmp = drivers;
 
 		string name;
 		int driverIndex=-1;
@@ -128,6 +127,7 @@ int main()
 		{
 			for (size_t j = 0; j < tmp[i].length(); j++)
 				tmp[i][j] = toupper(tmp[i][j]);
+
 			int temp=kmp(tmp[i],name);
 			if(temp>0) //found
 			{
@@ -135,6 +135,7 @@ int main()
 				break;
 			}
 		}
+
 		if(driverIndex<0){
 			it--;
 			cout << "Name not found!\n";
