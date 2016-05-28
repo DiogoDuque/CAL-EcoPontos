@@ -70,9 +70,11 @@ int main()
 
 		cout << "There are " << num_ecopontos << " on the road " << road_name << endl;
 
-		vector<int> nodes = parser.getNodesRoad(road_name);
-
-		eco = addEcoponto(eco,nodes, trash);
+		if(askUser("Are yo sure you want to add it here?"))
+		{
+			vector<int> nodes = parser.getNodesRoad(road_name);
+			eco = addEcoponto(eco,nodes, trash);
+		}
 	}
 
 

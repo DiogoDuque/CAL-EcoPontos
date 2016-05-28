@@ -383,7 +383,7 @@ string Parser::searchRoad(string name_road){
 vector<int> Parser::getNodesRoad(string name_road){
 	vector<Road> roads = road_edges[name_road];
 	vector<int> nodes;
-	int count = 0;
+	//int count = 0;
 
 	for(unsigned int i = 0; i < roads.size(); i++){
 		nodes.push_back(roads[i].source);

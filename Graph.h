@@ -717,7 +717,7 @@ vector<T> Graph<T>::shortestTravelOrder(vector<T> & mustPass){
 		vector<T> minorPath;
 		int minorPathWeight = INT_MAX;
 
-		for (int i = 0; i < mustPass.size(); i++){
+		for (unsigned i = 0; i < mustPass.size(); i++){
 			if (getVertex(mustPass[i])->visited == true)
 				continue;
 			vector<T> currentPath = getPath(currentInfo,mustPass[i]);
