@@ -779,19 +779,20 @@ vector<T> Graph<T>::hamiltonCircuit(Vertex<T> initial, Graph<T> simplifiedGraph)
 
 
 	vector<Vertex<T>> bestPath, currPath;
+	currPath.push_back(initial);
 	int bestWeight=-1;
 	simplifiedGraph.backtrackingHamilton(currPath,0,bestPath,bestWeight);
 
 	//preparar o retorno
 	vector<T> ret;
 	for(int i=0; i<bestPath.size(); i++)
-		ret.push_back(bestPath[i]);
+		ret.push_back(bestPath[i].getInfo());
 	return ret;
 }
 
 template <class T>
 void Graph<T>::backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) const {
-	//se este path ja estiver demasiado comprido, parar
+	//se este path ja estiver demasiado comprido/pesado, parar
 	if(currWeight>=bestWeight)
 	{
 		if(bestWeight!=-1)
