@@ -9,23 +9,31 @@
 
 using namespace std;
 
-vector<string> getWords(string s);
-
+//EXACT SEARCH
 void pre_kmp(string pattern, vector<int> & prefix);
+/*
+ * Retorna o numero de matches na string T
+ */
 int kmp(string text, string pattern);
 
 //APROX
-//int editDistance(string pattern, string text);
 unsigned int edit_distance(const string& word, const string& toSearch);
-
 float numApproximateStringMatching(string filename, string toSearch);
 
-string searchName(string name_road, vector<string> names);
+/**
+ * Search a string on vector of strings
+ *
+ *@param name - name to be sought
+ *@param names - vector of names that cointais the desired name
+ *@param most similar string to name
+ */
+string searchName(string name, vector<string> names);
 
-//EXACT SEARCH
+
+//int editDistance(string pattern, string text);
+
 //int* prefix_function(string& P);
 
- /*
-  * Retorna o numero de matches na string T
-  */
+//vector<string> getWords(string s);
+
 //int KMP_matcher(string& T, string& P);

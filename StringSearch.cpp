@@ -1,38 +1,5 @@
 #include "StringSearch.h"
 
-vector<string> getWords(string s){
-	vector<string> tmp;
-	istringstream iss(s);
-	copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(tmp));
-
-	return tmp;
-}
-
-/*int editDistance(string pattern, string text)
-{
-	int n=text.length();
-	vector<int> d(n+1);
-	int old,neww;
-	for (int j=0; j<=n; j++)
-		d[j]=j;
-	int m=pattern.length();
-	for (int i=1; i<=m; i++) {
-		old = d[0];
-		d[0]=i;
-		for (int j=1; j<=n; j++) {
-			if (pattern[i-1]==text[j-1]) neww = old;
-			else {
-				neww = min(old,d[j]);
-				neww = min(neww,d[j-1]);
-				neww = neww +1;
-			}
-			old = d[j];
-			d[j] = neww;
-		}
-	}
-	return d[n];
-}*/
-
 //APROX
 unsigned int edit_distance(const string& word, const string& toSearch)
 {
@@ -147,13 +114,13 @@ int kmp(string text, string pattern)
 	return num;
 }
 
-string searchName(string name_road, vector<string> names){
+string searchName(string name, vector<string> names){
 	vector<string> tmp = names;
 
-	cout << "NOME A PROCURAR: " << name_road << endl;
+	cout << "NOME A PROCURAR: " << name << endl;
 
-	for (size_t i = 0; i < name_road.length(); i++)
-		name_road[i] = toupper(name_road[i]);
+	for (size_t i = 0; i < name.length(); i++)
+		name[i] = toupper(name[i]);
 
 	int max = INT_MIN;
 	int index;
@@ -165,7 +132,7 @@ string searchName(string name_road, vector<string> names){
 			tmp[i][j] = toupper(tmp[i][j]);
 
 		//if (tmp[i].size() < name_road.size())
-		res = kmp(tmp[i], name_road);
+		res = kmp(tmp[i], name);
 		//else res = kmp(name_road, tmp[i]);
 
 		if (max < res){
@@ -178,7 +145,7 @@ string searchName(string name_road, vector<string> names){
 		int min = INT_MAX;
 
 		for(unsigned int i = 0; i < tmp.size(); i++){
-			int res = edit_distance(tmp[i], name_road);
+			int res = edit_distance(tmp[i], name);
 
 			if (res < min){
 				min = res;
@@ -241,4 +208,37 @@ int KMP_matcher(string& T, string& P) {
 	}
     delete [] Pi;
 	return res;
+}*/
+
+/*vector<string> getWords(string s){
+	vector<string> tmp;
+	istringstream iss(s);
+	copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(tmp));
+
+	return tmp;
+}*/
+
+/*int editDistance(string pattern, string text)
+{
+	int n=text.length();
+	vector<int> d(n+1);
+	int old,neww;
+	for (int j=0; j<=n; j++)
+		d[j]=j;
+	int m=pattern.length();
+	for (int i=1; i<=m; i++) {
+		old = d[0];
+		d[0]=i;
+		for (int j=1; j<=n; j++) {
+			if (pattern[i-1]==text[j-1]) neww = old;
+			else {
+				neww = min(old,d[j]);
+				neww = min(neww,d[j-1]);
+				neww = neww +1;
+			}
+			old = d[j];
+			d[j] = neww;
+		}
+	}
+	return d[n];
 }*/
