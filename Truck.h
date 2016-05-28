@@ -24,6 +24,7 @@ private:
 	string name;
 	int capacity;
 	string color;
+	string driver;
 
 public:
 
@@ -45,6 +46,14 @@ public:
 	bool operator<(const Truck& other);
 
 	bool operator==(const Truck& other);
+
+	const string& getDriver() const {
+		return driver;
+	}
+
+	void setDriver(const string& driver) {
+		this->driver = driver;
+	}
 };
 
 #endif /* TRUCK_H_ */

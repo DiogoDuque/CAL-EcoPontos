@@ -171,7 +171,7 @@ int* prefix_function(string& P) {
 
 // Retorna o numero de matches na string T
 
-/*int KMP_matcher(string& T, string& P) {
+int KMP_matcher(string& T, string& P) {
 	int res = 0;
 
 	int n = T.length();

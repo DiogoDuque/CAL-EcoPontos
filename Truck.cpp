@@ -24,6 +24,7 @@ Truck::Truck(string name, int capacity, string color) {
 	this->name = name;
 	this->capacity = capacity;
 	this->color = color;
+	this->driver="";
 }
 
 /**

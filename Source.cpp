@@ -59,6 +59,28 @@ int main()
 		exit(1);
 	}
 
+	//----------------------GetDrivers----------------------
+	vector<string> drivers = getDrivers();
+	if(drivers.size()<trucks.size())
+	{
+		cerr << "There may not be enough drivers for the trucks...\n" <<
+				"Add some more drivers, or withdraw some trucks!" << endl;
+		exit(2);
+	}
+
+
+	//----------------------GraphToGraphViewer----------------------
+		try
+		{
+			parser.graphToGraphViewer(gr);
+		}
+		catch(const char* msg)
+		{
+			cerr << msg << endl;
+			getchar();
+			exit(1);
+		}
+
 	//----------------------AddEcopontos-----------------------
 
 	string question = "Do you want to add ecopontos to the map? (YES/NO) ";
@@ -77,6 +99,35 @@ int main()
 		}
 	}
 
+	//----------------------AssignDriversToTrucks----------------------
+	cout << "Please assign drivers to all the trucks" << endl;
+	for(list<Truck>::iterator it=trucks.begin(); it!=trucks.end(); it++)
+	{
+		cout << "Drivers available for truck " << (*it).getName() << ":" << endl;
+		for(unsigned i=0; i<drivers.size(); i++)
+			cout << drivers[i] << endl;
+
+		string name;
+		int driverIndex=-1;
+		cout << "\nDriver: ";
+		cin >> name;
+		for(unsigned i=0; i<drivers.size(); i++)
+		{
+			int temp=kmp(drivers[i],name);
+			if(temp>0) //found
+			{
+				driverIndex=i;
+				break;
+			}
+		}
+		if(driverIndex<0){
+			it--;
+			cout << "Name not found!\n";
+		} else {
+			(*it).setDriver(drivers[driverIndex]);
+			drivers.erase(drivers.begin() + driverIndex);
+		}
+	}
 
 	//----------------------getBlockedRoads----------------------
 	vector<Road> roads;
@@ -100,18 +151,6 @@ int main()
 
 	// min_load = ecopontosLoad();
 
-	//----------------------GraphToGraphViewer----------------------
-	try
-	{
-		parser.graphToGraphViewer(gr);
-	}
-	catch(const char* msg)
-	{
-		cerr << msg << endl;
-		getchar();
-		exit(1);
-	}
-
 	//----------------------UpdateGraphViewer----------------------
 	parser.setGraphViewerEcopontos(eco);			// shows the ecopontos on GraphViewer
 	parser.setGraphViewerBlockedRoads(roads);		// shows the blocked roads on GraphViewer
@@ -129,10 +168,8 @@ int main()
 	Coord initial = parser.getCoordFromID(id);
 
 	//----------------------CheckGraphConnectivity----------------------
-
 	if (!connectivityTest(eco, gr, initial))
 		exit(1);
-
 
 	//----------------------ChooseTrucksRoutes----------------------
 	cout << "\nAdding truck routes..." << endl;
@@ -151,9 +188,12 @@ int main()
 			getchar();
 			exit(1);
 		}
+		//print info about driver, truck and route
+		cout << best_truck.getDriver() << " is driving truck " << best_truck.getName() <<
+				" through " << assignedEco.size() << " ecopontos" << endl;
 	}
 
-	cout << "Finished!" << endl;
+	cout << "\nFinished!" << endl;
 	getchar();
 	return 0;
 }

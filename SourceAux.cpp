@@ -366,3 +366,19 @@ vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord initial) {
 		res.push_back(it->getLocation());
 	return res;
 }
+
+vector<string> getDrivers()
+{
+	vector<string> drivers;
+	fstream file;
+	file.open("Drivers.txt");
+	if (!file.is_open())
+		throw "Could not open file 'Drivers.txt'!";
+	while (!file.eof()) {
+		string str;
+		getline(file, str);
+		drivers.push_back(str);
+	}
+	file.close();
+	return drivers;
+}

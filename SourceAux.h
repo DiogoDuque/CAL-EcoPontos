@@ -112,4 +112,9 @@ list<Ecoponto> fillMax(list<Ecoponto> &ecopontos, Truck truck);
  */
 vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord initial);
 
+/**
+ * Returns the drivers' names from the Drivers.txt
+ */
+vector<string> getDrivers();
+
 #endif /* MAP_H_ */
