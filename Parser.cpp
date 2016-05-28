@@ -377,9 +377,9 @@ string Parser::searchRoad(string name_road){
 		for (size_t j = 0; j < tmp[i].length(); j++)
 			tmp[i][j] = toupper(tmp[i][j]);
 
-		if (tmp[i].size() < name_road.size())
-			res = KMP_matcher(tmp[i], name_road);
-		else res = KMP_matcher(name_road, tmp[i]);
+		//if (tmp[i].size() < name_road.size())
+		res = kmp(tmp[i], name_road);
+		//else res = kmp(name_road, tmp[i]);
 
 		if (max < res){
 			max = res;
