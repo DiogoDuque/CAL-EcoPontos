@@ -211,13 +211,15 @@ list<Ecoponto> addEcoponto(list<Ecoponto> eco, vector<int> nodes, int trash) {
 
 	int index = rand() % nodes.size();
 
-	Ecoponto ecoponto = Ecoponto(trash, nodes[index]);
+	if (nodes.size() > 0){		// if there is an available node to place an ecoponto
+		Ecoponto ecoponto = Ecoponto(trash, nodes[index]);
+		eco.push_back(ecoponto);
+	}
 
-	eco.push_back(ecoponto);
 	return eco;
 }
 
-void ecopontosLoad() {
+int ecopontosLoad() {
 	int min_load;
 	bool validValue = true;		// checks if the character input is valid
 
@@ -232,9 +234,11 @@ void ecopontosLoad() {
 		if (min_load > 100 || min_load < 0 || cin.fail()) {
 			validValue = false;
 			cin.clear();				// clears state of error of the buffer
+			cin.ignore(1000,'\n');
 			cout << "Invalid input. Please try again." << endl;
 		}
 	} while (!validValue);
+	return min_load;
 }
 
 list<Ecoponto> CheckEcopontosToUnload(list<Ecoponto> eco, int min_load) {

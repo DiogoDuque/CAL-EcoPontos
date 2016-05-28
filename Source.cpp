@@ -60,7 +60,7 @@ int main()
 	}
 
 	//----------------------GetDrivers----------------------
-	vector<string> drivers = getDrivers();
+	vector<string> drivers = getDrivers();			// get all drivers' names
 	if(drivers.size() < trucks.size())
 	{
 		cerr << "There may not be enough drivers for the trucks...\n" <<
@@ -87,19 +87,19 @@ int main()
 	cout << endl;
 	while(askUser(question)){
 		cout << endl;
-		string name = getRoadName();		// user road name input
-		int trash = getTrash();				// user trash input
+		string name = getRoadName();								// user road name input
+		int trash = getTrash();										// user trash input
 
-		vector<string> roads = parser.getRoadNames();
-		string road_name = searchName(name, roads);
-		int num_ecopontos = parser.getNumEcopontos(road_name, eco);
+		vector<string> roads = parser.getRoadNames();				// gets all roads' names
+		string road_name = searchName(name, roads);					// searches name on roads and returns the most similar name
+		int num_ecopontos = parser.getNumEcopontos(road_name, eco);	// number of ecopontos on the road
 
 		cout << "There are " << num_ecopontos << " ecopontos on the road " << road_name << endl;
 
 		if(askUser("Are you sure you want to add it here? (YES/NO) "))
 		{
-			vector<int> nodes = parser.getNodesRoad(road_name);
-			eco = addEcoponto(eco,nodes, trash);
+			vector<int> nodes = parser.getNodesRoad(road_name);		// gets all the nodes of the road
+			eco = addEcoponto(eco,nodes, trash);					// adds ecoponto
 		}
 		cout << endl;
 	}
@@ -120,16 +120,16 @@ int main()
 		cout << "\nDriver: ";
 		cin >> name;
 
-		for (size_t j = 0; j < name.length(); j++)
+		for (size_t j = 0; j < name.length(); j++)			// name is now only constituted by upper case characters
 			name[j] = toupper(name[j]);
 
 		for(unsigned i=0; i<tmp.size(); i++)
 		{
-			for (size_t j = 0; j < tmp[i].length(); j++)
+			for (size_t j = 0; j < tmp[i].length(); j++)	// to facilitate comparison
 				tmp[i][j] = toupper(tmp[i][j]);
 
 			int temp=kmp(tmp[i],name);
-			if(temp>0) //found
+			if(temp>0) // name found
 			{
 				driverIndex=i;
 				break;
@@ -141,7 +141,7 @@ int main()
 			cout << "Name not found!\n";
 		} else {
 			(*it).setDriver(drivers[driverIndex]);
-			drivers.erase(drivers.begin() + driverIndex);
+			drivers.erase(drivers.begin() + driverIndex);	// a driver cannot drive two trucks
 		}
 	}
 
@@ -173,7 +173,7 @@ int main()
 
 	//----------------------CheckEcopontosToUnload----------------------
 
-	eco = CheckEcopontosToUnload(eco, min_load);
+	eco = CheckEcopontosToUnload(eco, min_load);	// all the ecopontos with trash below min_load are erased
 
 	//----------------------RemoveBlockedRoadsFromGraph----------------------
 	for(unsigned int i = 0; i < roads.size(); i++){
@@ -184,7 +184,7 @@ int main()
 	Coord initial = parser.getCoordFromID(id);
 
 	//----------------------CheckGraphConnectivity----------------------
-	if (!connectivityTest(eco, gr, initial))
+	if (!connectivityTest(eco, gr, initial))					// checks connectivity and displays message in case it fails
 		exit(1);
 
 	//----------------------ChooseTrucksRoutes----------------------

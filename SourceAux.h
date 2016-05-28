@@ -17,6 +17,12 @@
 
 using namespace std;
 
+/**
+ * Prints a question on screen that can only be answered with yes or no
+ *
+ * @param question - question to be printed on screen
+ * @return true if yes or false if no
+ */
 bool askUser(string question);
 
 /**
@@ -40,18 +46,66 @@ list<Ecoponto> getEcopontos();
  */
 vector<Road> getBlockedRoads();
 
+/**
+ * Changes the initial point if user so wishes
+ *
+ * @return id of the initial point
+ */
 int initialPoint();
 
+/**
+ * Asks user to insert a road name
+ *
+ * @return road name
+ */
 string getRoadName();
 
+/**
+ * Asks user to insert valid trash amount
+ *
+ * @return amount of trash
+ */
 int getTrash();
 
+/**
+ * Adds new ecoponto to the list of the ecopontos
+ * Checks which nodes of the road already have an ecoponto
+ * Places ecoponto on random node of the road nodes'
+ * (for the exception of those that already have an ecoponto)
+ *
+ * @param eco - list of ecopontos of the map
+ * @param nodes - nodes of the road that will have a new ecoponto
+ * @param trash - trash amount of the ecoponto
+ * @return list of ecopontos with the newly added ecoponto
+ */
 list<Ecoponto> addEcoponto(list<Ecoponto> eco, vector<int> nodes, int trash);
 
-void ecopontosLoad();
+/**
+ * Asks user to insert minimum load of the ecopontos
+ * If a ecoponto has less trash than minimun load,
+ * then it will not be included on trucks' routes
+ *
+ * @return minimun load of ecopontos
+ */
+int ecopontosLoad();
 
+/**
+ * Returns a list of ecopontos with more trash than the minimum load
+ *
+ * @param eco - list of ecopontos
+ * @param min_load - minimum_load of the ecopontos
+ * @return - list of ecopontos with more trash than min_load
+ */
 list<Ecoponto> CheckEcopontosToUnload(list<Ecoponto> eco, int min_load);
 
+/**
+ * Checks graph's connectivity
+ *
+ * @param eco - list of all ecopontos
+ * @param gr - graph that represents the map
+ * @param initial - initial point (central)
+ * @return true if connecity test was sucessful, false if not
+ */
 bool connectivityTest(list<Ecoponto> eco, Graph<Coord> *gr, Coord initial);
 
 /**
@@ -114,6 +168,8 @@ vector<Coord> ecoToCoord(list<Ecoponto> ecopontos, Coord initial);
 
 /**
  * Returns the drivers' names from the Drivers.txt
+ *
+ * @return vector with names of all the drivers
  */
 vector<string> getDrivers();
 

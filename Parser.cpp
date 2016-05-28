@@ -92,9 +92,9 @@ Graph<Coord>* Parser::txtToGraph(bool show_names, bool all) {
 	long long oldID = -1; // controls files' synchronization (checks if the files are being read correctly)
 	string twoway;
 
-	bool read_name = false;
-	vector<Road> connectionsRoad;
-	string road[2];
+	bool read_name = false;			// allows to get the right name after it is read from 'Roads.txt'
+	vector<Road> connectionsRoad;	// nodes of each road
+	string road[2];					// defined outside so that the data is not cleared
 
 	while (!file2.eof()) {
 		string str[3];
@@ -120,18 +120,10 @@ Graph<Coord>* Parser::txtToGraph(bool show_names, bool all) {
 			break;
 		(stringstream) str[0] >> id;
 
-		if (read_name && (oldID != id))
+		if (read_name && (oldID != id))	// after we know all the connections of each road
 		{
-			/*if(show_names && all){
-				for(unsigned int i = 0; i < connectionsRoad.size(); i++){
-					long long n1 = connectionsRoad[i].source;
-					long long n2 = connectionsRoad[i].dest;
-
-					roads[nodeID[n1]][nodeID[n2]] = road[1];				// name of the road
-				}
-			}*/
-			road_edges[road[1]] = connectionsRoad;
-			connectionsRoad.clear();
+			road_edges[road[1]] = connectionsRoad;	// road[1] - name of the road
+			connectionsRoad.clear();				// clears the vector for the next road
 			read_name = false;
 		}
 
@@ -374,7 +366,7 @@ vector<int> Parser::getNodesRoad(string name_road){
 	}
 
 	sort(nodes.begin(), nodes.end());
-	nodes.erase(unique(nodes.begin(), nodes.end()), nodes.end());
+	nodes.erase(unique(nodes.begin(), nodes.end()), nodes.end());	// erases duplicated ids
 
 	return nodes;
 }
