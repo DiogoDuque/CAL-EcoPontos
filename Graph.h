@@ -77,7 +77,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 	return false;
 }
 
-//atualizado pelo exercício 5
+//atualizado pelo exercï¿½cio 5
 template <class T>
 Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0), dist(0) {
 	path = NULL;
@@ -186,6 +186,7 @@ public:
 	int weight(const T &sourc, const T &dest);
 	void resetVisited();
 	
+	Graph<T> getSimplifiedGraph(vector<T> & mustPass) const;
 	vector<T> hamiltonCircuit(Vertex<T> initial, Graph<T> simplifiedGraph) const;
 	void backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) const;
 };
@@ -437,7 +438,7 @@ vector<T> Graph<T>::topologicalOrder() {
 	//vetor com o resultado da ordenacao
 	vector<T> res;
 
-	//verificar se é um DAG
+	//verificar se ï¿½ um DAG
 	if( getNumCycles() > 0 ) {
 		cout << "Ordenacao Impossivel!" << endl;
 		return res;
@@ -643,7 +644,7 @@ void Graph<T>::dijkstraShortestPath(const T &s) {
 				w->dist = v->dist + v->adj[i].weight;
 				w->path = v;
 
-				//se já estiver na lista, apenas a actualiza
+				//se jï¿½ estiver na lista, apenas a actualiza
 				if(!w->processing)
 				{
 					w->processing = true;
@@ -692,7 +693,7 @@ void Graph<T>::floydWarshallShortestPath() {
 		for(unsigned int i = 0; i < vertexSet.size(); i++)
 			for(unsigned int j = 0; j < vertexSet.size(); j++)
 			{
-				//se somarmos qualquer coisa ao valor INT_INFINITY, ocorre overflow, o que resulta num valor negativo, logo nem convém considerar essa soma
+				//se somarmos qualquer coisa ao valor INT_INFINITY, ocorre overflow, o que resulta num valor negativo, logo nem convï¿½m considerar essa soma
 				if(W[i][k] == INT_INFINITY || W[k][j] == INT_INFINITY)
 					continue;
 
@@ -771,7 +772,27 @@ void Graph<T>::resetVisited(){
 	}
 }
 
-//BINTE: o simplifiedGraph é um grafo simplificado do original. so tem copias dos vertices que nos interessam passar, e devem ter arestas de
+template <class T>
+Graph<T> Graph<T>::getSimplifiedGraph(vector<T> & mustPass) const {
+	Graph<T> gr;
+	for (int i = 0; i < mustPass.size(); i++){
+		gr.addVertex(mustPass[i]);
+	}
+
+	for (int i = 0; i < mustPass.size(); i++){
+		dijkstraShortestPath(mustPass[i]);
+		for (int j = 0; j < mustPass.size(); j++)
+			if (mustPass[i] !=mustPass[j]){
+				vector<T> path = getPath(mustPass[i],mustPass[j]);
+				double pathWeight = weight(path);
+				gr.addEdge(mustPass[i],mustPass[j], pathWeight);
+			}
+	}
+
+	return gr;
+}
+
+//BINTE: o simplifiedGraph ï¿½ um grafo simplificado do original. so tem copias dos vertices que nos interessam passar, e devem ter arestas de
 //maneira a que consigamos ir de um vertice para qq outro recorrendo apenas a uma aresta (ou seja, todos estao ligados a todos).
 //como foste tu que usaste o dijkstra da outra vez, achei que farias isto melhor que eu xD
 template <class T>
