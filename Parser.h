@@ -12,10 +12,9 @@
 #include <unordered_map>
 #include <fstream>
 #include <sstream>
-#include <limits>
+#include <limits.h>
 #include <algorithm>
 
-#include "float.h"
 #include "SourceAux.h"
 #include "Graph.h"
 #include "jung/graphviewer.h"

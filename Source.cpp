@@ -68,9 +68,9 @@ int main()
 		string road_name = parser.searchRoad(name);
 		int num_ecopontos = parser.getNumEcopontos(road_name, eco);
 
-		cout << "There are " << num_ecopontos << " on the road " << road_name << endl;
+		cout << "There are " << num_ecopontos << " ecopontos on the road " << road_name << endl;
 
-		if(askUser("Are yo sure you want to add it here?"))
+		if(askUser("Are you sure you want to add it here? "))
 		{
 			vector<int> nodes = parser.getNodesRoad(road_name);
 			eco = addEcoponto(eco,nodes, trash);

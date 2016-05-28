@@ -7,7 +7,7 @@
 #include <vector>
 #include <queue>
 #include <list>
-#include <limits>
+#include <limits.h>
 #include <cmath>
 #include <iostream>
 using namespace std;
@@ -707,7 +707,7 @@ void Graph<T>::floydWarshallShortestPath() {
 
 template<class T>
 vector<T> Graph<T>::shortestTravelOrder(vector<T> & mustPass){
-	int INT_MAX = 2147483647;
+	//int INT_MAX = 2147483647;
 	T currentInfo = mustPass[0];
 	vector<T> res = {};
 

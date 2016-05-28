@@ -3,7 +3,13 @@
 #include <fstream>
 #include <string>
 
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+
 using namespace std;
+
+vector<string> getWords(string s);
 
 //APROX
 unsigned int edit_distance(const string& word, const string& toSearch);

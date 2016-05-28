@@ -1,5 +1,13 @@
 #include "StringSearch.h"
 
+vector<string> getWords(string s){
+	vector<string> tmp;
+	istringstream iss(s);
+	copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(tmp));
+
+	return tmp;
+}
+
 //APROX
 unsigned int edit_distance(const string& word, const string& toSearch)
 {

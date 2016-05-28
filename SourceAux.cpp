@@ -144,6 +144,7 @@ int initialPoint() {
 			if (id < 0 || cin.fail()) {
 				valid = false;
 				cin.clear();			// clears state of error of the buffer
+				cin.ignore(1000, '\n');
 				cout << "Invalid input. Please try again." << endl;
 			}
 		} while (!valid);
@@ -152,20 +153,21 @@ int initialPoint() {
 	return id;
 }
 
-string getRoadName() {
+string getRoadName(){
 	bool valid;
 	string name;
 
-	do {
+	do{
 		valid = true;
 
 		cout << "Insert name of the road where you want to place the ecoponto: ";
-		cin >> name;
-		//cin.ignore(1000, '\n');
+		getline(cin, name);
 
-		if (cin.fail()) {
+		if (cin.fail())
+		{
 			valid = false;
-			cin.clear();				// clears state of error of the buffer
+			cin.clear();										// clears state of error of the buffer
+			cin.ignore(1000, '\n');
 			cout << "Invalid input. Please try again." << endl;
 		}
 	} while (!valid);
@@ -173,23 +175,22 @@ string getRoadName() {
 	return name;
 }
 
-int getTrash() {
+int getTrash(){
 	bool valid;
 	int trash;
 
-	do {
+	do{
 		valid = true;
-		string temp;
 
-		cout
-				<< "Insert amount of trash: ";
-		cin >> temp;
-		trash=atoi(temp.c_str());
-		//cin.ignore(1000, '\n');
+		cout << "Insert amount of trash: ";
+		cin >> trash;
+		cin.ignore(1000, '\n');
 
-		if (trash < 0 || trash > 100 || cin.fail()) {
+		if (trash < 0 || trash > 100 || cin.fail())
+		{
 			valid = false;
-			cin.clear();				// clears state of error of the buffer
+			cin.clear();										// clears state of error of the buffer
+			cin.ignore(1000, '\n');
 			cout << "Invalid input. Please try again." << endl;
 		}
 	} while (!valid);
