@@ -148,8 +148,8 @@ int initialPoint() {
 				cout << "Invalid input. Please try again." << endl;
 			}
 		} while (!valid);
-		cout << endl;
 	}
+	cout << endl;
 	return id;
 }
 

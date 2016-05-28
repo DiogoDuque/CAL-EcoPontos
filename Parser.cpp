@@ -333,9 +333,9 @@ Graph<Coord>* Parser::initializeGraph(){
 	if (val_names){
 		show_names = true;
 		string question2 = "Show roads' names on every portion of the road? (YES/NO) ";
-		cout << endl;
 
 		val_all = askUser(question2);
+		cout << endl;
 
 		if(val_all){
 			all = true;
@@ -354,55 +354,14 @@ Graph<Coord>* Parser::initializeGraph(){
 	return gr;
 }
 
-string Parser::searchRoad(string name_road){
+vector<string> Parser::getRoadNames(){
 	vector<string> road_names;			// nomes de todas as ruas
 
 	for(auto i : road_edges){
 		road_names.push_back(i.first);
 	}
 
-	vector<string> tmp = road_names;
-
-	cout << "NOME A PROCURAR: " << name_road << endl;
-
-	for (size_t i = 0; i < name_road.length(); i++)
-		name_road[i] = toupper(name_road[i]);
-
-	int max = INT_MIN;
-	int index;
-
-	for(unsigned int i = 0; i < tmp.size(); i++){
-		int res;
-
-		for (size_t j = 0; j < tmp[i].length(); j++)
-			tmp[i][j] = toupper(tmp[i][j]);
-
-		//if (tmp[i].size() < name_road.size())
-		res = kmp(tmp[i], name_road);
-		//else res = kmp(name_road, tmp[i]);
-
-		if (max < res){
-			max = res;
-			index = i;
-		}
-	}
-
-	if (max == 0){
-		int min = INT_MAX;
-
-		for(unsigned int i = 0; i < tmp.size(); i++){
-			int res = edit_distance(tmp[i], name_road);
-
-			if (res < min){
-				min = res;
-				index = i;
-			}
-		}
-	}
-	cout << "NOME ENCONTRADO: " << road_names[index] << endl;
-
-	return road_names[index];
-
+	return road_names;
 }
 
 vector<int> Parser::getNodesRoad(string name_road){

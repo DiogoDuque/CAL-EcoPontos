@@ -2,7 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
-
+#include <limits.h>
 #include <sstream>
 #include <algorithm>
 #include <iterator>
@@ -19,6 +19,8 @@ int kmp(string text, string pattern);
 unsigned int edit_distance(const string& word, const string& toSearch);
 
 float numApproximateStringMatching(string filename, string toSearch);
+
+string searchName(string name_road, vector<string> names);
 
 //EXACT SEARCH
 //int* prefix_function(string& P);

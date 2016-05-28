@@ -147,6 +147,50 @@ int kmp(string text, string pattern)
 	return num;
 }
 
+string searchName(string name_road, vector<string> names){
+	vector<string> tmp = names;
+
+	cout << "NOME A PROCURAR: " << name_road << endl;
+
+	for (size_t i = 0; i < name_road.length(); i++)
+		name_road[i] = toupper(name_road[i]);
+
+	int max = INT_MIN;
+	int index;
+
+	for(unsigned int i = 0; i < tmp.size(); i++){
+		int res;
+
+		for (size_t j = 0; j < tmp[i].length(); j++)
+			tmp[i][j] = toupper(tmp[i][j]);
+
+		//if (tmp[i].size() < name_road.size())
+		res = kmp(tmp[i], name_road);
+		//else res = kmp(name_road, tmp[i]);
+
+		if (max < res){
+			max = res;
+			index = i;
+		}
+	}
+
+	if (max == 0){
+		int min = INT_MAX;
+
+		for(unsigned int i = 0; i < tmp.size(); i++){
+			int res = edit_distance(tmp[i], name_road);
+
+			if (res < min){
+				min = res;
+				index = i;
+			}
+		}
+	}
+	cout << "NOME ENCONTRADO: " << names[index] << endl;
+
+	return names[index];
+}
+
 /*
 // EXACT SEARCH
 int* prefix_function(string& P) {

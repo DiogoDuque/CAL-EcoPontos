@@ -61,7 +61,7 @@ int main()
 
 	//----------------------GetDrivers----------------------
 	vector<string> drivers = getDrivers();
-	if(drivers.size()<trucks.size())
+	if(drivers.size() < trucks.size())
 	{
 		cerr << "There may not be enough drivers for the trucks...\n" <<
 				"Add some more drivers, or withdraw some trucks!" << endl;
@@ -70,36 +70,45 @@ int main()
 
 
 	//----------------------GraphToGraphViewer----------------------
-		try
-		{
-			parser.graphToGraphViewer(gr);
-		}
-		catch(const char* msg)
-		{
-			cerr << msg << endl;
-			getchar();
-			exit(1);
-		}
+	try
+	{
+		parser.graphToGraphViewer(gr);
+	}
+	catch(const char* msg)
+	{
+		cerr << msg << endl;
+		getchar();
+		exit(1);
+	}
 
-	//----------------------AddEcopontos-----------------------
+		//----------------------AddEcopontos-----------------------
 
 	string question = "Do you want to add ecopontos to the map? (YES/NO) ";
+	cout << endl;
 	while(askUser(question)){
+		cout << endl;
 		string name = getRoadName();		// user road name input
-		int trash = getTrash();
-		string road_name = parser.searchRoad(name);
+		int trash = getTrash();				// user trash input
+
+		vector<string> roads = parser.getRoadNames();
+		string road_name = searchName(name, roads);
 		int num_ecopontos = parser.getNumEcopontos(road_name, eco);
 
 		cout << "There are " << num_ecopontos << " ecopontos on the road " << road_name << endl;
 
-		if(askUser("Are you sure you want to add it here? "))
+		if(askUser("Are you sure you want to add it here? (YES/NO) "))
 		{
 			vector<int> nodes = parser.getNodesRoad(road_name);
 			eco = addEcoponto(eco,nodes, trash);
 		}
+		cout << endl;
 	}
+	cout << endl;
 
 	//----------------------AssignDriversToTrucks----------------------
+
+	vector<string> tmp = drivers;
+
 	cout << "Please assign drivers to all the trucks" << endl;
 	for(list<Truck>::iterator it=trucks.begin(); it!=trucks.end(); it++)
 	{
@@ -111,9 +120,15 @@ int main()
 		int driverIndex=-1;
 		cout << "\nDriver: ";
 		cin >> name;
-		for(unsigned i=0; i<drivers.size(); i++)
+
+		for (size_t j = 0; j < name.length(); j++)
+			name[j] = toupper(name[j]);
+
+		for(unsigned i=0; i<tmp.size(); i++)
 		{
-			int temp=kmp(drivers[i],name);
+			for (size_t j = 0; j < tmp[i].length(); j++)
+				tmp[i][j] = toupper(tmp[i][j]);
+			int temp=kmp(tmp[i],name);
 			if(temp>0) //found
 			{
 				driverIndex=i;

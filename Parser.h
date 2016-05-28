@@ -108,6 +108,8 @@ public:
 
 	vector<int> getNodesRoad(string name_road);
 
+	vector<string> getRoadNames();
+
 	string searchRoad(string name_road);
 
 	int getNumEcopontos(string name_road, list<Ecoponto> ecopontos);
