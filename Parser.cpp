@@ -355,7 +355,7 @@ Graph<Coord>* Parser::initializeGraph(){
 }
 
 vector<string> Parser::getRoadNames(){
-	vector<string> road_names;			// nomes de todas as ruas
+	vector<string> road_names;			// all roads' names
 
 	for(auto i : road_edges){
 		road_names.push_back(i.first);

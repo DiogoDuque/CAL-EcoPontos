@@ -104,14 +104,35 @@ public:
 	 */
 	void setGraphViewerBlockedRoads(vector<Road> blockedRoads);
 
+	/**
+	 * Prints two questions and initializes the graph representing the map
+	 *
+	 * @return graph that represents a map
+	 */
 	Graph<Coord>* initializeGraph();
 
+	/**
+	 * Returns the nodes that represent the geometry of a road
+	 *
+	 * @param name_road - name of the road
+	 * @return vector with the nodes' ids of the given road
+	 */
 	vector<int> getNodesRoad(string name_road);
 
+	/**
+	 * Returns all roads' names of the graph
+	 *
+	 * @return vector with all the roads' names
+	 */
 	vector<string> getRoadNames();
 
-	string searchRoad(string name_road);
-
+	/**
+	 * Returns the number of ecopontos of a given road
+	 *
+	 * @param name_road - name of the road
+	 * @param ecopontos - list of all ecopontos
+	 * @return - number of ecopontos on name_road
+	 */
 	int getNumEcopontos(string name_road, list<Ecoponto> ecopontos);
 private:
 	/**
@@ -128,7 +149,7 @@ private:
 	unordered_map<int,unordered_map<int,string>> roads;		// roads[id_source][id_destination] gives the name of the road
 	GraphViewer* gv;										// shows the map
 
-	unordered_map<string,vector<Road>> road_edges;
+	unordered_map<string,vector<Road>> road_edges;			// associates a road with all its nodes
 };
 
 #endif /* PARSER_H_ */
