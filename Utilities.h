@@ -70,6 +70,14 @@ public:
 		return sqrt(pow((c.getLon() - lon), 2) + pow((c.getLat() - lat), 2));
 	};
 
+	/**
+	 * Operator!= overload
+	 */
+	bool operator!=(const Coord &c)
+	{
+		return (c.getLat() == lat && c.getLon() == lon);
+	}
+
 private:
 	int id;
 	double lat;

@@ -186,7 +186,7 @@ public:
 	int weight(const T &sourc, const T &dest);
 	void resetVisited();
 	
-	Graph<T> getSimplifiedGraph(vector<T> mustPass) const;
+	Graph<T> getSimplifiedGraph(vector<T> mustPass);
 	vector<T> hamiltonCircuit(Graph<T> simplifiedGraph);
 	void backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight);
 };
@@ -773,7 +773,7 @@ void Graph<T>::resetVisited(){
 }
 
 template <class T>
-Graph<T> Graph<T>::getSimplifiedGraph(vector<T> mustPass) const {
+Graph<T> Graph<T>::getSimplifiedGraph(vector<T> mustPass) {
 	Graph<T> gr;
 	for (unsigned i = 0; i < mustPass.size(); i++){
 		gr.addVertex(mustPass[i]);
@@ -841,8 +841,8 @@ void Graph<T>::backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, 
 	//se puder continuar caminho
 	for(unsigned i=0; i<vertexSet.size(); i++)
 	{
-		currPath.push_back(vertexSet[i]);
-		backtrackingHamilton(currPath,currWeight+weight(currPath.back()+currPath[currPath.size()-2]),
+		currPath.push_back(*vertexSet[i]);
+		backtrackingHamilton(currPath,currWeight+weight(currPath.back().getInfo(),currPath[currPath.size()-2].getInfo()),
 							bestPath,bestWeight);
 		currPath.pop_back();
 	}
