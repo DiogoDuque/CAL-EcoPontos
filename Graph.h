@@ -77,7 +77,7 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
 	return false;
 }
 
-//atualizado pelo exerc�cio 5
+//atualizado pelo exerc�ｿｽcio 5
 template <class T>
 Vertex<T>::Vertex(T in): info(in), visited(false), processing(false), indegree(0), dist(0) {
 	path = NULL;
@@ -438,7 +438,7 @@ vector<T> Graph<T>::topologicalOrder() {
 	//vetor com o resultado da ordenacao
 	vector<T> res;
 
-	//verificar se � um DAG
+	//verificar se �ｿｽ um DAG
 	if( getNumCycles() > 0 ) {
 		cout << "Ordenacao Impossivel!" << endl;
 		return res;
@@ -644,7 +644,7 @@ void Graph<T>::dijkstraShortestPath(const T &s) {
 				w->dist = v->dist + v->adj[i].weight;
 				w->path = v;
 
-				//se j� estiver na lista, apenas a actualiza
+				//se j�ｿｽ estiver na lista, apenas a actualiza
 				if(!w->processing)
 				{
 					w->processing = true;
@@ -693,7 +693,7 @@ void Graph<T>::floydWarshallShortestPath() {
 		for(unsigned int i = 0; i < vertexSet.size(); i++)
 			for(unsigned int j = 0; j < vertexSet.size(); j++)
 			{
-				//se somarmos qualquer coisa ao valor INT_INFINITY, ocorre overflow, o que resulta num valor negativo, logo nem conv�m considerar essa soma
+				//se somarmos qualquer coisa ao valor INT_INFINITY, ocorre overflow, o que resulta num valor negativo, logo nem conv�ｿｽm considerar essa soma
 				if(W[i][k] == INT_INFINITY || W[k][j] == INT_INFINITY)
 					continue;
 
@@ -765,6 +765,9 @@ int Graph<T>::weight(const T &sourc, const T &dest){
 	return INT_INFINITY;
 }
 
+/*
+ * Poe o atributo visited de todos os vertices a "false"
+ */
 template<class T>
 void Graph<T>::resetVisited(){
 	for(unsigned int i = 0; i < vertexSet.size(); i++){
@@ -772,6 +775,14 @@ void Graph<T>::resetVisited(){
 	}
 }
 
+/*
+ * Cria um novo grafo com os pontos "mustPass".
+ * Cada ponto está conectado a todos os outros, por uma aresta cujo peso representa o peso do caminho mais curto entre os dois vertices no grafo original.
+ *
+ * @param - lista de vertices do novo grafo
+ *
+ * @return - novo grafo
+ */
 template <class T>
 Graph<T> Graph<T>::getSimplifiedGraph(vector<T> mustPass) {
 	Graph<T> gr;
@@ -791,7 +802,7 @@ Graph<T> Graph<T>::getSimplifiedGraph(vector<T> mustPass) {
 	return gr;
 }
 
-//BINTE: o simplifiedGraph � um grafo simplificado do original. so tem copias dos vertices que nos interessam passar, e devem ter arestas de
+//BINTE: o simplifiedGraph �ｿｽ um grafo simplificado do original. so tem copias dos vertices que nos interessam passar, e devem ter arestas de
 //maneira a que consigamos ir de um vertice para qq outro recorrendo apenas a uma aresta (ou seja, todos estao ligados a todos).
 //como foste tu que usaste o dijkstra da outra vez, achei que farias isto melhor que eu xD
 template <class T>
