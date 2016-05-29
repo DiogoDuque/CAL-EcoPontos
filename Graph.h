@@ -776,12 +776,13 @@ void Graph<T>::resetVisited(){
 }
 
 /*
- * Cria um novo grafo com os pontos "mustPass".
- * Cada ponto está conectado a todos os outros, por uma aresta cujo peso representa o peso do caminho mais curto entre os dois vertices no grafo original.
+ * Creates a new graph with nodes = "mustPass".
+ * Each node is connected to every other node by an edge whose weight represents the weight of the shortest
+ * path between the two nodes.
  *
- * @param - lista de vertices do novo grafo
+ * @param mustPass - nodes of the new graph
  *
- * @return - novo grafo
+ * @return - new simplified graph
  */
 template <class T>
 Graph<T> Graph<T>::getSimplifiedGraph(vector<T> mustPass) {
@@ -802,9 +803,11 @@ Graph<T> Graph<T>::getSimplifiedGraph(vector<T> mustPass) {
 	return gr;
 }
 
-//BINTE: o simplifiedGraph �ｿｽ um grafo simplificado do original. so tem copias dos vertices que nos interessam passar, e devem ter arestas de
-//maneira a que consigamos ir de um vertice para qq outro recorrendo apenas a uma aresta (ou seja, todos estao ligados a todos).
-//como foste tu que usaste o dijkstra da outra vez, achei que farias isto melhor que eu xD
+/**
+ * Handles the initializations and conversions necessary for the Hamilton circuit to be correctly created.
+ * It also starts the recursive part of the algorithm, with the call to backtrackingHamilton.
+ * @param simplifiedGraph - received from getSimplifiedGraph()
+ */
 template <class T>
 vector<T> Graph<T>::hamiltonCircuit(Graph<T> simplifiedGraph) {
 
@@ -832,6 +835,13 @@ vector<T> Graph<T>::hamiltonCircuit(Graph<T> simplifiedGraph) {
 	return realRoute;
 }
 
+/**
+ * Recursive part of the backtracking algorithm to create a Hamilton circuit.
+ * @param currPath - current path being used
+ * @param currWeight - weight of the current path
+ * @param bestPath - best path found so far
+ * @param bestWeight - wieght of the best path found so far
+ */
 template <class T>
 void Graph<T>::backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) {
 	//se este path ja estiver demasiado comprido/pesado, parar
