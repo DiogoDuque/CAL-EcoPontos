@@ -1,0 +1,5 @@
+Compiler: MinGW C++
+Command: g++
+Linker Flags: -static
+Dependencies: libwsock32.a
+C++ 11
