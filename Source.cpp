@@ -68,6 +68,18 @@ int main()
 		exit(2);
 	}
 
+	//----------------------getBlockedRoads----------------------
+	vector<Road> roads;
+	try
+	{
+		roads = getBlockedRoads();
+	}
+	catch(const char* msg)	// if the file 'BlockedRoads.txt' could not be opened or the
+	{						// data on the file is wrong or incomplete this block catches
+		cerr << msg << endl;// an exception and shows a message on the screen
+		getchar();
+		exit(1);
+	}
 
 	//----------------------GraphToGraphViewer----------------------
 	try
@@ -81,7 +93,10 @@ int main()
 		exit(1);
 	}
 
-		//----------------------AddEcopontos-----------------------
+	//----------------------InitialPoint----------------------
+	int id = initialPoint();
+
+	//----------------------AddEcopontos-----------------------
 
 	string question = "Do you want to add ecopontos to the map? (YES/NO) ";
 	cout << endl;
@@ -108,26 +123,22 @@ int main()
 	//----------------------AssignDriversToTrucks----------------------
 
 	cout << "Please assign drivers to all the trucks" << endl;
-	for(list<Truck>::iterator it=trucks.begin(); it!=trucks.end(); it++)
+	for(list<Truck>::iterator it=trucks.begin(); it!=trucks.end(); it++) //iterates over all trucks
 	{
 		cout << "Drivers available for truck " << (*it).getName() << ":" << endl;
 		for(unsigned i=0; i<drivers.size(); i++)
 			cout << drivers[i] << endl;
 		vector<string> tmp = drivers;
-
 		string name;
 		int driverIndex=-1;
 		cout << "\nDriver: ";
 		cin >> name;
-
-		for (size_t j = 0; j < name.length(); j++)			// name is now only constituted by upper case characters
+		for (int j = 0; j < name.length(); j++)
 			name[j] = toupper(name[j]);
-
 		for(unsigned i=0; i<tmp.size(); i++)
 		{
-			for (size_t j = 0; j < tmp[i].length(); j++)	// to facilitate comparison
+			for (int j = 0; j < tmp[i].length(); j++)
 				tmp[i][j] = toupper(tmp[i][j]);
-
 			int temp=kmp(tmp[i],name);
 			if(temp>0) // name found
 			{
@@ -135,7 +146,6 @@ int main()
 				break;
 			}
 		}
-
 		if(driverIndex<0){
 			it--;
 			cout << "Name not found!\n";
@@ -144,23 +154,6 @@ int main()
 			drivers.erase(drivers.begin() + driverIndex);	// a driver cannot drive two trucks
 		}
 	}
-
-	//----------------------getBlockedRoads----------------------
-	vector<Road> roads;
-	try
-	{
-		roads = getBlockedRoads();
-	}
-	catch(const char* msg)	// if the file 'BlockedRoads.txt' could not be opened or the
-	{						// data on the file is wrong or incomplete this block catches
-		cerr << msg << endl;// an exception and shows a message on the screen
-		getchar();
-		exit(1);
-	}
-
-	//----------------------InitialPoint----------------------
-
-	int id = initialPoint();
 
 	//----------------------EcopontosLoad----------------------
 	int min_load = MINIMUM_ECO_LOAD;
