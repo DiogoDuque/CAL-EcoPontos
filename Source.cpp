@@ -133,11 +133,11 @@ int main()
 		int driverIndex=-1;
 		cout << "\nDriver: ";
 		cin >> name;
-		for (int j = 0; j < name.length(); j++)
+		for (unsigned j = 0; j < name.length(); j++)
 			name[j] = toupper(name[j]);
 		for(unsigned i=0; i<tmp.size(); i++)
 		{
-			for (int j = 0; j < tmp[i].length(); j++)
+			for (unsigned j = 0; j < tmp[i].length(); j++)
 				tmp[i][j] = toupper(tmp[i][j]);
 			int temp=kmp(tmp[i],name);
 			if(temp>0) // name found
