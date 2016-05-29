@@ -10,15 +10,41 @@
 using namespace std;
 
 //EXACT SEARCH
+
+/**
+ * Prepara o vector prefix para ser usado no algoritmo de Knuth–Morris–Pratt
+ *
+ *@param prefix - vector onde se guarda a "Failure Function"
+ *@param pattern - string que vai ser procurada
+ */
 void pre_kmp(string pattern, vector<int> & prefix);
-/*
- * Retorna o numero de matches na string T
+
+
+/**
+ * Retorna o numero de vezes que pattern se repete em text
+ *
+ * Aplica o algoritmo de Knuth–Morris–Pratt e conta o numero de vezes que pattern se repete em text.
+ *
+ *@param text - string onde vai ser procurado pattern
+ *@param pattern - string que vai ser procurada em text
+ *
+ *@return - o numero de vezes que pattern se repete em text
  */
 int kmp(string text, string pattern);
 
 //APROX
+
+/*
+ * Conta o número de alterações necessárias para transformar word em toSearch.
+ *
+ * @param word - string que se vai tentar transformar em word
+ * @param toSearch - string que vai ser comparada a word
+ *
+ *@return - o número de alterações necessárias para transformar word em toSearch.
+ */
 unsigned int edit_distance(const string& word, const string& toSearch);
-float numApproximateStringMatching(string filename, string toSearch);
+
+
 
 /**
  * Search a string on vector of strings
@@ -30,10 +56,3 @@ float numApproximateStringMatching(string filename, string toSearch);
 string searchName(string name, vector<string> names);
 
 
-//int editDistance(string pattern, string text);
-
-//int* prefix_function(string& P);
-
-//vector<string> getWords(string s);
-
-//int KMP_matcher(string& T, string& P);
