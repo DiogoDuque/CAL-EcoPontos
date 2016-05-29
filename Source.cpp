@@ -196,7 +196,8 @@ int main()
 		list<Ecoponto> assignedEco = fillMax(eco, best_truck);			// ecopontos assigned to the truck (fillMax - Ecoponto.h)
 		parser.setGraphViewerEcoLabel(assignedEco, best_truck.getColor());
 		vector<Coord> ecoCoord = ecoToCoord(assignedEco, initial);		// location and id (Coord) of the central and ecopontos (ecoToCoord - Ecoponto.h)
-		vector<Coord> route = gr->shortestTravelOrder(ecoCoord);		// obtains the shortest route
+		vector<Coord> route = gr->hamiltonCircuit(gr->getSimplifiedGraph(ecoCoord)); // obtains the shortest route
+
 		try{
 			parser.setGraphViewerPath(route, best_truck);				// shows the route on GraphViewer
 		} catch(const char* msg){										// if the truck is black this catches an exception

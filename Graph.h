@@ -186,9 +186,9 @@ public:
 	int weight(const T &sourc, const T &dest);
 	void resetVisited();
 	
-	Graph<T> getSimplifiedGraph(vector<T> & mustPass) const;
-	vector<T> hamiltonCircuit(Vertex<T> initial, Graph<T> simplifiedGraph) const;
-	void backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) const;
+	Graph<T> getSimplifiedGraph(vector<T> mustPass) const;
+	vector<T> hamiltonCircuit(Graph<T> simplifiedGraph);
+	void backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight);
 };
 
 template <class T>
@@ -773,22 +773,21 @@ void Graph<T>::resetVisited(){
 }
 
 template <class T>
-Graph<T> Graph<T>::getSimplifiedGraph(vector<T> & mustPass) const {
+Graph<T> Graph<T>::getSimplifiedGraph(vector<T> mustPass) const {
 	Graph<T> gr;
-	for (int i = 0; i < mustPass.size(); i++){
+	for (unsigned i = 0; i < mustPass.size(); i++){
 		gr.addVertex(mustPass[i]);
 	}
 
-	for (int i = 0; i < mustPass.size(); i++){
+	for (unsigned i = 0; i < mustPass.size(); i++){
 		dijkstraShortestPath(mustPass[i]);
-		for (int j = 0; j < mustPass.size(); j++)
-			if (mustPass[i] !=mustPass[j]){
+		for (unsigned j = 0; j < mustPass.size(); j++)
+			if (mustPass[i] != mustPass[j]){
 				vector<T> path = getPath(mustPass[i],mustPass[j]);
 				double pathWeight = weight(path);
 				gr.addEdge(mustPass[i],mustPass[j], pathWeight);
 			}
 	}
-
 	return gr;
 }
 
@@ -796,23 +795,34 @@ Graph<T> Graph<T>::getSimplifiedGraph(vector<T> & mustPass) const {
 //maneira a que consigamos ir de um vertice para qq outro recorrendo apenas a uma aresta (ou seja, todos estao ligados a todos).
 //como foste tu que usaste o dijkstra da outra vez, achei que farias isto melhor que eu xD
 template <class T>
-vector<T> Graph<T>::hamiltonCircuit(Vertex<T> initial, Graph<T> simplifiedGraph) const {
-
+vector<T> Graph<T>::hamiltonCircuit(Graph<T> simplifiedGraph) {
 
 	vector<Vertex<T>> bestPath, currPath;
-	currPath.push_back(initial);
+	Vertex<T>* t=simplifiedGraph.getVertexSet()[0];
+	currPath.push_back(*t);
 	int bestWeight=-1;
 	simplifiedGraph.backtrackingHamilton(currPath,0,bestPath,bestWeight);
 
-	//preparar o retorno
-	vector<T> ret;
-	for(int i=0; i<bestPath.size(); i++)
-		ret.push_back(bestPath[i].getInfo());
-	return ret;
+	//conversao de vertex<T> para T
+	vector<T> simplifiedRoute, realRoute;
+	for(unsigned i=0; i<bestPath.size(); i++)
+		simplifiedRoute.push_back(bestPath[i].getInfo());
+
+	//reconverter do grafo simplificado para o maior
+	for (unsigned i = 1; i < simplifiedRoute.size(); i++) {
+		if(i != 1)
+			realRoute.pop_back(); //para evitar a repeticao
+		dijkstraShortestPath (simplifiedRoute[i-1]);
+		vector < T > path = getPath(simplifiedRoute[i-1], simplifiedRoute[i]);
+		for(unsigned j=0; j<path.size(); j++) //adding path
+			realRoute.push_back(path[j]);
+	}
+
+	return realRoute;
 }
 
 template <class T>
-void Graph<T>::backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) const {
+void Graph<T>::backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, vector<Vertex<T>> &bestPath, int &bestWeight) {
 	//se este path ja estiver demasiado comprido/pesado, parar
 	if(currWeight>=bestWeight)
 	{
@@ -829,7 +839,7 @@ void Graph<T>::backtrackingHamilton(vector<Vertex<T>> currPath, int currWeight, 
 	}
 
 	//se puder continuar caminho
-	for(int i=0; i<vertexSet.size(); i++)
+	for(unsigned i=0; i<vertexSet.size(); i++)
 	{
 		currPath.push_back(vertexSet[i]);
 		backtrackingHamilton(currPath,currWeight+weight(currPath.back()+currPath[currPath.size()-2]),
