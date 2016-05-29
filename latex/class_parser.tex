@@ -1,0 +1,247 @@
+\hypertarget{class_parser}{}\section{Parser Class Reference}
+\label{class_parser}\index{Parser@{Parser}}
+
+
+{\ttfamily \#include $<$Parser.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_parser_a12234f6cd36b61af4b50c94a179422c1}{Parser} ()
+\item 
+virtual \hyperlink{class_parser_a3e658b5917a93a3ef648050d060e3a93}{$\sim$\+Parser} ()
+\item 
+\hyperlink{class_graph}{Graph}$<$ \hyperlink{class_coord}{Coord} $>$ $\ast$ \hyperlink{class_parser_a27fa2179fa2d1a816c3da22d71737689}{txt\+To\+Graph} (bool show\+\_\+names, bool all)
+\item 
+void \hyperlink{class_parser_a0d632821b1754d3d5025f33b15688959}{graph\+To\+Graph\+Viewer} (\hyperlink{class_graph}{Graph}$<$ \hyperlink{class_coord}{Coord} $>$ $\ast$gr)
+\item 
+int \hyperlink{class_parser_a128539cb6183b11ab4578cf576559d9c}{get\+Node\+ID} (long long nr) const 
+\item 
+\hyperlink{class_coord}{Coord} \hyperlink{class_parser_abd304a038ed913b9b51d9fae752ab21e}{get\+Coord\+From\+ID} (int nr) const 
+\item 
+void \hyperlink{class_parser_a08cc4de62ebbae19c7aac8f4326da557}{set\+Graph\+Viewer\+Path} (vector$<$ \hyperlink{class_coord}{Coord} $>$ path, \hyperlink{class_truck}{Truck} truck)
+\item 
+void \hyperlink{class_parser_a47937fbc44ba789ea3c01b92c1154e52}{set\+Graph\+Viewer\+Ecopontos} (list$<$ \hyperlink{class_ecoponto}{Ecoponto} $>$ ecopontos)
+\item 
+void \hyperlink{class_parser_acaa7464567569320058c42ebde1c7f8f}{set\+Graph\+Viewer\+Eco\+Label} (list$<$ \hyperlink{class_ecoponto}{Ecoponto} $>$ ecopontos, string color)
+\item 
+void \hyperlink{class_parser_a3b4beea9506e940affb482148db24161}{set\+Graph\+Viewer\+Blocked\+Roads} (vector$<$ \hyperlink{struct_road}{Road} $>$ blocked\+Roads)
+\item 
+\hyperlink{class_graph}{Graph}$<$ \hyperlink{class_coord}{Coord} $>$ $\ast$ \hyperlink{class_parser_addeff7e0f7adcb63b5494be6221337bf}{initialize\+Graph} ()
+\item 
+vector$<$ int $>$ \hyperlink{class_parser_a76f17810bccabb30b004a99a70f97f5a}{get\+Nodes\+Road} (string name\+\_\+road)
+\item 
+vector$<$ string $>$ \hyperlink{class_parser_ab1722589534f74ec9e8b04e9f9152591}{get\+Road\+Names} ()
+\item 
+int \hyperlink{class_parser_a86e4385a72b5c7b962feb68401d6487f}{get\+Num\+Ecopontos} (string name\+\_\+road, list$<$ \hyperlink{class_ecoponto}{Ecoponto} $>$ ecopontos)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class cointains all the functions responsible for manipulating Graph\+Viewer. Also obtains \hyperlink{class_graph}{Graph} from files and Graph\+Viewer from \hyperlink{class_graph}{Graph} 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Parser@{Parser}!Parser@{Parser}}
+\index{Parser@{Parser}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{Parser()}{Parser()}}]{\setlength{\rightskip}{0pt plus 5cm}Parser\+::\+Parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a12234f6cd36b61af4b50c94a179422c1}{}\label{class_parser_a12234f6cd36b61af4b50c94a179422c1}
+Construtor \index{Parser@{Parser}!````~Parser@{$\sim$\+Parser}}
+\index{````~Parser@{$\sim$\+Parser}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{$\sim$\+Parser()}{~Parser()}}]{\setlength{\rightskip}{0pt plus 5cm}Parser\+::$\sim$\+Parser (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_parser_a3e658b5917a93a3ef648050d060e3a93}{}\label{class_parser_a3e658b5917a93a3ef648050d060e3a93}
+Destructor 
+
+\subsection{Member Function Documentation}
+\index{Parser@{Parser}!get\+Coord\+From\+ID@{get\+Coord\+From\+ID}}
+\index{get\+Coord\+From\+ID@{get\+Coord\+From\+ID}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{get\+Coord\+From\+I\+D(int nr) const }{getCoordFromID(int nr) const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Coord} Parser\+::get\+Coord\+From\+ID (
+\begin{DoxyParamCaption}
+\item[{int}]{nr}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_parser_abd304a038ed913b9b51d9fae752ab21e}{}\label{class_parser_abd304a038ed913b9b51d9fae752ab21e}
+Gets the location of the node with the id given as a parameter
+
+
+\begin{DoxyParams}{Parameters}
+{\em nr} & -\/ id of the node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+location of the node with id equal to nr 
+\end{DoxyReturn}
+\index{Parser@{Parser}!get\+Node\+ID@{get\+Node\+ID}}
+\index{get\+Node\+ID@{get\+Node\+ID}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{get\+Node\+I\+D(long long nr) const }{getNodeID(long long nr) const }}]{\setlength{\rightskip}{0pt plus 5cm}int Parser\+::get\+Node\+ID (
+\begin{DoxyParamCaption}
+\item[{long long}]{nr}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_parser_a128539cb6183b11ab4578cf576559d9c}{}\label{class_parser_a128539cb6183b11ab4578cf576559d9c}
+Converts a long long obtained from the file \textquotesingle{}Nodes.\+txt\textquotesingle{} to corresponding int used on the graph
+
+
+\begin{DoxyParams}{Parameters}
+{\em nr} & -\/ long long id \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!get\+Nodes\+Road@{get\+Nodes\+Road}}
+\index{get\+Nodes\+Road@{get\+Nodes\+Road}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{get\+Nodes\+Road(string name\+\_\+road)}{getNodesRoad(string name_road)}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ int $>$ Parser\+::get\+Nodes\+Road (
+\begin{DoxyParamCaption}
+\item[{string}]{name\+\_\+road}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a76f17810bccabb30b004a99a70f97f5a}{}\label{class_parser_a76f17810bccabb30b004a99a70f97f5a}
+Returns the nodes that represent the geometry of a road
+
+
+\begin{DoxyParams}{Parameters}
+{\em name\+\_\+road} & -\/ name of the road \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector with the nodes\textquotesingle{} ids of the given road 
+\end{DoxyReturn}
+\index{Parser@{Parser}!get\+Num\+Ecopontos@{get\+Num\+Ecopontos}}
+\index{get\+Num\+Ecopontos@{get\+Num\+Ecopontos}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{get\+Num\+Ecopontos(string name\+\_\+road, list$<$ Ecoponto $>$ ecopontos)}{getNumEcopontos(string name_road, list< Ecoponto > ecopontos)}}]{\setlength{\rightskip}{0pt plus 5cm}int Parser\+::get\+Num\+Ecopontos (
+\begin{DoxyParamCaption}
+\item[{string}]{name\+\_\+road, }
+\item[{list$<$ {\bf Ecoponto} $>$}]{ecopontos}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a86e4385a72b5c7b962feb68401d6487f}{}\label{class_parser_a86e4385a72b5c7b962feb68401d6487f}
+Returns the number of ecopontos of a given road
+
+
+\begin{DoxyParams}{Parameters}
+{\em name\+\_\+road} & -\/ name of the road \\
+\hline
+{\em ecopontos} & -\/ list of all ecopontos \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+-\/ number of ecopontos on name\+\_\+road 
+\end{DoxyReturn}
+\index{Parser@{Parser}!get\+Road\+Names@{get\+Road\+Names}}
+\index{get\+Road\+Names@{get\+Road\+Names}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{get\+Road\+Names()}{getRoadNames()}}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ string $>$ Parser\+::get\+Road\+Names (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_ab1722589534f74ec9e8b04e9f9152591}{}\label{class_parser_ab1722589534f74ec9e8b04e9f9152591}
+Returns all roads\textquotesingle{} names of the graph
+
+\begin{DoxyReturn}{Returns}
+vector with all the roads\textquotesingle{} names 
+\end{DoxyReturn}
+\index{Parser@{Parser}!graph\+To\+Graph\+Viewer@{graph\+To\+Graph\+Viewer}}
+\index{graph\+To\+Graph\+Viewer@{graph\+To\+Graph\+Viewer}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{graph\+To\+Graph\+Viewer(\+Graph$<$ Coord $>$ $\ast$gr)}{graphToGraphViewer(Graph< Coord > *gr)}}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\+::graph\+To\+Graph\+Viewer (
+\begin{DoxyParamCaption}
+\item[{{\bf Graph}$<$ {\bf Coord} $>$ $\ast$}]{gr}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a0d632821b1754d3d5025f33b15688959}{}\label{class_parser_a0d632821b1754d3d5025f33b15688959}
+Represents the graph given as a parameter through Graph\+Viewer.
+
+
+\begin{DoxyParams}{Parameters}
+{\em gr} & -\/ graph to represent through Graph\+Viewer \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!initialize\+Graph@{initialize\+Graph}}
+\index{initialize\+Graph@{initialize\+Graph}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{initialize\+Graph()}{initializeGraph()}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Graph}$<$ {\bf Coord} $>$ $\ast$ Parser\+::initialize\+Graph (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_addeff7e0f7adcb63b5494be6221337bf}{}\label{class_parser_addeff7e0f7adcb63b5494be6221337bf}
+Prints two questions and initializes the graph representing the map
+
+\begin{DoxyReturn}{Returns}
+graph that represents a map 
+\end{DoxyReturn}
+\index{Parser@{Parser}!set\+Graph\+Viewer\+Blocked\+Roads@{set\+Graph\+Viewer\+Blocked\+Roads}}
+\index{set\+Graph\+Viewer\+Blocked\+Roads@{set\+Graph\+Viewer\+Blocked\+Roads}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{set\+Graph\+Viewer\+Blocked\+Roads(vector$<$ Road $>$ blocked\+Roads)}{setGraphViewerBlockedRoads(vector< Road > blockedRoads)}}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\+::set\+Graph\+Viewer\+Blocked\+Roads (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Road} $>$}]{blocked\+Roads}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a3b4beea9506e940affb482148db24161}{}\label{class_parser_a3b4beea9506e940affb482148db24161}
+Shows the blocked roads on Graph\+Viewer
+
+
+\begin{DoxyParams}{Parameters}
+{\em blocked\+Roads} & -\/ vector of the blocked roads \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!set\+Graph\+Viewer\+Eco\+Label@{set\+Graph\+Viewer\+Eco\+Label}}
+\index{set\+Graph\+Viewer\+Eco\+Label@{set\+Graph\+Viewer\+Eco\+Label}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{set\+Graph\+Viewer\+Eco\+Label(list$<$ Ecoponto $>$ ecopontos, string color)}{setGraphViewerEcoLabel(list< Ecoponto > ecopontos, string color)}}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\+::set\+Graph\+Viewer\+Eco\+Label (
+\begin{DoxyParamCaption}
+\item[{list$<$ {\bf Ecoponto} $>$}]{ecopontos, }
+\item[{string}]{color}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_acaa7464567569320058c42ebde1c7f8f}{}\label{class_parser_acaa7464567569320058c42ebde1c7f8f}
+Changes the label of all the ecopontos on the list on Graph\+Viewer. This is necessary because sometimes different trucks may pass on the same ecoponto (but O\+N\+LY one truck collects its trash)
+
+
+\begin{DoxyParams}{Parameters}
+{\em ecopontos} & -\/ list of ecopontos that will have their trash collected by the same truck \\
+\hline
+{\em color} & -\/ color of the truck that will collect the trash \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!set\+Graph\+Viewer\+Ecopontos@{set\+Graph\+Viewer\+Ecopontos}}
+\index{set\+Graph\+Viewer\+Ecopontos@{set\+Graph\+Viewer\+Ecopontos}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{set\+Graph\+Viewer\+Ecopontos(list$<$ Ecoponto $>$ ecopontos)}{setGraphViewerEcopontos(list< Ecoponto > ecopontos)}}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\+::set\+Graph\+Viewer\+Ecopontos (
+\begin{DoxyParamCaption}
+\item[{list$<$ {\bf Ecoponto} $>$}]{ecopontos}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a47937fbc44ba789ea3c01b92c1154e52}{}\label{class_parser_a47937fbc44ba789ea3c01b92c1154e52}
+Represents the ecopontos on Graph\+Viewer
+
+
+\begin{DoxyParams}{Parameters}
+{\em ecopontos} & -\/ list of all ecopontos \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!set\+Graph\+Viewer\+Path@{set\+Graph\+Viewer\+Path}}
+\index{set\+Graph\+Viewer\+Path@{set\+Graph\+Viewer\+Path}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{set\+Graph\+Viewer\+Path(vector$<$ Coord $>$ path, Truck truck)}{setGraphViewerPath(vector< Coord > path, Truck truck)}}]{\setlength{\rightskip}{0pt plus 5cm}void Parser\+::set\+Graph\+Viewer\+Path (
+\begin{DoxyParamCaption}
+\item[{vector$<$ {\bf Coord} $>$}]{path, }
+\item[{{\bf Truck}}]{truck}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a08cc4de62ebbae19c7aac8f4326da557}{}\label{class_parser_a08cc4de62ebbae19c7aac8f4326da557}
+Changes Graph\+Viewer so that the route of the truck is shown on Graph\+Viewer with the color of truck
+
+
+\begin{DoxyParams}{Parameters}
+{\em path} & -\/ vector of nodes (\hyperlink{class_coord}{Coord}) that are part of the route of the truck \\
+\hline
+{\em truck} & -\/ truck that will collect the garbage of the ecopontos \\
+\hline
+\end{DoxyParams}
+\index{Parser@{Parser}!txt\+To\+Graph@{txt\+To\+Graph}}
+\index{txt\+To\+Graph@{txt\+To\+Graph}!Parser@{Parser}}
+\subsubsection[{\texorpdfstring{txt\+To\+Graph(bool show\+\_\+names, bool all)}{txtToGraph(bool show_names, bool all)}}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Graph}$<$ {\bf Coord} $>$ $\ast$ Parser\+::txt\+To\+Graph (
+\begin{DoxyParamCaption}
+\item[{bool}]{show\+\_\+names, }
+\item[{bool}]{all}
+\end{DoxyParamCaption}
+)}\hypertarget{class_parser_a27fa2179fa2d1a816c3da22d71737689}{}\label{class_parser_a27fa2179fa2d1a816c3da22d71737689}
+Reads the files \textquotesingle{}Nodes.\+txt\textquotesingle{}, \textquotesingle{}Roads.\+txt\textquotesingle{} and \textquotesingle{}Connections.\+txt\textquotesingle{}.
+
+\begin{DoxyReturn}{Returns}
+graph with information obtained from the files. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Parser.\+h\item 
+Parser.\+cpp\end{DoxyCompactItemize}

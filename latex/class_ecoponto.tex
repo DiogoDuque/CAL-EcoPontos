@@ -1,0 +1,130 @@
+\hypertarget{class_ecoponto}{}\section{Ecoponto Class Reference}
+\label{class_ecoponto}\index{Ecoponto@{Ecoponto}}
+
+
+{\ttfamily \#include $<$Ecoponto.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_ecoponto_a77182257dfc416589972bd4207142f6b}{Ecoponto} ()
+\item 
+\hyperlink{class_ecoponto_aa22ed326556db71e993a171c420c4dc0}{Ecoponto} (int trash, int id)
+\item 
+virtual \hyperlink{class_ecoponto_ab55000fee9f2189ed648571d0760df87}{$\sim$\+Ecoponto} ()
+\item 
+int \hyperlink{class_ecoponto_a55135a0a993421f2b52379b86379dfe8}{get\+Trash} () const 
+\item 
+void \hyperlink{class_ecoponto_a6393c63f3bcd980e259c16c2a89b4b91}{set\+Trash} (int trash)
+\item 
+\hyperlink{class_coord}{Coord} \hyperlink{class_ecoponto_af3b7224cf4a372fbd8f82f3108c0bcf7}{get\+Location} () const 
+\item 
+void \hyperlink{class_ecoponto_a3d86e2d6ed7464996fc25e13ba1060cc}{set\+Location} (\hyperlink{class_coord}{Coord} location)
+\item 
+bool \hyperlink{class_ecoponto_a919084644d4ba9851a8be0c4bc2746c0}{operator$<$} (const \hyperlink{class_ecoponto}{Ecoponto} \&other)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class stores an \hyperlink{class_ecoponto}{Ecoponto} object that represents an ecoponto (recycling bin). An \hyperlink{class_ecoponto}{Ecoponto} object is characterized by its location and the amount of trash it currently has. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Ecoponto@{Ecoponto}!Ecoponto@{Ecoponto}}
+\index{Ecoponto@{Ecoponto}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{Ecoponto()}{Ecoponto()}}]{\setlength{\rightskip}{0pt plus 5cm}Ecoponto\+::\+Ecoponto (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{class_ecoponto_a77182257dfc416589972bd4207142f6b}{}\label{class_ecoponto_a77182257dfc416589972bd4207142f6b}
+Default constructor \index{Ecoponto@{Ecoponto}!Ecoponto@{Ecoponto}}
+\index{Ecoponto@{Ecoponto}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{Ecoponto(int trash, int id)}{Ecoponto(int trash, int id)}}]{\setlength{\rightskip}{0pt plus 5cm}Ecoponto\+::\+Ecoponto (
+\begin{DoxyParamCaption}
+\item[{int}]{trash, }
+\item[{int}]{id}
+\end{DoxyParamCaption}
+)}\hypertarget{class_ecoponto_aa22ed326556db71e993a171c420c4dc0}{}\label{class_ecoponto_aa22ed326556db71e993a171c420c4dc0}
+Construtor 
+\begin{DoxyParams}{Parameters}
+{\em trash} & -\/ amount of trash this \hyperlink{class_ecoponto}{Ecoponto} has inside. \\
+\hline
+{\em id} & -\/ id of the node where this \hyperlink{class_ecoponto}{Ecoponto} is located at. \\
+\hline
+\end{DoxyParams}
+\index{Ecoponto@{Ecoponto}!````~Ecoponto@{$\sim$\+Ecoponto}}
+\index{````~Ecoponto@{$\sim$\+Ecoponto}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{$\sim$\+Ecoponto()}{~Ecoponto()}}]{\setlength{\rightskip}{0pt plus 5cm}Ecoponto\+::$\sim$\+Ecoponto (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}\hypertarget{class_ecoponto_ab55000fee9f2189ed648571d0760df87}{}\label{class_ecoponto_ab55000fee9f2189ed648571d0760df87}
+Destructor 
+
+\subsection{Member Function Documentation}
+\index{Ecoponto@{Ecoponto}!get\+Location@{get\+Location}}
+\index{get\+Location@{get\+Location}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{get\+Location() const }{getLocation() const }}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Coord} Ecoponto\+::get\+Location (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_ecoponto_af3b7224cf4a372fbd8f82f3108c0bcf7}{}\label{class_ecoponto_af3b7224cf4a372fbd8f82f3108c0bcf7}
+\begin{DoxyReturn}{Returns}
+\hyperlink{class_ecoponto}{Ecoponto}\textquotesingle{}s location. 
+\end{DoxyReturn}
+\index{Ecoponto@{Ecoponto}!get\+Trash@{get\+Trash}}
+\index{get\+Trash@{get\+Trash}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{get\+Trash() const }{getTrash() const }}]{\setlength{\rightskip}{0pt plus 5cm}int Ecoponto\+::get\+Trash (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{class_ecoponto_a55135a0a993421f2b52379b86379dfe8}{}\label{class_ecoponto_a55135a0a993421f2b52379b86379dfe8}
+\begin{DoxyReturn}{Returns}
+amount of trash in this \hyperlink{class_ecoponto}{Ecoponto}. 
+\end{DoxyReturn}
+\index{Ecoponto@{Ecoponto}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{operator$<$(const Ecoponto \&other)}{operator<(const Ecoponto &other)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Ecoponto\+::operator$<$ (
+\begin{DoxyParamCaption}
+\item[{const {\bf Ecoponto} \&}]{other}
+\end{DoxyParamCaption}
+)}\hypertarget{class_ecoponto_a919084644d4ba9851a8be0c4bc2746c0}{}\label{class_ecoponto_a919084644d4ba9851a8be0c4bc2746c0}
+Compares the contents of the ecopontos\+: if one ecoponto has more trash than the other then it is \textquotesingle{}bigger\textquotesingle{}
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & -\/ ecoponto object that will be compared with this object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if other has less trash than this object, false if otherwise 
+\end{DoxyReturn}
+\index{Ecoponto@{Ecoponto}!set\+Location@{set\+Location}}
+\index{set\+Location@{set\+Location}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{set\+Location(\+Coord location)}{setLocation(Coord location)}}]{\setlength{\rightskip}{0pt plus 5cm}void Ecoponto\+::set\+Location (
+\begin{DoxyParamCaption}
+\item[{{\bf Coord}}]{location}
+\end{DoxyParamCaption}
+)}\hypertarget{class_ecoponto_a3d86e2d6ed7464996fc25e13ba1060cc}{}\label{class_ecoponto_a3d86e2d6ed7464996fc25e13ba1060cc}
+
+\begin{DoxyParams}{Parameters}
+{\em location} & -\/ \hyperlink{class_ecoponto}{Ecoponto}\textquotesingle{}s new location. \\
+\hline
+\end{DoxyParams}
+\index{Ecoponto@{Ecoponto}!set\+Trash@{set\+Trash}}
+\index{set\+Trash@{set\+Trash}!Ecoponto@{Ecoponto}}
+\subsubsection[{\texorpdfstring{set\+Trash(int trash)}{setTrash(int trash)}}]{\setlength{\rightskip}{0pt plus 5cm}void Ecoponto\+::set\+Trash (
+\begin{DoxyParamCaption}
+\item[{int}]{trash}
+\end{DoxyParamCaption}
+)}\hypertarget{class_ecoponto_a6393c63f3bcd980e259c16c2a89b4b91}{}\label{class_ecoponto_a6393c63f3bcd980e259c16c2a89b4b91}
+
+\begin{DoxyParams}{Parameters}
+{\em trash} & -\/ new amount of trash in this \hyperlink{class_ecoponto}{Ecoponto}. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Ecoponto.\+h\item 
+Ecoponto.\+cpp\end{DoxyCompactItemize}
